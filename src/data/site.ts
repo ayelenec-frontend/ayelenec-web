@@ -46,7 +46,7 @@ export const site = {
   // Clave de acceso de Web3Forms para el formulario popup "Escribime".
   // Generala gratis en https://web3forms.com (te la mandan por mail) y pegala aca.
   // Mientras este vacia, el formulario muestra el mail como alternativa.
-  web3formsKey: '',
+  web3formsKey: '8a262f4c-f9ae-42a5-8448-8d84f459c917',
   cv: '', // cuando exista: '/cv-ayelen-caceres.pdf'
 
   // Links de perfil: vacios no se muestran.
