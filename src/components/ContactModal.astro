@@ -44,7 +44,10 @@ import { site } from '../data/site';
 
 <style>
   .cm {
+    /* margin:auto restaura el centrado del dialog modal (el reset * {margin:0} lo pisa) */
+    margin: auto;
     width: min(92vw, 480px);
+    max-height: 92vh;
     padding: 0;
     border: 1px solid var(--line);
     border-radius: 6px;
