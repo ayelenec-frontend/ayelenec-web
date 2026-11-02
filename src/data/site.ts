@@ -34,7 +34,7 @@ export const site = {
   location: 'Resistencia, Chaco · Argentina',
 
   // --- SEO ---
-  url: 'https://ayelencaceres.com',
+  url: 'https://ayelenec.com',
   title: 'Ayelen Cáceres — Diseñadora UX/UI y web',
   description:
     'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y SEO en un mismo proceso. Resistencia, Chaco · remoto.',

@@ -49,5 +49,5 @@ public/
 - [ ] Mockups de los proyectos (`/public/work/`).
 - [ ] Retrato para "Sobre mí".
 - [ ] LinkedIn, Behance y CV (`/cv-ayelen-caceres.pdf`).
-- [ ] Dominio definitivo (hoy `ayelencaceres.com` como placeholder).
+- [ ] Terminar de conectar el dominio `ayelenec.com` en Cloudflare y verificar HTTPS.
 - [ ] Decidir si el sitio arranca bilingüe (estructura lista para `/en/`).

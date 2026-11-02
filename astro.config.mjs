@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Dominio placeholder hasta definir el definitivo (ver brief: ayelencaceres.com).
+// Dominio definitivo: usado para canonical, Open Graph y sitemap.
 export default defineConfig({
-  site: 'https://ayelencaceres.com',
+  site: 'https://ayelenec.com',
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'auto',
