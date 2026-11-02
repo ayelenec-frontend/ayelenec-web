@@ -5,7 +5,9 @@ import sitemap from '@astrojs/sitemap';
 // Dominio definitivo: usado para canonical, Open Graph y sitemap.
 export default defineConfig({
   site: 'https://ayelenec.com',
-  integrations: [sitemap()],
+  // /preview (portfolio completo mientras el index muestra "en construccion")
+  // se excluye del sitemap para que no lo indexen.
+  integrations: [sitemap({ filter: (page) => !page.includes('/preview') })],
   build: {
     inlineStylesheets: 'auto',
   },

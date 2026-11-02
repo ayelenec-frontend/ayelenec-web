@@ -1,24 +1,123 @@
 ---
+// Pagina publica "en construccion". El portfolio completo vive en /preview.
+// Para lanzar: reemplazar este archivo por el contenido de preview.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Services from '../components/Services.astro';
-import Projects from '../components/Projects.astro';
-import Process from '../components/Process.astro';
-import About from '../components/About.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
 ---
 
-<BaseLayout>
-  <Header />
-  <main id="contenido">
-    <Hero />
-    <Services />
-    <Projects />
-    <Process />
-    <About />
-    <Contact />
+<BaseLayout
+  title={`${site.name} — Diseñadora UX/UI y web`}
+  description="Nuevo portfolio de Ayelen Cáceres, diseñadora UX/UI y web. Muy pronto."
+>
+  <main id="contenido" class="cs">
+    <div class="container cs-inner">
+      <header class="cs-head">
+        <span class="cs-brand">{site.name}</span>
+        <span class="status">Disponible</span>
+      </header>
+
+      <section class="cs-body">
+        <span class="eyebrow">Sitio en construcción</span>
+        <h1 class="cs-title">
+          Estoy preparando algo hecho con <span class="accent">intención</span>.
+        </h1>
+        <p class="cs-lead">
+          Mi nuevo portfolio de diseño UX/UI y web está en camino. Si tenés un
+          proyecto en mente, no hace falta esperar: escribime y conversamos.
+        </p>
+        <a class="btn btn-primary" href={`mailto:${site.email}`}>Escribime</a>
+      </section>
+
+      <footer class="cs-foot">
+        <span>{site.role}</span>
+        <span class="cs-tagline">{site.tagline}</span>
+        <span>{site.location}</span>
+      </footer>
+    </div>
   </main>
-  <Footer />
 </BaseLayout>
+
+<style>
+  .cs {
+    min-height: 100vh;
+    display: flex;
+  }
+
+  .cs-inner {
+    flex: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-12);
+    padding-block: var(--space-12);
+    min-height: 100vh;
+  }
+
+  .cs-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .cs-brand {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .cs-body {
+    align-self: center;
+    max-width: 52ch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .cs-title {
+    font-size: clamp(2.75rem, 8vw, 5rem);
+    line-height: 0.98;
+    max-width: 16ch;
+  }
+
+  .cs-lead {
+    max-width: 52ch;
+    font-size: 1.1875rem;
+    line-height: 1.58;
+    color: var(--ink-muted);
+  }
+
+  .cs-body .btn {
+    margin-top: var(--space-2);
+  }
+
+  .cs-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+  }
+
+  .cs-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.0625rem;
+    letter-spacing: 0;
+    color: var(--plume);
+  }
+
+  @media (max-width: 560px) {
+    .cs-foot {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

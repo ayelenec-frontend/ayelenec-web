@@ -5,9 +5,10 @@ import { site } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title = site.title, description = site.description } = Astro.props;
+const { title = site.title, description = site.description, noindex = false } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 const ogImage = new URL(site.ogImage, Astro.site ?? site.url).href;
@@ -56,6 +57,7 @@ const personSchema = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
 
     <!-- Precarga de las dos fuentes principales -->
