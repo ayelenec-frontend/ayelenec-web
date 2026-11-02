@@ -1,0 +1,261 @@
+---
+// Formulario de contacto en popup (dialog nativo). Se abre desde cualquier
+// elemento con [data-open-contact] (p. ej. los botones "Escribime").
+// Envio: Web3Forms si hay clave (site.web3formsKey); si no, cae a un mailto.
+import { site } from '../data/site';
+---
+
+<dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
+  <form class="cm-form" id="contact-form" data-email={site.email}>
+    <button type="button" class="cm-close" aria-label="Cerrar" data-close-contact>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+
+    <span class="eyebrow">Escribime</span>
+    <h2 id="cm-title" class="cm-title">Conversemos.</h2>
+    <p class="cm-intro">Contame sobre tu proyecto y te respondo en menos de 48&nbsp;horas.</p>
+
+    <input type="hidden" name="access_key" value={site.web3formsKey} />
+    <input type="hidden" name="subject" value="Nuevo mensaje desde ayelenec.com" />
+    <input type="hidden" name="from_name" value="Web ayelenec.com" />
+    <!-- Honeypot anti-spam: debe quedar vacio -->
+    <input type="checkbox" name="botcheck" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <div class="cm-field">
+      <label for="cm-nombre">Nombre</label>
+      <input id="cm-nombre" name="name" type="text" required autocomplete="name" />
+    </div>
+    <div class="cm-field">
+      <label for="cm-email">Email</label>
+      <input id="cm-email" name="email" type="email" required autocomplete="email" />
+    </div>
+    <div class="cm-field">
+      <label for="cm-mensaje">Mensaje</label>
+      <textarea id="cm-mensaje" name="message" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary cm-submit">Enviar mensaje</button>
+    <p class="cm-status" role="status" aria-live="polite"></p>
+    <p class="cm-alt">O escribime directo a <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+  </form>
+</dialog>
+
+<style>
+  .cm {
+    width: min(92vw, 480px);
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background-color: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: 0 24px 64px -16px rgba(23, 19, 27, 0.45);
+  }
+
+  .cm::backdrop {
+    background-color: color-mix(in srgb, var(--brand-night) 62%, transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  .cm[open] {
+    animation: cm-in 0.22s var(--ease);
+  }
+
+  @keyframes cm-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cm[open] { animation: none; }
+  }
+
+  .cm-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-8);
+  }
+
+  .cm-close {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    color: var(--ink-muted);
+    transition: color 0.18s var(--ease), background-color 0.18s var(--ease);
+  }
+
+  .cm-close:hover {
+    color: var(--ink);
+    background-color: var(--surface-sunken);
+  }
+
+  .cm-title {
+    font-size: clamp(1.75rem, 5vw, 2.125rem);
+    line-height: 1.05;
+  }
+
+  .cm-intro {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin-bottom: var(--space-2);
+  }
+
+  /* Honeypot oculto a la vista y a lectores */
+  .cm-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .cm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cm-field label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .cm-field input,
+  .cm-field textarea {
+    width: 100%;
+    padding: 11px var(--space-3);
+    border-radius: var(--radius);
+    border: 1px solid var(--line-strong);
+    background-color: var(--surface);
+    color: var(--ink);
+    font-size: 0.9375rem;
+    transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  }
+
+  .cm-field textarea {
+    resize: vertical;
+    min-height: 92px;
+  }
+
+  .cm-field input:focus,
+  .cm-field textarea:focus {
+    outline: none;
+    border-color: var(--plume);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--plume) 22%, transparent);
+  }
+
+  .cm-submit {
+    margin-top: var(--space-2);
+    width: 100%;
+  }
+
+  .cm-submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .cm-status {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    min-height: 1em;
+  }
+
+  .cm-status.is-ok { color: var(--success); }
+  .cm-status.is-error { color: var(--error); }
+
+  .cm-alt {
+    font-size: 0.8125rem;
+    color: var(--ink-muted);
+  }
+</style>
+
+<script>
+  const modal = document.getElementById('contact-modal') as HTMLDialogElement | null;
+  if (modal) {
+    const form = modal.querySelector('#contact-form') as HTMLFormElement;
+    const statusEl = form.querySelector('.cm-status') as HTMLParagraphElement;
+    const submitBtn = form.querySelector('.cm-submit') as HTMLButtonElement;
+    const email = form.dataset.email || '';
+    let lastFocus: HTMLElement | null = null;
+
+    const open = () => {
+      lastFocus = document.activeElement as HTMLElement;
+      statusEl.textContent = '';
+      statusEl.className = 'cm-status';
+      modal.showModal();
+      (document.getElementById('cm-nombre') as HTMLInputElement | null)?.focus();
+    };
+    const close = () => modal.close();
+
+    document.querySelectorAll('[data-open-contact]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        open();
+      });
+    });
+    modal.querySelectorAll('[data-close-contact]').forEach((btn) => {
+      btn.addEventListener('click', close);
+    });
+    // Click en el fondo (fuera del form) cierra
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+    modal.addEventListener('close', () => lastFocus?.focus());
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = '';
+      statusEl.className = 'cm-status';
+
+      const data = new FormData(form);
+      const key = String(data.get('access_key') || '').trim();
+
+      // Sin clave de Web3Forms: fallback a mailto con los datos cargados.
+      if (!key) {
+        const subject = encodeURIComponent('Contacto desde ayelenec.com');
+        const body = encodeURIComponent(
+          `Nombre: ${data.get('name')}\nEmail: ${data.get('email')}\n\n${data.get('message')}`
+        );
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando…';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data,
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          statusEl.textContent = '¡Gracias! Te voy a responder a la brevedad.';
+          statusEl.classList.add('is-ok');
+        } else {
+          statusEl.textContent = 'No se pudo enviar. Probá de nuevo o escribime por mail.';
+          statusEl.classList.add('is-error');
+        }
+      } catch (err) {
+        statusEl.textContent = 'No se pudo enviar. Probá de nuevo o escribime por mail.';
+        statusEl.classList.add('is-error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar mensaje';
+      }
+    });
+  }
+</script>

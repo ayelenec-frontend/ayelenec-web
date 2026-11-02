@@ -26,7 +26,7 @@ export interface SocialLink {
 
 export const site = {
   // --- Identidad ---
-  name: 'Ayelen Cáceres',
+  name: 'Ayelen Caceres',
   role: 'Diseñadora UX/UI y web',
   roleEn: 'UX/UI & Web Designer',
   tagline: 'La intención antecede a la forma.',
@@ -35,7 +35,7 @@ export const site = {
 
   // --- SEO ---
   url: 'https://ayelenec.com',
-  title: 'Ayelen Cáceres — Diseñadora UX/UI y web',
+  title: 'Ayelen Caceres — Diseñadora UX/UI y web',
   description:
     'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y SEO en un mismo proceso. Resistencia, Chaco · remoto.',
   ogImage: '/og.png',
@@ -43,6 +43,10 @@ export const site = {
 
   // --- Contacto ---
   email: 'ayelenec.uxui@gmail.com',
+  // Clave de acceso de Web3Forms para el formulario popup "Escribime".
+  // Generala gratis en https://web3forms.com (te la mandan por mail) y pegala aca.
+  // Mientras este vacia, el formulario muestra el mail como alternativa.
+  web3formsKey: '',
   cv: '', // cuando exista: '/cv-ayelen-caceres.pdf'
 
   // Links de perfil: vacios no se muestran.
@@ -128,7 +132,7 @@ export const process: ProcessStep[] = [
 
 export const about = {
   bio: [
-    'Soy Ayelen Cáceres, diseñadora UX/UI y web desde Resistencia, Chaco. Trabajo con clientes de Argentina, Chile y España, y desde 2026 soy Especialista en Diseño en Performanze, un equipo remoto con base en España.',
+    'Soy Ayelen Caceres, diseñadora UX/UI y web desde Resistencia, Chaco. Trabajo con clientes de Argentina, Chile y España, y desde 2026 soy Especialista en Diseño en Performanze, un equipo remoto con base en España.',
     'Me interesa el punto donde la estructura se encuentra con el detalle: que un sitio sea fácil de usar, rápido y encontrable, y que además se sienta cuidado. Por eso combino diseño de interfaces, desarrollo y SEO en un mismo proceso.',
     'Fuera de los proyectos, diseño piezas gráficas y de redes como voluntaria para organizaciones por los derechos de los animales.',
   ],

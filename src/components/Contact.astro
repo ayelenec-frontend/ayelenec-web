@@ -13,9 +13,10 @@ const socials = site.social.filter((s) => s.href);
     <p class="contact-text">{contact.text}</p>
 
     <div class="contact-actions">
-      <a class="btn contact-btn-primary" href={`mailto:${site.email}`}>
-        {site.email}
-      </a>
+      <button class="btn contact-btn-primary" type="button" data-open-contact>
+        Escribime
+      </button>
+      <a class="btn contact-btn-ghost" href={`mailto:${site.email}`}>{site.email}</a>
       {
         socials.map((s) => (
           <a class="btn contact-btn-ghost" href={s.href} target="_blank" rel="noopener">

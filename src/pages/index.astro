@@ -2,12 +2,13 @@
 // Pagina publica "en construccion". El portfolio completo vive en /preview.
 // Para lanzar: reemplazar este archivo por el contenido de preview.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactModal from '../components/ContactModal.astro';
 import { site } from '../data/site';
 ---
 
 <BaseLayout
   title={`${site.name} — Diseñadora UX/UI y web`}
-  description="Nuevo portfolio de Ayelen Cáceres, diseñadora UX/UI y web. Muy pronto."
+  description="Nuevo portfolio de Ayelen Caceres, diseñadora UX/UI y web. Muy pronto."
 >
   <main id="contenido" class="cs">
     <div class="container cs-inner">
@@ -25,7 +26,7 @@ import { site } from '../data/site';
           Mi nuevo portfolio de diseño UX/UI y web está en camino. Si tenés un
           proyecto en mente, no hace falta esperar: escribime y conversamos.
         </p>
-        <a class="btn btn-primary" href={`mailto:${site.email}`}>Escribime</a>
+        <button class="btn btn-primary" type="button" data-open-contact>Escribime</button>
       </section>
 
       <footer class="cs-foot">
@@ -35,6 +36,8 @@ import { site } from '../data/site';
       </footer>
     </div>
   </main>
+
+  <ContactModal />
 </BaseLayout>
 
 <style>
