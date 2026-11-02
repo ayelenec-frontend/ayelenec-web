@@ -1,0 +1,186 @@
+---
+import { projects } from '../data/projects';
+---
+
+<section class="section surface-sunken" id="proyectos">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Proyectos</span>
+      <h2>Trabajo seleccionado.</h2>
+    </div>
+
+    <ul class="projects-grid">
+      {
+        projects.map((project, i) => (
+          <li class="card">
+            <div class={`card-media ${i % 2 === 0 ? 'media--night' : 'media--linen'}`}>
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={`${project.client} — ${project.title}`}
+                  loading="lazy"
+                  width="800"
+                  height="600"
+                />
+              ) : (
+                <span class="media-label">{project.client}</span>
+              )}
+            </div>
+
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="tag">{project.discipline}</span>
+                <span class="card-country">{project.country}</span>
+              </div>
+
+              <h3 class="card-title">
+                {project.href ? (
+                  <a class="link" href={project.href}>
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+              </h3>
+
+              <p class="card-desc">{project.description}</p>
+
+              <ul class="card-tools">
+                {project.tools.slice(0, 2).map((tool) => (
+                  <li class="chip">{tool}</li>
+                ))}
+              </ul>
+
+              {project.result && <p class="card-result">{project.result}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 620px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 980px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.22s var(--ease), transform 0.22s var(--ease),
+      border-color 0.22s var(--ease);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-3px);
+    border-color: var(--line-strong);
+  }
+
+  .card-media {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .media--night {
+    background-color: var(--brand-night);
+  }
+
+  .media--linen {
+    background-color: var(--brand-linen);
+  }
+
+  .media-label {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    padding: var(--space-4);
+    text-align: center;
+  }
+
+  .media--night .media-label {
+    color: #F7F9EC;
+  }
+
+  .media--linen .media-label {
+    color: #17131B;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .card-country {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+
+  .card-title {
+    font-size: 1.1875rem;
+  }
+
+  .card-desc {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .card-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .card-result {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--plume);
+  }
+</style>

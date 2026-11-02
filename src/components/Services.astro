@@ -1,0 +1,78 @@
+---
+import { services } from '../data/site';
+---
+
+<section class="section" id="servicios">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Servicios</span>
+      <h2>Qué hago, de principio a fin.</h2>
+    </div>
+
+    <ol class="services-list">
+      {
+        services.map((service) => (
+          <li class="service">
+            <span class="service-number">{service.number}</span>
+            <div class="service-body">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+              <ul class="service-tools">
+                {service.tools.map((tool) => (
+                  <li class="chip">{tool}</li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .services-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .service {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 768px) {
+    .service {
+      grid-template-columns: 64px 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .service-number {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--plume);
+    padding-top: 6px;
+  }
+
+  .service-body h3 {
+    font-size: 1.375rem;
+  }
+
+  .service-body p {
+    margin-top: var(--space-2);
+    color: var(--ink-muted);
+    max-width: 60ch;
+  }
+
+  .service-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+</style>

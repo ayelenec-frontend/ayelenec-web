@@ -1,0 +1,2 @@
+# Mockups de proyectos. Cargar imagenes aqui (ej: vinales.jpg) y referenciarlas
+# en src/data/projects.ts con el campo `image` (ej: "/work/vinales.jpg").

@@ -1,0 +1,109 @@
+---
+import { about, site } from '../data/site';
+---
+
+<section class="section surface-sunken" id="sobre-mi">
+  <div class="container about-grid">
+    <div class="about-text">
+      <span class="eyebrow">Sobre mí</span>
+      <h2>{site.name}</h2>
+      <p class="about-role">{site.role}</p>
+
+      {about.bio.map((paragraph) => <p class="about-bio">{paragraph}</p>)}
+
+      <ul class="about-tools">
+        {about.tools.map((tool) => <li class="chip">{tool}</li>)}
+      </ul>
+    </div>
+
+    <div class="about-aside">
+      <div class="portrait">
+        {about.portrait ? (
+          <img src={about.portrait} alt={site.name} loading="lazy" width="600" height="750" />
+        ) : (
+          <span class="portrait-note">Retrato</span>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  @media (min-width: 860px) {
+    .about-grid {
+      grid-template-columns: 1.6fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  .about-text h2 {
+    margin-top: var(--space-3);
+  }
+
+  .about-role {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    color: var(--plume);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .about-bio {
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin-bottom: var(--space-4);
+    line-height: 1.68;
+  }
+
+  .about-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .about-aside {
+    order: -1;
+  }
+
+  @media (min-width: 860px) {
+    .about-aside {
+      order: 0;
+      position: sticky;
+      top: 96px;
+    }
+  }
+
+  .portrait {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portrait-note {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+</style>

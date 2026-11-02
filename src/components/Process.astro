@@ -1,0 +1,102 @@
+---
+import { process } from '../data/site';
+---
+
+<section class="section" id="proceso">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Proceso</span>
+      <h2>Cómo trabajo.</h2>
+    </div>
+
+    <ol class="process-grid">
+      {
+        process.map((step) => (
+          <li class="step">
+            <span class="step-number">{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 560px) {
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 980px) {
+    .process-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .step {
+    padding: var(--space-8) var(--space-6) var(--space-8) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 560px) {
+    .step {
+      padding-inline: var(--space-6);
+      border-right: 1px solid var(--line);
+    }
+    .step:nth-child(2n) {
+      border-right: none;
+      padding-right: 0;
+    }
+    .step:nth-child(2n + 1) {
+      padding-left: 0;
+    }
+  }
+
+  @media (min-width: 980px) {
+    .step {
+      border-right: 1px solid var(--line);
+      padding-inline: var(--space-6);
+    }
+    .step:nth-child(2n) {
+      border-right: 1px solid var(--line);
+    }
+    .step:first-child {
+      padding-left: 0;
+    }
+    .step:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+  }
+
+  .step-number {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: var(--plume);
+    margin-bottom: var(--space-4);
+  }
+
+  .step h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .step p {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+</style>

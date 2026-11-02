@@ -1,7 +1,8 @@
 {
   "name": "ayelenec-web",
   "compatibility_date": "2026-10-01",
+  // Astro genera el sitio estatico en ./dist (npm run build). Cloudflare sirve desde ahi.
   "assets": {
-    "directory": "./public"
+    "directory": "./dist"
   }
 }

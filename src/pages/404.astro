@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title={`Página no encontrada — ${site.name}`} description="La página que buscás no existe.">
+  <main id="contenido" class="notfound">
+    <div class="container">
+      <span class="eyebrow">Error 404</span>
+      <h1>Esta página no existe.</h1>
+      <p>Puede que el enlace esté roto o que la página se haya movido.</p>
+      <a class="btn btn-primary" href="/">Volver al inicio</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .notfound {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .notfound .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .notfound h1 {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    margin-top: var(--space-2);
+  }
+
+  .notfound p {
+    color: var(--ink-muted);
+    font-size: 1.1875rem;
+    margin-bottom: var(--space-4);
+  }
+</style>
