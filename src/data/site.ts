@@ -35,7 +35,7 @@ export const site = {
 
   // --- SEO ---
   url: 'https://ayelenec.com',
-  title: 'Ayelen Caceres — Diseñadora UX/UI y web',
+  title: 'Ayelen Caceres · Diseñadora UX/UI y web',
   description:
     'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y SEO en un mismo proceso. Resistencia, Chaco · remoto.',
   ogImage: '/og.png',
