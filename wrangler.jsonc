@@ -3,6 +3,8 @@
   "compatibility_date": "2026-10-01",
   // Astro genera el sitio estatico en ./dist (npm run build). Cloudflare sirve desde ahi.
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // Sirve la pagina 404.html propia en rutas inexistentes.
+    "not_found_handling": "404-page"
   }
 }
