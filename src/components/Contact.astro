@@ -1,5 +1,6 @@
 ---
 import { contact, site } from '../data/site';
+import CtaButton from './CtaButton.astro';
 
 const socials = site.social.filter((s) => s.href);
 ---
@@ -13,9 +14,7 @@ const socials = site.social.filter((s) => s.href);
     <p class="contact-text">{contact.text}</p>
 
     <div class="contact-actions">
-      <button class="btn contact-btn-primary" type="button" data-open-contact>
-        Escribime
-      </button>
+      <CtaButton label="Escribime" onDark data-open-contact />
       <a class="btn contact-btn-ghost" href={`mailto:${site.email}`}>{site.email}</a>
       {
         socials.map((s) => (
@@ -69,17 +68,6 @@ const socials = site.social.filter((s) => s.href);
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-12);
-  }
-
-  .contact-btn-primary {
-    background-color: #bc9fd6;
-    color: #1d1722;
-    border-color: #bc9fd6;
-  }
-
-  .contact-btn-primary:hover {
-    background-color: #d6c3e8;
-    border-color: #d6c3e8;
   }
 
   .contact-btn-ghost {

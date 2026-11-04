@@ -1,5 +1,6 @@
 ---
 import { hero, site } from '../data/site';
+import CtaButton from './CtaButton.astro';
 ---
 
 <section class="hero" id="top">
@@ -16,7 +17,7 @@ import { hero, site } from '../data/site';
     <p class="hero-lead">{hero.lead}</p>
 
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#proyectos">Ver proyectos →</a>
+      <CtaButton label="Ver proyectos →" href="#proyectos" />
       {site.cv && (
         <a class="btn btn-secondary" href={site.cv} download>Descargar CV</a>
       )}

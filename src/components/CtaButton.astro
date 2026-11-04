@@ -1,0 +1,184 @@
+---
+// Boton principal (CTA) con efecto "marco de seleccion" al hover/foco:
+// puntos en las esquinas + lineas punteadas que se dibujan alrededor.
+// Adaptado de un componente MIT de Uiverse (dexter-st) a la paleta plume.
+// Props: label, href (lo vuelve <a>), type, small, full (ancho completo),
+// onDark (para la banda oscura de contacto). El resto de atributos
+// (data-open-contact, id, download, target...) se pasan al boton/enlace.
+interface Props {
+  label: string;
+  href?: string;
+  type?: 'button' | 'submit';
+  small?: boolean;
+  full?: boolean;
+  onDark?: boolean;
+  [key: string]: any;
+}
+const { label, href, type = 'button', small = false, full = false, onDark = false, ...rest } =
+  Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<span class:list={['cta', { 'cta--small': small, 'cta--full': full, 'cta--ondark': onDark }]}>
+  <Tag class="cta-btn" href={href} type={href ? undefined : type} {...rest}>{label}</Tag>
+  <span class="cta-dot d-tl"></span>
+  <span class="cta-dot d-tr"></span>
+  <span class="cta-dot d-br"></span>
+  <span class="cta-dot d-bl"></span>
+  <span class="cta-line l-top"></span>
+  <span class="cta-line l-right"></span>
+  <span class="cta-line l-bottom"></span>
+  <span class="cta-line l-left"></span>
+</span>
+
+<style>
+  .cta {
+    --cta-dot: var(--plume);
+    --cta-line: color-mix(in srgb, var(--plume) 55%, transparent);
+    position: relative;
+    display: inline-flex;
+    padding: 7px 9px;
+  }
+
+  .cta--full {
+    display: flex;
+    padding-inline: 0;
+  }
+  .cta--full .cta-btn {
+    width: 100%;
+  }
+
+  .cta-btn {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 13px var(--space-6);
+    border: 1px solid var(--plume);
+    border-radius: 16px;
+    background-color: var(--plume);
+    color: var(--on-plume);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: 0.012em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 1px 1px rgba(23, 19, 27, 0.04), 0 8px 16px -10px rgba(23, 19, 27, 0.35);
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease),
+      transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .cta-btn:hover {
+    background-color: var(--plume-deep);
+    border-color: var(--plume-deep);
+    transform: scale(1.02);
+  }
+
+  .cta-btn:active {
+    transform: scale(0.99);
+  }
+
+  .cta-btn:disabled {
+    opacity: 0.7;
+    cursor: progress;
+    transform: none;
+  }
+
+  .cta--small .cta-btn {
+    padding: 9px var(--space-4);
+    font-size: 0.875rem;
+    border-radius: 12px;
+  }
+
+  /* Variante para la banda oscura de contacto (color fijo, no depende del tema) */
+  .cta--ondark {
+    --cta-dot: #bc9fd6;
+    --cta-line: color-mix(in srgb, #bc9fd6 55%, transparent);
+  }
+  .cta--ondark .cta-btn {
+    background-color: #bc9fd6;
+    color: #1d1722;
+    border-color: #bc9fd6;
+  }
+  .cta--ondark .cta-btn:hover {
+    background-color: #d6c3e8;
+    border-color: #d6c3e8;
+  }
+
+  /* ---- Puntos en las esquinas ---- */
+  .cta-dot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--cta-dot);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  .d-tl { top: -2px; left: -2px; }
+  .d-tr { top: -2px; right: -2px; }
+  .d-br { bottom: -2px; right: -2px; }
+  .d-bl { bottom: -2px; left: -2px; }
+
+  .cta:has(.cta-btn:hover) .cta-dot,
+  .cta:focus-within .cta-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .cta:has(.cta-btn:hover) .d-tr,
+  .cta:focus-within .d-tr { transition-delay: 0.06s; }
+  .cta:has(.cta-btn:hover) .d-br,
+  .cta:focus-within .d-br { transition-delay: 0.12s; }
+  .cta:has(.cta-btn:hover) .d-bl,
+  .cta:focus-within .d-bl { transition-delay: 0.18s; }
+
+  /* ---- Lineas punteadas del marco ---- */
+  .cta-line {
+    position: absolute;
+    opacity: 0;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  .l-top,
+  .l-bottom {
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-image: repeating-linear-gradient(90deg, transparent 0 2px, var(--cta-line) 2px 4px);
+    transform: scaleX(0);
+  }
+  .l-top { top: 0; transform-origin: left; }
+  .l-bottom { bottom: 0; transform-origin: right; }
+  .l-left,
+  .l-right {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-image: repeating-linear-gradient(0deg, transparent 0 2px, var(--cta-line) 2px 4px);
+    transform: scaleY(0);
+  }
+  .l-left { left: 0; transform-origin: bottom; }
+  .l-right { right: 0; transform-origin: top; }
+
+  .cta:has(.cta-btn:hover) .cta-line,
+  .cta:focus-within .cta-line { opacity: 1; }
+  .cta:has(.cta-btn:hover) .l-top,
+  .cta:focus-within .l-top,
+  .cta:has(.cta-btn:hover) .l-bottom,
+  .cta:focus-within .l-bottom { transform: scaleX(1); }
+  .cta:has(.cta-btn:hover) .l-left,
+  .cta:focus-within .l-left,
+  .cta:has(.cta-btn:hover) .l-right,
+  .cta:focus-within .l-right { transform: scaleY(1); }
+
+  .cta:has(.cta-btn:hover) .l-right,
+  .cta:focus-within .l-right { transition-delay: 0.08s; }
+  .cta:has(.cta-btn:hover) .l-bottom,
+  .cta:focus-within .l-bottom { transition-delay: 0.16s; }
+  .cta:has(.cta-btn:hover) .l-left,
+  .cta:focus-within .l-left { transition-delay: 0.24s; }
+</style>

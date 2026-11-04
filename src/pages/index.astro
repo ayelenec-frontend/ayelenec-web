@@ -3,6 +3,8 @@
 // Para lanzar: reemplazar este archivo por el contenido de preview.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactModal from '../components/ContactModal.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import CtaButton from '../components/CtaButton.astro';
 import { site } from '../data/site';
 ---
 
@@ -14,7 +16,10 @@ import { site } from '../data/site';
     <div class="container cs-inner">
       <header class="cs-head">
         <span class="cs-brand">{site.name}</span>
-        <span class="status">Disponible</span>
+        <div class="cs-head-right">
+          <span class="status">Disponible</span>
+          <ThemeToggle />
+        </div>
       </header>
 
       <section class="cs-body">
@@ -26,7 +31,7 @@ import { site } from '../data/site';
           Mi nuevo portfolio de diseño UX/UI y web está en camino. Si tenés un
           proyecto en mente, no hace falta esperar: escribime y conversamos.
         </p>
-        <button class="btn btn-primary" type="button" data-open-contact>Escribime</button>
+        <CtaButton label="Escribime" data-open-contact />
       </section>
 
       <footer class="cs-foot">
@@ -60,6 +65,12 @@ import { site } from '../data/site';
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
+  }
+
+  .cs-head-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   .cs-brand {

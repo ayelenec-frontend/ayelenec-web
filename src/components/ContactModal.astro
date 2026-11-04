@@ -3,6 +3,7 @@
 // elemento con [data-open-contact] (p. ej. los botones "Escribime").
 // Envio: Web3Forms si hay clave (site.web3formsKey); si no, cae a un mailto.
 import { site } from '../data/site';
+import CtaButton from './CtaButton.astro';
 ---
 
 <dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
@@ -36,7 +37,7 @@ import { site } from '../data/site';
       <textarea id="cm-mensaje" name="message" rows="4" required></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary cm-submit">Enviar mensaje</button>
+    <CtaButton label="Enviar mensaje" type="submit" full id="cm-submit" />
     <p class="cm-status" role="status" aria-live="polite"></p>
     <p class="cm-alt">O escribime directo a <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
   </form>
@@ -160,16 +161,6 @@ import { site } from '../data/site';
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--plume) 22%, transparent);
   }
 
-  .cm-submit {
-    margin-top: var(--space-2);
-    width: 100%;
-  }
-
-  .cm-submit:disabled {
-    opacity: 0.7;
-    cursor: progress;
-  }
-
   .cm-status {
     font-size: 0.875rem;
     line-height: 1.45;
@@ -190,7 +181,7 @@ import { site } from '../data/site';
   if (modal) {
     const form = modal.querySelector('#contact-form') as HTMLFormElement;
     const statusEl = form.querySelector('.cm-status') as HTMLParagraphElement;
-    const submitBtn = form.querySelector('.cm-submit') as HTMLButtonElement;
+    const submitBtn = form.querySelector('#cm-submit') as HTMLButtonElement;
     const email = form.dataset.email || '';
     let lastFocus: HTMLElement | null = null;
 
