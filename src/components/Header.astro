@@ -11,21 +11,35 @@ import { site, nav } from '../data/site';
     </nav>
 
     <div class="header-actions">
-      <button
-        id="theme-toggle"
-        class="theme-toggle"
-        type="button"
-        aria-label="Cambiar tema"
-        title="Cambiar tema"
-      >
-        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        </svg>
-        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-        </svg>
-      </button>
+      <!-- Toggle de tema (sol/luna). Adaptado de un componente MIT de Uiverse
+           (RiccardoRapelli) a la paleta de marca y atado a data-theme. -->
+      <label class="theme-switch" title="Cambiar tema">
+        <span class="sr-only">Cambiar entre tema claro y oscuro</span>
+        <input id="theme-switch" type="checkbox" aria-label="Cambiar tema" />
+        <span class="slider round">
+          <span class="sun-moon">
+            <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+            <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          </span>
+          <span class="stars">
+            <svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+            <svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+            <svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+            <svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+          </span>
+        </span>
+      </label>
+
       <button class="btn btn-primary btn-small" type="button" data-open-contact>Escribime</button>
     </div>
   </div>
@@ -76,32 +90,140 @@ import { site, nav } from '../data/site';
   .header-actions {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius);
-    border: 1px solid var(--line-strong);
-    color: var(--ink);
-    transition: border-color 0.18s var(--ease), color 0.18s var(--ease);
+  /* ---------- Toggle de tema sol/luna ---------- */
+  .theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+    flex-shrink: 0;
+    vertical-align: middle;
   }
 
-  .theme-toggle:hover {
-    border-color: var(--plume);
-    color: var(--plume);
+  .theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 
-  /* Mostrar luna en claro (para ir a oscuro), sol en oscuro (para ir a claro) */
-  :global(:root[data-theme='light']) .icon-sun {
-    display: none;
+  .slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    background-color: #a99ad0; /* cielo de día (lavanda) */
+    transition: background-color 0.4s var(--ease);
+    overflow: hidden;
   }
-  :global(:root[data-theme='dark']) .icon-moon {
-    display: none;
+
+  .slider.round {
+    border-radius: var(--radius-pill);
+  }
+
+  .slider.round .sun-moon {
+    border-radius: 50%;
+  }
+
+  .sun-moon {
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #f2ce73; /* sol cálido */
+    transition: transform 0.4s var(--ease), background-color 0.4s var(--ease);
+  }
+
+  .moon-dot {
+    position: absolute;
+    opacity: 0;
+    transition: 0.4s var(--ease);
+    fill: #a99cb5;
+  }
+
+  #moon-dot-1 { left: 10px; top: 3px; width: 6px; height: 6px; z-index: 4; }
+  #moon-dot-2 { left: 2px; top: 10px; width: 10px; height: 10px; z-index: 4; }
+  #moon-dot-3 { left: 16px; top: 18px; width: 3px; height: 3px; z-index: 4; }
+
+  .light-ray {
+    position: absolute;
+    z-index: -1;
+    fill: #ffffff;
+    opacity: 0.12;
+  }
+
+  #light-ray-1 { left: -8px; top: -8px; width: 38px; height: 38px; }
+  #light-ray-2 { left: -50%; top: -50%; width: 48px; height: 48px; }
+  #light-ray-3 { left: -18px; top: -18px; width: 52px; height: 52px; }
+
+  .cloud-light { position: absolute; fill: #f7f9ec; animation: cloud-move 6s infinite; }
+  .cloud-dark { position: absolute; fill: #e4ded0; animation: cloud-move 6s infinite; animation-delay: 1s; }
+
+  #cloud-1 { left: 28px; top: 13px; width: 36px; }
+  #cloud-2 { left: 40px; top: 9px; width: 18px; }
+  #cloud-3 { left: 16px; top: 22px; width: 28px; }
+  #cloud-4 { left: 32px; top: 16px; width: 36px; }
+  #cloud-5 { left: 44px; top: 12px; width: 18px; }
+  #cloud-6 { left: 20px; top: 24px; width: 28px; }
+
+  @keyframes cloud-move {
+    0% { transform: translateX(0); }
+    40% { transform: translateX(4px); }
+    80% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .stars {
+    transform: translateY(-32px);
+    opacity: 0;
+    transition: 0.4s var(--ease);
+  }
+
+  .star {
+    position: absolute;
+    fill: #f7f9ec;
+    transition: 0.4s var(--ease);
+    animation: star-twinkle 2s infinite;
+  }
+
+  #star-1 { width: 18px; top: 2px; left: 3px; animation-delay: 0.3s; }
+  #star-2 { width: 6px; top: 14px; left: 3px; }
+  #star-3 { width: 11px; top: 18px; left: 9px; animation-delay: 0.6s; }
+  #star-4 { width: 16px; top: 0; left: 16px; animation-delay: 1.3s; }
+
+  @keyframes star-twinkle {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+    80% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+  }
+
+  /* Estado "noche": lo controla el tema real (data-theme), no el checkbox,
+     para que coincida con el script anti-flash y no parpadee al cargar. */
+  :global(:root[data-theme='dark']) .slider {
+    background-color: #1c1726; /* cielo de noche (plume oscuro) */
+  }
+
+  :global(:root[data-theme='dark']) .sun-moon {
+    transform: translateX(26px);
+    background-color: #f4f2e6; /* luna (linen) */
+  }
+
+  :global(:root[data-theme='dark']) .moon-dot {
+    opacity: 1;
+  }
+
+  :global(:root[data-theme='dark']) .stars {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Foco de teclado con el anillo de marca */
+  .theme-switch input:focus-visible + .slider {
+    outline: 2px solid var(--plume);
+    outline-offset: 2px;
   }
 
   @media (min-width: 880px) {
@@ -112,15 +234,19 @@ import { site, nav } from '../data/site';
 </style>
 
 <script>
-  const toggle = document.getElementById('theme-toggle');
-  toggle?.addEventListener('click', () => {
+  const input = document.getElementById('theme-switch') as HTMLInputElement | null;
+  if (input) {
     const root = document.documentElement;
-    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try {
-      localStorage.setItem('theme', next);
-    } catch (e) {
-      /* almacenamiento no disponible: el cambio aplica igual en esta sesion */
-    }
-  });
+    // El checkbox arranca reflejando el tema que fijó el script anti-flash.
+    input.checked = root.getAttribute('data-theme') === 'dark';
+    input.addEventListener('change', () => {
+      const next = input.checked ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {
+        /* almacenamiento no disponible: el cambio aplica igual en esta sesion */
+      }
+    });
+  }
 </script>
