@@ -42,10 +42,19 @@ const Tag = href ? 'a' : 'button';
 
   .cta--full {
     display: flex;
-    padding-inline: 0;
+    padding: 0;
   }
   .cta--full .cta-btn {
     width: 100%;
+  }
+  /* En ancho completo (ej. el submit del formulario) el marco de seleccion
+     amontona en las esquinas: lo ocultamos y dejamos el boton limpio. */
+  .cta--full .cta-btn:hover {
+    transform: none;
+  }
+  .cta--full .cta-dot,
+  .cta--full .cta-line {
+    display: none;
   }
 
   .cta-btn {
