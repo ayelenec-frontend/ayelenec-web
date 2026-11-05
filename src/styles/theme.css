@@ -7,27 +7,34 @@
 
 /* ---------- Fuentes self-hosted (woff2) ---------- */
 
-/* Old Standard TT - titulos y citas (400 + italica, y 700 para enfasis) */
+/* Brygada 1918 - titulos y citas (400 + italica, 500 marca, 600 destacado) */
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Brygada 1918';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/old-standard-tt-latin-400-normal.woff2') format('woff2');
+  src: url('/fonts/brygada-1918-latin-400-normal.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Brygada 1918';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/old-standard-tt-latin-400-italic.woff2') format('woff2');
+  src: url('/fonts/brygada-1918-latin-400-italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Old Standard TT';
+  font-family: 'Brygada 1918';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   font-display: swap;
-  src: url('/fonts/old-standard-tt-latin-700-normal.woff2') format('woff2');
+  src: url('/fonts/brygada-1918-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Brygada 1918';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/brygada-1918-latin-600-normal.woff2') format('woff2');
 }
 
 /* Metropolis - texto, interfaz y botones */
@@ -73,7 +80,7 @@
 
 :root {
   /* Fuentes */
-  --font-display: 'Old Standard TT', Georgia, 'Times New Roman', serif;
+  --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
   --font-sans: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Consolas', monospace;
 
@@ -247,9 +254,9 @@ em,
   font-style: italic;
 }
 
-/* Palabra destacada en titulos: cursiva + plume */
+/* Palabra destacada en titulos: negrita + plume (sin cursiva) */
 .accent {
-  font-style: italic;
+  font-weight: 600;
   color: var(--plume);
 }
 
