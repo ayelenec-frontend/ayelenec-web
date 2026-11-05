@@ -65,12 +65,26 @@ import { site } from '../data/site';
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
+    padding: 0.5rem 0.75rem 0.5rem 1.5rem;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
+      0 10px 30px color-mix(in srgb, var(--ink) 6%, transparent);
   }
 
   .cs-head-right {
     display: flex;
     align-items: center;
     gap: var(--space-3);
+  }
+
+  /* Disponibilidad sin la pastilla: solo el punto que late + texto */
+  .cs-head .status {
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
 
   .cs-brand {
