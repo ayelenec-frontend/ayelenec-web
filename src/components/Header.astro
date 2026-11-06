@@ -1,12 +1,14 @@
 ---
 import { site, nav } from '../data/site';
 import ThemeToggle from './ThemeToggle.astro';
+import LangToggle from './LangToggle.astro';
 import CtaButton from './CtaButton.astro';
 ---
 
 <header class="site-header" data-header>
   <div class="container header-inner">
     <div class="header-utility">
+      <LangToggle />
       <ThemeToggle />
     </div>
 

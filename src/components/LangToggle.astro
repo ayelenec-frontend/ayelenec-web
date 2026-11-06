@@ -1,0 +1,111 @@
+---
+// Toggle de idioma ES/EN. Reusa la animacion de deslizar del ThemeToggle,
+// pero con texto (sin banderas): el thumb resalta el idioma activo.
+// El cambio real de idioma (navegar a /en) se cablea cuando exista la version.
+---
+
+<button class="lang-switch" type="button" role="switch" aria-label="Cambiar idioma" data-lang-toggle>
+  <span class="lang-track">
+    <span class="lang-opt lang-opt--es">ES</span>
+    <span class="lang-opt lang-opt--en">EN</span>
+    <span class="lang-thumb" aria-hidden="true"></span>
+  </span>
+</button>
+
+<style>
+  .lang-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 64px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-raised);
+    cursor: pointer;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  .lang-track {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .lang-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+    border-radius: var(--radius-pill);
+    background-color: var(--plume);
+    transition: transform 0.4s var(--ease);
+    z-index: 0;
+  }
+
+  .lang-opt {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    transition: color 0.4s var(--ease);
+  }
+
+  /* ES activo por defecto */
+  .lang-opt--es {
+    color: var(--on-plume);
+  }
+
+  .lang-switch.is-en .lang-thumb {
+    transform: translateX(100%);
+  }
+  .lang-switch.is-en .lang-opt--es {
+    color: var(--ink-muted);
+  }
+  .lang-switch.is-en .lang-opt--en {
+    color: var(--on-plume);
+  }
+
+  .lang-switch:focus-visible {
+    outline: 2px solid var(--plume);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('[data-lang-toggle]');
+  if (btn) {
+    let lang = 'es';
+    try {
+      lang = localStorage.getItem('lang') || (document.documentElement.lang === 'en' ? 'en' : 'es');
+    } catch (e) {
+      /* almacenamiento no disponible */
+    }
+    const apply = (l: string) => {
+      btn.classList.toggle('is-en', l === 'en');
+      btn.setAttribute('aria-checked', l === 'en' ? 'true' : 'false');
+    };
+    apply(lang);
+    btn.addEventListener('click', () => {
+      lang = btn.classList.contains('is-en') ? 'es' : 'en';
+      try {
+        localStorage.setItem('lang', lang);
+      } catch (e) {
+        /* ignore */
+      }
+      apply(lang);
+      // TODO: cuando exista la version en ingles, navegar a la URL equivalente.
+    });
+  }
+</script>
