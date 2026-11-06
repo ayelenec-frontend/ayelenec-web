@@ -1,21 +1,24 @@
-// Datos de proyectos. Agregar un proyecto = sumar un objeto aqui, sin tocar componentes.
-// Cuando haya mockups, cargarlos en /public/work/ y completar `image`.
-// Si un proyecto tiene `href`, el titulo de la tarjeta pasa a ser link.
+// Datos de proyectos (bilingue). Agregar un proyecto = sumar un objeto aqui.
+// title/description/result llevan { es, en }. Cuando haya mockups, cargarlos en
+// /public/work/ y completar `image`. `href` opcional para un caso de estudio.
 
 export type Discipline = 'UX/UI' | 'Web' | 'SEO' | 'UI' | 'E-commerce' | 'Producto';
+
+interface Loc {
+  es: string;
+  en: string;
+}
 
 export interface Project {
   slug: string;
   client: string;
   country: string;
   discipline: Discipline;
-  title: string;
-  description: string;
+  title: Loc;
+  description: Loc;
   tools: string[];
-  result?: string;
-  /** Ruta a mockup en /public/work/, ej: "/work/vinales.jpg". Vacio = placeholder. */
+  result?: Loc;
   image?: string;
-  /** Link externo o a futuro caso de estudio /proyectos/[slug]. */
   href?: string;
 }
 
@@ -25,20 +28,30 @@ export const projects: Project[] = [
     client: 'Viñales',
     country: 'Chile',
     discipline: 'SEO',
-    title: 'Auditoría SEO y migración de e-commerce',
-    description:
-      'Auditoría completa de una tienda de vinos, ajustes de búsqueda interna y acompañamiento de la migración de hosting.',
+    title: {
+      es: 'Auditoría SEO y migración de e-commerce',
+      en: 'SEO audit and e-commerce migration',
+    },
+    description: {
+      es: 'Auditoría completa de una tienda de vinos, ajustes de búsqueda interna y acompañamiento de la migración de hosting.',
+      en: 'Full audit of a wine store, internal search tweaks and support through the hosting migration.',
+    },
     tools: ['WooCommerce', 'Cloudflare'],
-    result: 'Puntaje SEO de 44 a 68/100',
+    result: { es: 'Puntaje SEO de 44 a 68/100', en: 'SEO score from 44 to 68/100' },
   },
   {
     slug: 'termas-de-chillan',
     client: 'Hotel Termas de Chillán',
     country: 'Chile',
     discipline: 'Web',
-    title: 'Widget de clima para un hotel de montaña',
-    description:
-      'Componente flotante con el clima en vivo para que los huéspedes planifiquen su estadía, más reportes mensuales de búsqueda.',
+    title: {
+      es: 'Widget de clima para un hotel de montaña',
+      en: 'Weather widget for a mountain hotel',
+    },
+    description: {
+      es: 'Componente flotante con el clima en vivo para que los huéspedes planifiquen su estadía, más reportes mensuales de búsqueda.',
+      en: 'A floating live-weather component so guests can plan their stay, plus monthly search reports.',
+    },
     tools: ['API Open-Meteo', 'Search Console'],
   },
   {
@@ -46,9 +59,14 @@ export const projects: Project[] = [
     client: 'La Maisonnette',
     country: 'Chile',
     discipline: 'UI',
-    title: 'Resultados académicos animados',
-    description:
-      'Widget que presenta los resultados SIMCE y PAES del colegio con animación y los colores de la institución.',
+    title: {
+      es: 'Resultados académicos animados',
+      en: 'Animated academic results',
+    },
+    description: {
+      es: 'Widget que presenta los resultados SIMCE y PAES del colegio con animación y los colores de la institución.',
+      en: "A widget that presents the school's SIMCE and PAES results with animation and the institution's colors.",
+    },
     tools: ['HTML', 'CSS', 'JavaScript'],
   },
   {
@@ -56,9 +74,14 @@ export const projects: Project[] = [
     client: 'ISN',
     country: 'Chile',
     discipline: 'Web',
-    title: 'Componentes web para una inmobiliaria',
-    description:
-      'Slider de imágenes solo con CSS, liviano y accesible, dentro de un trabajo continuo de SEO.',
+    title: {
+      es: 'Componentes web para una inmobiliaria',
+      en: 'Web components for a real-estate agency',
+    },
+    description: {
+      es: 'Slider de imágenes solo con CSS, liviano y accesible, dentro de un trabajo continuo de SEO.',
+      en: 'A CSS-only image slider, lightweight and accessible, within ongoing SEO work.',
+    },
     tools: ['CSS', 'SEO'],
   },
   {
@@ -66,9 +89,14 @@ export const projects: Project[] = [
     client: 'Aldea Nativa',
     country: 'Argentina',
     discipline: 'SEO',
-    title: 'SEO para una tienda de alimentos naturales',
-    description:
-      'Optimización continua y reportes mensuales con plantillas claras para que el cliente siga la evolución.',
+    title: {
+      es: 'SEO para una tienda de alimentos naturales',
+      en: 'SEO for a natural-food store',
+    },
+    description: {
+      es: 'Optimización continua y reportes mensuales con plantillas claras para que el cliente siga la evolución.',
+      en: 'Ongoing optimization and monthly reports with clear templates so the client can track progress.',
+    },
     tools: ['Shopify', 'Search Console'],
   },
   {
@@ -76,9 +104,14 @@ export const projects: Project[] = [
     client: 'Regalos Pardo',
     country: 'Argentina',
     discipline: 'E-commerce',
-    title: 'Migración de catálogo a WooCommerce',
-    description:
-      'Importación del catálogo completo desde PrestaShop a WooCommerce, cuidando categorías, variaciones e imágenes.',
+    title: {
+      es: 'Migración de catálogo a WooCommerce',
+      en: 'Catalog migration to WooCommerce',
+    },
+    description: {
+      es: 'Importación del catálogo completo desde PrestaShop a WooCommerce, cuidando categorías, variaciones e imágenes.',
+      en: 'Full catalog import from PrestaShop to WooCommerce, preserving categories, variations and images.',
+    },
     tools: ['PrestaShop', 'WooCommerce'],
   },
 ];

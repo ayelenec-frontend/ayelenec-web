@@ -1,8 +1,11 @@
 ---
-import { site, nav } from '../data/site';
+import { site } from '../data/site';
+import { getLang, t } from '../i18n';
 import ThemeToggle from './ThemeToggle.astro';
 import LangToggle from './LangToggle.astro';
 import CtaButton from './CtaButton.astro';
+
+const s = t[getLang(Astro.url)];
 ---
 
 <header class="site-header" data-header>
@@ -16,11 +19,10 @@ import CtaButton from './CtaButton.astro';
 
     <div class="header-bar">
       <nav class="nav" aria-label="Principal">
-        <a href="#top">Inicio</a>
-        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        {s.nav.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
       <div class="header-actions">
-        <CtaButton label="Escribime" small data-open-contact />
+        <CtaButton label={s.cta} small data-open-contact />
       </div>
     </div>
   </div>

@@ -1,8 +1,10 @@
 ---
-import { services } from '../data/site';
+import { getLang, t } from '../i18n';
 
-const left = services.slice(0, 2);
-const right = services.slice(2, 4);
+const s = t[getLang(Astro.url)].services;
+const items = s.titles.map((title, i) => ({ number: String(i + 1).padStart(2, '0'), title }));
+const left = items.slice(0, 2);
+const right = items.slice(2, 4);
 ---
 
 <section class="section services" id="servicios">
@@ -19,15 +21,12 @@ const right = services.slice(2, 4);
           />
         </svg>
       </span>
-      <h2>Qué hago</h2>
+      <h2>{s.head}</h2>
     </div>
 
     <div class="services-cols">
       <div class="services-col">
-        <p class="services-intro">
-          Investigación, arquitectura de información y prototipos en Figma; sitios
-          institucionales y e-commerce en WordPress, Webflow o Shopify.
-        </p>
+        <p class="services-intro">{s.intro1}</p>
         <ul class="service-bands">
           {
             left.map((service) => (
@@ -57,10 +56,7 @@ const right = services.slice(2, 4);
             ))
           }
         </ul>
-        <p class="services-intro">
-          Identidad visual y piezas gráficas para redes y campañas; y MVPs con
-          no-code e IA para validar ideas antes de invertir en desarrollo.
-        </p>
+        <p class="services-intro">{s.intro2}</p>
       </div>
     </div>
   </div>

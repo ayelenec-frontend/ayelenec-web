@@ -86,26 +86,20 @@
 <script>
   const btn = document.querySelector('[data-lang-toggle]');
   if (btn) {
-    let lang = 'es';
-    try {
-      lang = localStorage.getItem('lang') || (document.documentElement.lang === 'en' ? 'en' : 'es');
-    } catch (e) {
-      /* almacenamiento no disponible */
-    }
-    const apply = (l: string) => {
-      btn.classList.toggle('is-en', l === 'en');
-      btn.setAttribute('aria-checked', l === 'en' ? 'true' : 'false');
-    };
-    apply(lang);
+    const isEn = document.documentElement.lang === 'en';
+    btn.classList.toggle('is-en', isEn);
+    btn.setAttribute('aria-checked', isEn ? 'true' : 'false');
+
     btn.addEventListener('click', () => {
-      lang = btn.classList.contains('is-en') ? 'es' : 'en';
-      try {
-        localStorage.setItem('lang', lang);
-      } catch (e) {
-        /* ignore */
+      const path = window.location.pathname;
+      let target;
+      if (path === '/en' || path.startsWith('/en/')) {
+        const rest = path.replace(/^\/en/, '');
+        target = rest === '' ? '/' : rest;
+      } else {
+        target = path === '/' ? '/en' : '/en' + path;
       }
-      apply(lang);
-      // TODO: cuando exista la version en ingles, navegar a la URL equivalente.
+      window.location.href = target + window.location.hash;
     });
   }
 </script>

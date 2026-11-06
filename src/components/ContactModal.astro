@@ -3,20 +3,23 @@
 // elemento con [data-open-contact] (p. ej. los botones "Escribime").
 // Envio: Web3Forms si hay clave (site.web3formsKey); si no, cae a un mailto.
 import { site } from '../data/site';
+import { getLang, t } from '../i18n';
 import CtaButton from './CtaButton.astro';
+
+const s = t[getLang(Astro.url)].modal;
 ---
 
 <dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
   <form class="cm-form" id="contact-form" data-email={site.email}>
-    <button type="button" class="cm-close" aria-label="Cerrar" data-close-contact>
+    <button type="button" class="cm-close" aria-label={s.close} data-close-contact>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" />
       </svg>
     </button>
 
-    <span class="eyebrow">Escribime</span>
-    <h2 id="cm-title" class="cm-title">Conversemos.</h2>
-    <p class="cm-intro">Contame sobre tu proyecto y te respondo en menos de 48&nbsp;horas.</p>
+    <span class="eyebrow">{s.eyebrow}</span>
+    <h2 id="cm-title" class="cm-title">{s.title}</h2>
+    <p class="cm-intro">{s.intro}</p>
 
     <input type="hidden" name="access_key" value={site.web3formsKey} />
     <input type="hidden" name="subject" value="Nuevo mensaje desde ayelenec.com" />
@@ -25,21 +28,21 @@ import CtaButton from './CtaButton.astro';
     <input type="checkbox" name="botcheck" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
     <div class="cm-field">
-      <label for="cm-nombre">Nombre</label>
+      <label for="cm-nombre">{s.name}</label>
       <input id="cm-nombre" name="name" type="text" required autocomplete="name" />
     </div>
     <div class="cm-field">
-      <label for="cm-email">Email</label>
+      <label for="cm-email">{s.email}</label>
       <input id="cm-email" name="email" type="email" required autocomplete="email" />
     </div>
     <div class="cm-field">
-      <label for="cm-mensaje">Mensaje</label>
+      <label for="cm-mensaje">{s.message}</label>
       <textarea id="cm-mensaje" name="message" rows="4" required></textarea>
     </div>
 
-    <CtaButton label="Enviar mensaje" type="submit" full id="cm-submit" />
+    <CtaButton label={s.send} type="submit" full id="cm-submit" />
     <p class="cm-status" role="status" aria-live="polite"></p>
-    <p class="cm-alt">O escribime directo a <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+    <p class="cm-alt">{s.alt}<a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
   </form>
 </dialog>
 
@@ -176,21 +179,21 @@ import CtaButton from './CtaButton.astro';
   }
 </style>
 
-<script>
-  const modal = document.getElementById('contact-modal') as HTMLDialogElement | null;
+<script define:vars={{ str: s }}>
+  const modal = document.getElementById('contact-modal');
   if (modal) {
-    const form = modal.querySelector('#contact-form') as HTMLFormElement;
-    const statusEl = form.querySelector('.cm-status') as HTMLParagraphElement;
-    const submitBtn = form.querySelector('#cm-submit') as HTMLButtonElement;
+    const form = modal.querySelector('#contact-form');
+    const statusEl = form.querySelector('.cm-status');
+    const submitBtn = form.querySelector('#cm-submit');
     const email = form.dataset.email || '';
-    let lastFocus: HTMLElement | null = null;
+    let lastFocus = null;
 
     const open = () => {
-      lastFocus = document.activeElement as HTMLElement;
+      lastFocus = document.activeElement;
       statusEl.textContent = '';
       statusEl.className = 'cm-status';
       modal.showModal();
-      (document.getElementById('cm-nombre') as HTMLInputElement | null)?.focus();
+      document.getElementById('cm-nombre')?.focus();
     };
     const close = () => modal.close();
 
@@ -228,7 +231,7 @@ import CtaButton from './CtaButton.astro';
       }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando…';
+      submitBtn.textContent = str.sending;
       try {
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
@@ -237,18 +240,18 @@ import CtaButton from './CtaButton.astro';
         const json = await res.json();
         if (json.success) {
           form.reset();
-          statusEl.textContent = '¡Gracias! Te voy a responder a la brevedad.';
+          statusEl.textContent = str.ok;
           statusEl.classList.add('is-ok');
         } else {
-          statusEl.textContent = 'No se pudo enviar. Probá de nuevo o escribime por mail.';
+          statusEl.textContent = str.error;
           statusEl.classList.add('is-error');
         }
       } catch (err) {
-        statusEl.textContent = 'No se pudo enviar. Probá de nuevo o escribime por mail.';
+        statusEl.textContent = str.error;
         statusEl.classList.add('is-error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Enviar mensaje';
+        submitBtn.textContent = str.send;
       }
     });
   }

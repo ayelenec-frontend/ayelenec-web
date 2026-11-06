@@ -12,15 +12,43 @@ interface Props {
   small?: boolean;
   full?: boolean;
   onDark?: boolean;
+  secondary?: boolean;
+  icon?: 'arrow' | 'download';
   [key: string]: any;
 }
-const { label, href, type = 'button', small = false, full = false, onDark = false, ...rest } =
-  Astro.props;
+const {
+  label,
+  href,
+  type = 'button',
+  small = false,
+  full = false,
+  onDark = false,
+  secondary = false,
+  icon,
+  ...rest
+} = Astro.props;
 const Tag = href ? 'a' : 'button';
 ---
 
-<span class:list={['cta', { 'cta--small': small, 'cta--full': full, 'cta--ondark': onDark }]}>
-  <Tag class="cta-btn" href={href} type={href ? undefined : type} {...rest}>{label}</Tag>
+<span
+  class:list={[
+    'cta',
+    { 'cta--small': small, 'cta--full': full, 'cta--ondark': onDark, 'cta--secondary': secondary },
+  ]}
+>
+  <Tag class="cta-btn" href={href} type={href ? undefined : type} {...rest}>
+    {label}
+    {icon === 'arrow' && (
+      <svg class="cta-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )}
+    {icon === 'download' && (
+      <svg class="cta-icon cta-icon--dl" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 4v10m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )}
+  </Tag>
   <span class="cta-dot d-tl"></span>
   <span class="cta-dot d-tr"></span>
   <span class="cta-dot d-br"></span>
@@ -101,6 +129,32 @@ const Tag = href ? 'a' : 'button';
     padding: 9px var(--space-4);
     font-size: 0.875rem;
     border-radius: 12px;
+  }
+
+  /* Icono opcional (flecha / descarga) */
+  .cta-icon {
+    flex-shrink: 0;
+    transition: transform 0.2s var(--ease);
+  }
+  .cta-btn:hover .cta-icon {
+    transform: translateX(2px);
+  }
+  .cta-btn:hover .cta-icon--dl {
+    transform: translateY(2px);
+  }
+
+  /* Variante secundaria (outline), mismo tamano que la primaria */
+  .cta--secondary .cta-btn {
+    background-color: var(--surface-raised);
+    color: var(--ink);
+    border-color: var(--line-strong);
+    box-shadow: none;
+  }
+  .cta--secondary .cta-btn:hover {
+    background-color: var(--surface-raised);
+    border-color: var(--plume);
+    color: var(--plume);
+    transform: none;
   }
 
   /* Variante para la banda oscura de contacto (color fijo, no depende del tema) */

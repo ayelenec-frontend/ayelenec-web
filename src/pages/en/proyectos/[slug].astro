@@ -1,0 +1,25 @@
+---
+// Paginas de proyecto (en). Los componentes detectan el idioma por la URL.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectCase from '../../../components/ProjectCase.astro';
+import { projects } from '../../../data/projects';
+import { getLang } from '../../../i18n';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const lang = getLang(Astro.url);
+---
+
+<BaseLayout
+  noindex
+  title={`${project.title[lang]} · ${project.client}`}
+  description={project.description[lang]}
+>
+  <ProjectCase project={project} />
+</BaseLayout>

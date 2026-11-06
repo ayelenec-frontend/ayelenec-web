@@ -3,13 +3,18 @@
 // las vecinas mas chicas asomando a los costados. Cada tarjeta lleva info
 // breve + herramientas y un boton "Ver proyecto" que linkea a /proyectos/[slug].
 import { projects } from '../data/projects';
+import { getLang, t } from '../i18n';
+
+const lang = getLang(Astro.url);
+const s = t[lang].projects;
+const prefix = lang === 'en' ? '/en' : '';
 ---
 
 <section class="section" id="proyectos">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Proyectos</span>
-      <h2>Trabajo seleccionado.</h2>
+      <span class="eyebrow">{s.eyebrow}</span>
+      <h2>{s.head}</h2>
     </div>
 
     <div
@@ -30,7 +35,7 @@ import { projects } from '../data/projects';
                     {project.image ? (
                       <img
                         src={project.image}
-                        alt={`${project.client} — ${project.title}`}
+                        alt={`${project.client} — ${project.title[lang]}`}
                         loading="lazy"
                         width="800"
                         height="600"
@@ -42,8 +47,8 @@ import { projects } from '../data/projects';
                   </div>
 
                   <div class="pcard-body">
-                    <h3 class="pcard-title">{project.title}</h3>
-                    <p class="pcard-desc">{project.description}</p>
+                    <h3 class="pcard-title">{project.title[lang]}</h3>
+                    <p class="pcard-desc">{project.description[lang]}</p>
 
                     <ul class="pcard-tools">
                       {project.tools.slice(0, 3).map((tool) => (
@@ -51,8 +56,8 @@ import { projects } from '../data/projects';
                       ))}
                     </ul>
 
-                    <a class="pc-btn" href={`/proyectos/${project.slug}`}>
-                      Ver proyecto
+                    <a class="pc-btn" href={`${prefix}/proyectos/${project.slug}`}>
+                      {s.cta}
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path
                           d="M5 12h14M13 6l6 6-6 6"

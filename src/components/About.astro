@@ -1,5 +1,8 @@
 ---
 import { about, site } from '../data/site';
+import { getLang, t } from '../i18n';
+
+const s = t[getLang(Astro.url)].about;
 ---
 
 <section class="section" id="sobre-mi">
@@ -10,19 +13,19 @@ import { about, site } from '../data/site';
           about.portrait ? (
             <img src={about.portrait} alt={site.name} loading="lazy" width="600" height="750" />
           ) : (
-            <span class="portrait-note">Tu retrato</span>
+            <span class="portrait-note">{s.portraitNote}</span>
           )
         }
       </div>
     </div>
 
     <div class="about-text">
-      <span class="eyebrow">Sobre mí</span>
-      <h2 class="about-hi">Hola, soy <span class="accent">Ayelen</span>.</h2>
+      <span class="eyebrow">{s.eyebrow}</span>
+      <h2 class="about-hi">{s.hiLead}<span class="accent">{s.hiName}</span>.</h2>
 
-      {about.bio.slice(0, 2).map((paragraph) => <p class="about-bio">{paragraph}</p>)}
+      {s.bio.map((paragraph) => <p class="about-bio">{paragraph}</p>)}
 
-      <p class="about-phrase">{site.tagline}</p>
+      <p class="about-phrase">{s.phrase}</p>
     </div>
   </div>
 </section>

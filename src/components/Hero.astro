@@ -1,17 +1,19 @@
 ---
-import { hero, site } from '../data/site';
+import { getLang, t } from '../i18n';
 import CtaButton from './CtaButton.astro';
+
+const s = t[getLang(Astro.url)].hero;
 ---
 
 <section class="hero" id="top">
   <div class="hero-stage">
     <div class="container hero-content">
       <div class="hero-meta">
-        <span class="hero-eyebrow">{hero.eyebrow}</span>
-        <span class="hero-status">{hero.statusLabel}</span>
+        <span class="hero-eyebrow">{s.eyebrow}</span>
+        <span class="hero-status">{s.status}</span>
       </div>
       <h1 class="hero-title">
-        {hero.titleLead}<span class="accent">{hero.titleAccent}</span>.
+        {s.titleLead}<span class="accent">{s.titleAccent}</span>.
       </h1>
       <span class="hero-badge" aria-hidden="true">
         <img src="/ac-badge.svg" alt="" width="76" height="76" />
@@ -20,15 +22,10 @@ import CtaButton from './CtaButton.astro';
   </div>
 
   <div class="container hero-below">
-    <p class="hero-lead">{hero.lead}</p>
+    <p class="hero-lead">{s.lead}</p>
     <div class="hero-actions">
-      <CtaButton label="Ver proyectos →" href="#proyectos" />
-      <a class="hero-cv" href={site.cv || '#contacto'} {...site.cv ? { download: true } : {}}>
-        Descargar CV
-        <svg class="hero-cv-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 4v10m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
+      <CtaButton label={s.projectsBtn} href="#proyectos" icon="arrow" />
+      <CtaButton label={s.cvBtn} href={s.cv} icon="download" secondary download />
     </div>
   </div>
 </section>
@@ -38,20 +35,20 @@ import CtaButton from './CtaButton.astro';
     position: relative;
   }
 
-  /* Escenario oscuro a pantalla completa, con fade al fondo de la pagina */
+  /* Escenario a pantalla completa, con fade al fondo de la pagina */
   .hero-stage {
-    min-height: 84vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding-block: var(--space-24) var(--space-24);
     --hero-veil: 46, 42, 36;
     --hero-text: #f4efe4;
     --hero-accent: #d6a9a2;
     --hero-eyebrow: #b9ab93;
     --hero-status: #9fd0bb;
     --hero-dot: #7cc2a9;
+    min-height: 84vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-block: var(--space-24) var(--space-24);
     color: var(--hero-text);
     background-color: var(--surface);
     position: relative;
@@ -83,7 +80,7 @@ import CtaButton from './CtaButton.astro';
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 86%);
     mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 86%);
   }
-  /* Velo Tinta que se desvanece al fondo de la pagina (sin corte) */
+  /* Velo que se desvanece al fondo de la pagina (sin corte) */
   .hero-stage::after {
     background: linear-gradient(
       180deg,
@@ -179,53 +176,5 @@ import CtaButton from './CtaButton.astro';
     justify-content: center;
     gap: var(--space-3);
     margin-top: var(--space-8);
-  }
-
-  .hero-cv {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: 13px var(--space-6);
-    border: 1px solid var(--line-strong);
-    border-radius: 16px;
-    background-color: var(--surface-raised);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 0.9375rem;
-    line-height: 1;
-    text-decoration: none;
-    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
-  }
-  .hero-cv:hover {
-    border-color: var(--plume);
-    color: var(--plume);
-  }
-
-  .hero-cv-icon {
-    width: 16px;
-    opacity: 0;
-    transform: translateY(-3px);
-    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-  }
-  .hero-cv:hover .hero-cv-icon {
-    opacity: 1;
-    animation: cv-down 0.5s var(--ease);
-  }
-
-  @keyframes cv-down {
-    0% { transform: translateY(-3px); }
-    55% { transform: translateY(2px); }
-    100% { transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-cv-icon {
-      transition: none;
-    }
-    .hero-cv:hover .hero-cv-icon {
-      animation: none;
-      transform: translateY(0);
-    }
   }
 </style>

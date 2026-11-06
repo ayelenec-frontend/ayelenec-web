@@ -1,6 +1,8 @@
 ---
 import { site } from '../data/site';
+import { getLang, t } from '../i18n';
 
+const s = t[getLang(Astro.url)];
 const year = new Date().getFullYear();
 ---
 
@@ -10,7 +12,7 @@ const year = new Date().getFullYear();
       <img src="/favicon.svg" alt="" width="44" height="44" />
     </span>
     <span class="footer-name">{site.name}</span>
-    <span class="footer-copy">Diseño UX/UI · Web · © {year}</span>
+    <span class="footer-copy">{s.footer}{year}</span>
   </div>
 </footer>
 

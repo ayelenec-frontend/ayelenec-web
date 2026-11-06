@@ -1,24 +1,27 @@
 ---
-import { process } from '../data/site';
+import { getLang, t } from '../i18n';
+
+const s = t[getLang(Astro.url)].process;
+const steps = s.steps.map((step, i) => ({ number: String(i + 1).padStart(2, '0'), ...step }));
 ---
 
 <section class="section" id="proceso">
   <div class="container">
     <div class="process-head">
-      <span class="eyebrow">Proceso</span>
-      <h2>Primero la estructura, después el detalle.</h2>
+      <span class="eyebrow">{s.eyebrow}</span>
+      <h2>{s.head}</h2>
     </div>
 
     <ol class="process-flow">
       {
-        process.map((step, i) => (
+        steps.map((step, i) => (
           <>
             <li class="step">
               <span class="step-circle">{step.number}</span>
               <h3>{step.title}</h3>
-              <p>{step.description}</p>
+              <p>{step.desc}</p>
             </li>
-            {i < process.length - 1 && (
+            {i < steps.length - 1 && (
               <li class="conn" aria-hidden="true">
                 <span class="conn-dot" />
               </li>
