@@ -25,6 +25,9 @@ import CtaButton from './CtaButton.astro';
       <CtaButton label="Ver proyectos →" href="#proyectos" />
       <a class="hero-cv" href={site.cv || '#contacto'} {...site.cv ? { download: true } : {}}>
         Descargar CV
+        <svg class="hero-cv-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 4v10m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </a>
     </div>
   </div>
@@ -181,6 +184,7 @@ import CtaButton from './CtaButton.astro';
   .hero-cv {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-2);
     padding: 13px var(--space-6);
     border: 1px solid var(--line-strong);
     border-radius: 16px;
@@ -196,5 +200,32 @@ import CtaButton from './CtaButton.astro';
   .hero-cv:hover {
     border-color: var(--plume);
     color: var(--plume);
+  }
+
+  .hero-cv-icon {
+    width: 16px;
+    opacity: 0;
+    transform: translateY(-3px);
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .hero-cv:hover .hero-cv-icon {
+    opacity: 1;
+    animation: cv-down 0.5s var(--ease);
+  }
+
+  @keyframes cv-down {
+    0% { transform: translateY(-3px); }
+    55% { transform: translateY(2px); }
+    100% { transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cv-icon {
+      transition: none;
+    }
+    .hero-cv:hover .hero-cv-icon {
+      animation: none;
+      transform: translateY(0);
+    }
   }
 </style>
