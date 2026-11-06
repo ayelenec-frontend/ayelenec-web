@@ -82,7 +82,9 @@
   /* Fuentes */
   --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
   --font-sans: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Consolas', monospace;
+  /* Antes JetBrains Mono; Ayelen prefirio Metropolis (mayuscula, espaciada) en
+     todos los labels/numeros. El token conserva el nombre por compatibilidad. */
+  --font-mono: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Colores fijos de marca (no cambian con el tema) */
   --brand-plume: #6E4A4F;
