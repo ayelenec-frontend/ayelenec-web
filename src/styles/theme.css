@@ -176,6 +176,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* El header es fijo: dejar aire para que los anchors no queden tapados */
+  scroll-padding-top: 130px;
 }
 
 @media (prefers-reduced-motion: reduce) {
