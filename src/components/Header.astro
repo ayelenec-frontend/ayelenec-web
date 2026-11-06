@@ -6,6 +6,10 @@ import CtaButton from './CtaButton.astro';
 
 <header class="site-header" data-header>
   <div class="container header-inner">
+    <div class="header-utility">
+      <ThemeToggle />
+    </div>
+
     <a class="brand" href="#top" aria-label={`${site.name} — inicio`}>{site.name}</a>
 
     <div class="header-bar">
@@ -14,7 +18,6 @@ import CtaButton from './CtaButton.astro';
         {nav.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
       <div class="header-actions">
-        <ThemeToggle />
         <CtaButton label="Escribime" small data-open-contact />
       </div>
     </div>
@@ -49,11 +52,22 @@ import CtaButton from './CtaButton.astro';
   }
 
   .header-inner {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-4);
     padding-block: var(--space-4);
+  }
+
+  /* Toggle de tema a la esquina (deja lugar para el de idioma al lado) */
+  .header-utility {
+    position: absolute;
+    top: var(--space-4);
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   .brand {
