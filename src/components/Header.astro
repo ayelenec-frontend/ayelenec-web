@@ -4,72 +4,120 @@ import ThemeToggle from './ThemeToggle.astro';
 import CtaButton from './CtaButton.astro';
 ---
 
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="container header-inner">
     <a class="brand" href="#top" aria-label={`${site.name} — inicio`}>{site.name}</a>
 
-    <nav class="nav" aria-label="Principal">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-    </nav>
-
-    <div class="header-actions">
-      <ThemeToggle />
-      <CtaButton label="Escribime" small data-open-contact />
+    <div class="header-bar">
+      <nav class="nav" aria-label="Principal">
+        <a href="#top">Inicio</a>
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+      <div class="header-actions">
+        <ThemeToggle />
+        <CtaButton label="Escribime" small data-open-contact />
+      </div>
     </div>
   </div>
 </header>
 
 <style>
   .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
-    background-color: color-mix(in srgb, var(--surface) 86%, transparent);
+    color: #f2ece0;
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease),
+      color 0.3s var(--ease);
+  }
+
+  /* Al scrollear fuera del hero oscuro: barra solida con texto normal */
+  .site-header.is-solid {
+    color: var(--ink);
+    background-color: color-mix(in srgb, var(--surface) 90%, transparent);
     backdrop-filter: saturate(1.4) blur(10px);
-    border-bottom: 1px solid var(--line);
+    border-bottom-color: var(--line);
+  }
+
+  /* En claro el hero es claro, asi que el texto del header va oscuro */
+  :global(:root[data-theme='light']) .site-header:not(.is-solid) {
+    color: var(--ink);
   }
 
   .header-inner {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    height: 64px;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
   }
 
   .brand {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: 1.375rem;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.375rem, 3.5vw, 1.875rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
     white-space: nowrap;
+    color: currentColor;
+  }
+
+  .header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
   }
 
   .nav {
     display: none;
-    gap: var(--space-8);
-    margin-left: auto;
+    align-items: center;
+    gap: var(--space-6);
   }
 
   .nav a {
     font-size: 0.9375rem;
-    color: var(--ink-muted);
-    transition: color 0.18s var(--ease);
+    color: currentColor;
+    opacity: 0.78;
+    transition: opacity 0.18s var(--ease);
   }
-
   .nav a:hover {
-    color: var(--ink);
+    opacity: 1;
   }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
   }
 
-  @media (min-width: 880px) {
+  @media (min-width: 720px) {
     .nav {
       display: flex;
     }
   }
 </style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const hero = document.getElementById('top');
+  if (header) {
+    if (!hero) {
+      header.classList.add('is-solid');
+    } else {
+      const onScroll = () => {
+        const threshold = hero.offsetHeight - 90;
+        header.classList.toggle('is-solid', window.scrollY > threshold);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+    }
+  }
+</script>

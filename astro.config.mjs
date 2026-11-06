@@ -7,7 +7,9 @@ export default defineConfig({
   site: 'https://ayelenec.com',
   // /preview (portfolio completo mientras el index muestra "en construccion")
   // se excluye del sitemap para que no lo indexen.
-  integrations: [sitemap({ filter: (page) => !page.includes('/preview') })],
+  integrations: [
+    sitemap({ filter: (page) => !page.includes('/preview') && !page.includes('/proyectos') }),
+  ],
   build: {
     inlineStylesheets: 'auto',
   },

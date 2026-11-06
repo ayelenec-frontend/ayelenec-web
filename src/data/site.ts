@@ -58,10 +58,10 @@ export const site = {
 } as const;
 
 export const nav: NavItem[] = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Proceso', href: '#proceso' },
   { label: 'Sobre mí', href: '#sobre-mi' },
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Proceso', href: '#proceso' },
+  { label: 'Proyectos', href: '#proyectos' },
 ];
 
 export const hero = {
@@ -90,10 +90,10 @@ export const services: Service[] = [
   },
   {
     number: '03',
-    title: 'SEO y optimización',
+    title: 'Diseño gráfico',
     description:
-      'Auditorías, mejoras técnicas y reportes de Search Console que el cliente entiende.',
-    tools: ['Auditorías', 'Search Console', 'Rendimiento'],
+      'Identidad visual, piezas para redes y material gráfico, con la misma intención que una interfaz.',
+    tools: ['Illustrator', 'Photoshop', 'Branding'],
   },
   {
     number: '04',
@@ -133,7 +133,7 @@ export const process: ProcessStep[] = [
 export const about = {
   bio: [
     'Soy Ayelen Caceres, diseñadora UX/UI y web desde Resistencia, Chaco. Trabajo con clientes de Argentina, Chile y España, y desde 2026 soy Especialista en Diseño en Performanze, un equipo remoto con base en España.',
-    'Me interesa el punto donde la estructura se encuentra con el detalle: que un sitio sea fácil de usar, rápido y encontrable, y que además se sienta cuidado. Por eso combino diseño de interfaces, desarrollo y SEO en un mismo proceso.',
+    'Me interesa el punto donde la estructura se encuentra con el detalle: que un sitio sea fácil de usar, rápido y que además se sienta cuidado. Por eso combino diseño de interfaces, desarrollo y diseño gráfico en un mismo proceso.',
     'Fuera de los proyectos, diseño piezas gráficas y de redes como voluntaria para organizaciones por los derechos de los animales.',
   ],
   tools: [

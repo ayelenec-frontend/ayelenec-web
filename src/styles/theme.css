@@ -85,9 +85,9 @@
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Consolas', monospace;
 
   /* Colores fijos de marca (no cambian con el tema) */
-  --brand-plume: #5E4074;
-  --brand-linen: #F7F9EC;
-  --brand-night: #17131B;
+  --brand-plume: #6E4A4F;
+  --brand-linen: #E6DCC6;
+  --brand-night: #2E2A24;
 
   /* Espaciado base 4px */
   --space-1: 4px;
@@ -106,7 +106,7 @@
   --maxw: 1200px;
 
   /* Sombra unica (hover de tarjetas) */
-  --shadow-card: 0 12px 32px -12px rgba(23, 19, 27, 0.22);
+  --shadow-card: 0 12px 32px -12px rgba(46, 42, 36, 0.22);
 
   /* Transicion */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -115,18 +115,23 @@
 /* Tema claro (Linen) - por defecto */
 :root,
 :root[data-theme='light'] {
-  --surface: #F7F9EC;
-  --surface-raised: #FDFEF8;
-  --surface-sunken: #ECEEDD;
-  --ink: #1D1722;
-  --ink-muted: #5C5463;
-  --line: #D9DACB;
-  --line-strong: #8A887C;
-  --plume: #5E4074;
-  --plume-deep: #3E2A4E;
-  --plume-tint: #DDD0E8;
-  --on-plume: #F7F9EC;
-  --moss: #3F4B36;
+  /* Paleta "ilustracion naturalista" */
+  --surface: #E6DCC6;        /* Nube */
+  --surface-raised: #F1EADB; /* elevado (tarjetas) */
+  --surface-sunken: #D3CAB3; /* Pergamino (bandas) */
+  --ink: #2E2A24;            /* Tinta */
+  --ink-muted: #7A6656;      /* Plumaje */
+  --line: #CDC2AC;
+  --line-strong: #A2967F;
+  --plume: #6E4A4F;          /* Hoja de ciruelo (marca) */
+  --plume-deep: #573A3E;     /* hover */
+  --plume-tint: #E2D4D1;     /* chips / resaltados */
+  --on-plume: #F2ECE0;
+  --accent: #8A3F38;         /* Ciruela (acento puntual) */
+  --sky: #8FA3A8;            /* Cielo (bloques de color) */
+  --egg: #6A8B8C;            /* Huevo azul (decorativo) */
+  --rust: #A2542F;           /* Oxido (detalle minimo) */
+  --moss: #5A5C3F;           /* etiquetas de categoria */
   --success: #2E6A57;
   --error: #A23B2A;
   color-scheme: light;
@@ -134,18 +139,23 @@
 
 /* Tema oscuro (Night) */
 :root[data-theme='dark'] {
-  --surface: #17131B;
-  --surface-raised: #211B27;
-  --surface-sunken: #110E14;
-  --ink: #F1F2E4;
-  --ink-muted: #B4ABBB;
-  --line: #3A3240;
-  --line-strong: #7A6F82;
-  --plume: #BC9FD6;
-  --plume-deep: #D6C3E8;
-  --plume-tint: #3B2C4A;
-  --on-plume: #1D1722;
-  --moss: #B8C9A2;
+  /* Paleta naturalista — version oscura derivada */
+  --surface: #221E19;
+  --surface-raised: #2E2A24; /* Tinta */
+  --surface-sunken: #1A1713;
+  --ink: #ECE3D3;
+  --ink-muted: #B3A68F;
+  --line: #403830;
+  --line-strong: #6B5F50;
+  --plume: #C9A49E;          /* ciruelo aclarado para fondo oscuro */
+  --plume-deep: #DCBDB8;     /* hover */
+  --plume-tint: #3A2E2C;
+  --on-plume: #221E19;
+  --accent: #D29A92;         /* Ciruela aclarada */
+  --sky: #9FB2B6;            /* Cielo */
+  --egg: #86A6A7;            /* Huevo azul */
+  --rust: #CC8056;           /* Oxido */
+  --moss: #B9BE9C;
   --success: #7CC2A9;
   --error: #F08A78;
   color-scheme: dark;

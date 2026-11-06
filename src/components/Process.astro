@@ -4,19 +4,26 @@ import { process } from '../data/site';
 
 <section class="section" id="proceso">
   <div class="container">
-    <div class="section-head">
+    <div class="process-head">
       <span class="eyebrow">Proceso</span>
-      <h2>Cómo trabajo.</h2>
+      <h2>Primero la estructura, después el detalle.</h2>
     </div>
 
-    <ol class="process-grid">
+    <ol class="process-flow">
       {
-        process.map((step) => (
-          <li class="step">
-            <span class="step-number">{step.number}</span>
-            <h3>{step.title}</h3>
-            <p>{step.description}</p>
-          </li>
+        process.map((step, i) => (
+          <>
+            <li class="step">
+              <span class="step-circle">{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
+            {i < process.length - 1 && (
+              <li class="conn" aria-hidden="true">
+                <span class="conn-dot" />
+              </li>
+            )}
+          </>
         ))
       }
     </ol>
@@ -24,79 +31,125 @@ import { process } from '../data/site';
 </section>
 
 <style>
-  .process-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    border-top: 1px solid var(--line);
+  .process-head {
+    text-align: center;
+    margin-bottom: var(--space-12);
   }
 
-  @media (min-width: 560px) {
-    .process-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .process-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
   }
 
-  @media (min-width: 980px) {
-    .process-grid {
-      grid-template-columns: repeat(4, 1fr);
+  @media (min-width: 880px) {
+    .process-flow {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
     }
   }
 
   .step {
-    padding: var(--space-8) var(--space-6) var(--space-8) 0;
-    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-3);
   }
-
-  @media (min-width: 560px) {
+  @media (min-width: 880px) {
     .step {
-      padding-inline: var(--space-6);
-      border-right: 1px solid var(--line);
-    }
-    .step:nth-child(2n) {
-      border-right: none;
-      padding-right: 0;
-    }
-    .step:nth-child(2n + 1) {
-      padding-left: 0;
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 220px;
     }
   }
 
-  @media (min-width: 980px) {
-    .step {
-      border-right: 1px solid var(--line);
-      padding-inline: var(--space-6);
-    }
-    .step:nth-child(2n) {
-      border-right: 1px solid var(--line);
-    }
-    .step:first-child {
-      padding-left: 0;
-    }
-    .step:last-child {
-      border-right: none;
-      padding-right: 0;
-    }
-  }
-
-  .step-number {
-    display: block;
+  .step-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background-color: var(--surface-raised);
     font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
     color: var(--plume);
-    margin-bottom: var(--space-4);
   }
 
   .step h3 {
-    font-size: 1.25rem;
-    margin-bottom: var(--space-2);
+    font-size: 1.1875rem;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .step p {
     color: var(--ink-muted);
-    font-size: 0.9375rem;
+    font-size: 0.9rem;
     line-height: 1.55;
+    max-width: 24ch;
+  }
+
+  /* ---- Conector animado ---- */
+  .conn {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--line);
+    align-self: center;
+    width: 2px;
+    height: 28px;
+    flex: 0 0 auto;
+  }
+  .conn-dot {
+    position: absolute;
+    left: -2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--plume);
+    animation: conn-down 1.8s var(--ease) infinite;
+  }
+
+  @media (min-width: 880px) {
+    .conn {
+      width: auto;
+      flex: 1 1 0;
+      max-width: 90px;
+      height: 2px;
+      margin-top: 27px;
+    }
+    .conn-dot {
+      left: 0;
+      top: -2px;
+      animation-name: conn-right;
+    }
+  }
+
+  @keyframes conn-down {
+    0% { top: -6px; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 28px; opacity: 0; }
+  }
+  @keyframes conn-right {
+    0% { left: -6px; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { left: calc(100% + 6px); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .conn-dot {
+      animation: none;
+      left: 0;
+      top: 11px;
+    }
   }
 </style>

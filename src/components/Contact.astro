@@ -1,38 +1,105 @@
 ---
 import { contact, site } from '../data/site';
-import CtaButton from './CtaButton.astro';
-
-const socials = site.social.filter((s) => s.href);
 ---
 
 <section class="contact" id="contacto">
-  <div class="container">
-    <span class="contact-eyebrow">Contacto</span>
-    <h2 class="contact-title">
-      {contact.titleLead}<span class="contact-accent">{contact.titleAccent}</span>
-    </h2>
-    <p class="contact-text">{contact.text}</p>
-
-    <div class="contact-actions">
-      <CtaButton label="Escribime" onDark data-open-contact />
-      <a class="btn contact-btn-ghost" href={`mailto:${site.email}`}>{site.email}</a>
-      {
-        socials.map((s) => (
-          <a class="btn contact-btn-ghost" href={s.href} target="_blank" rel="noopener">
-            {s.label} ↗
-          </a>
-        ))
-      }
+  <div class="container contact-grid">
+    <div class="contact-intro">
+      <span class="contact-eyebrow">Contacto</span>
+      <h2 class="contact-title">
+        {contact.titleLead}<span class="contact-accent">{contact.titleAccent}</span>
+      </h2>
+      <p class="contact-text">{contact.text}</p>
+      <a class="contact-mail" href={`mailto:${site.email}`}>{site.email}</a>
     </div>
+
+    <form class="contact-form" id="contact-form">
+      <div class="field">
+        <label for="cf-name">Nombre</label>
+        <input id="cf-name" name="name" type="text" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="cf-message">Mensaje</label>
+        <textarea id="cf-message" name="message" rows="4" required></textarea>
+      </div>
+      <button class="contact-submit" type="submit">Enviar mensaje</button>
+      <p class="contact-status" id="cf-status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
+<script define:vars={{ key: site.web3formsKey, email: site.email }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('cf-status');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!key) {
+        window.location.href =
+          `mailto:${email}?subject=${encodeURIComponent('Consulta desde el sitio')}` +
+          `&body=${encodeURIComponent((data.message || '') + '\n\n' + (data.name || '') + ' · ' + (data.email || ''))}`;
+        return;
+      }
+      const btn = form.querySelector('.contact-submit');
+      btn.disabled = true;
+      status.textContent = 'Enviando…';
+      status.className = 'contact-status';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: key,
+            subject: 'Nuevo mensaje desde ayelenec.com',
+            from_name: data.name,
+            name: data.name,
+            email: data.email,
+            message: data.message,
+          }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          status.textContent = '¡Gracias! Te respondo en menos de 48 horas.';
+          status.className = 'contact-status is-ok';
+        } else {
+          throw new Error(json.message || 'error');
+        }
+      } catch (err) {
+        status.textContent = 'No se pudo enviar. Escribime a ' + email;
+        status.className = 'contact-status is-error';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
+
 <style>
-  /* Banda oscura (Night) en ambos temas: colores fijos de marca. */
+  /* Banda oscura (Tinta) en ambos temas: colores fijos de marca. */
   .contact {
-    background-color: #17131b;
-    color: #f1f2e4;
+    background-color: #2e2a24;
+    color: #ece3d3;
     padding-block: var(--space-24);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+  @media (min-width: 820px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: center;
+    }
   }
 
   .contact-eyebrow {
@@ -41,43 +108,127 @@ const socials = site.social.filter((s) => s.href);
     font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #b4abbb;
+    color: #b3a68f;
   }
 
   .contact-title {
     margin-top: var(--space-3);
     font-size: clamp(2rem, 6vw, 3.25rem);
-    line-height: 1.02;
-    max-width: 18ch;
+    line-height: 1.04;
+    max-width: 16ch;
   }
 
   .contact-accent {
     font-weight: 600;
-    color: #bc9fd6;
+    color: #d6a9a2;
   }
 
   .contact-text {
     margin-top: var(--space-6);
-    color: #b4abbb;
+    color: #b3a68f;
     font-size: 1.1875rem;
-    max-width: 48ch;
+    max-width: 44ch;
   }
 
-  .contact-actions {
+  .contact-mail {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: #d6a9a2;
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, #d6a9a2 45%, transparent);
+    padding-bottom: 2px;
+  }
+  .contact-mail:hover {
+    color: #e4c0ba;
+  }
+
+  /* ---- Formulario ---- */
+  .contact-form {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-12);
+    flex-direction: column;
+    gap: var(--space-4);
+    background-color: color-mix(in srgb, #ffffff 5%, transparent);
+    border: 1px solid #4a4138;
+    border-radius: 18px;
+    padding: var(--space-8);
   }
 
-  .contact-btn-ghost {
-    background-color: transparent;
-    color: #f1f2e4;
-    border-color: #7a6f82;
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .contact-btn-ghost:hover {
-    border-color: #bc9fd6;
-    color: #bc9fd6;
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b3a68f;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 10px;
+    border: 1px solid #4a4138;
+    background-color: color-mix(in srgb, #ffffff 4%, transparent);
+    color: #ece3d3;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    transition: border-color 0.18s var(--ease);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 96px;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: #d6a9a2;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #8a7e6c;
+  }
+
+  .contact-submit {
+    align-self: flex-start;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 12px;
+    background-color: #d6a9a2;
+    color: #2e2a24;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .contact-submit:hover {
+    background-color: #e4c0ba;
+    transform: translateY(-1px);
+  }
+  .contact-submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+    transform: none;
+  }
+
+  .contact-status {
+    margin: 0;
+    min-height: 1.2em;
+    font-size: 0.875rem;
+    color: #b3a68f;
+  }
+  .contact-status.is-ok {
+    color: #9fd0bb;
+  }
+  .contact-status.is-error {
+    color: #e8a08f;
   }
 </style>
