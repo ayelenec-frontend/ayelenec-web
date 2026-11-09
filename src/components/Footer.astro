@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/site';
 import { getLang, t } from '../i18n';
+import Social from './Social.astro';
 
 const s = t[getLang(Astro.url)];
 const year = new Date().getFullYear();
@@ -12,6 +13,7 @@ const year = new Date().getFullYear();
       <img src="/favicon.svg" alt="" width="44" height="44" />
     </span>
     <span class="footer-name">{site.name}</span>
+    <Social />
     <span class="footer-copy">{s.footer}{year}</span>
   </div>
 </footer>

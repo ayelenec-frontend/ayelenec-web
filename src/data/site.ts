@@ -51,9 +51,8 @@ export const site = {
 
   // Links de perfil: vacios no se muestran.
   social: [
-    { label: 'LinkedIn', href: '' },
-    { label: 'Behance', href: '' },
-    { label: 'Dribbble', href: '' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ayelenecuxui/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/ayelenec.uxui/' },
   ] as SocialLink[],
 } as const;
 
