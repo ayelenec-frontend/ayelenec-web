@@ -1,0 +1,36 @@
+---
+// Imagen a lo ancho (mas que la columna de texto) con epigrafe opcional.
+interface Props {
+  image: string;
+  alt?: string;
+  caption?: string;
+}
+const { image, alt = '', caption } = Astro.props;
+---
+
+<figure class="figure">
+  <img src={image} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .figure {
+    width: min(1060px, 92vw);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-block: var(--space-16);
+  }
+  .figure img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 18px;
+    display: block;
+  }
+  .figure figcaption {
+    margin-top: var(--space-3);
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--ink-muted);
+  }
+</style>

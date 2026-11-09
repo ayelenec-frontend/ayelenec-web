@@ -1,0 +1,64 @@
+---
+// Bloque imagen-texto para posts (MDX). `reverse` alterna el lado de la imagen.
+interface Props {
+  image: string;
+  alt?: string;
+  reverse?: boolean;
+}
+const { image, alt = '', reverse = false } = Astro.props;
+---
+
+<div class:list={['split', { 'split--reverse': reverse }]}>
+  <div class="split-media">
+    <img src={image} alt={alt} loading="lazy" />
+  </div>
+  <div class="split-text">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .split {
+    width: min(1060px, 92vw);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-block: var(--space-16);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 760px) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+    .split--reverse .split-media {
+      order: 2;
+    }
+  }
+
+  .split-media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 18px;
+    display: block;
+  }
+
+  .split-text :global(h3) {
+    margin-bottom: var(--space-3);
+    font-size: 1.375rem;
+    line-height: 1.2;
+  }
+  .split-text :global(p) {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ink-muted);
+    margin-block: var(--space-3);
+  }
+  .split-text :global(p:first-child) {
+    margin-top: 0;
+  }
+</style>

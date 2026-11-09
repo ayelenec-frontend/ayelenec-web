@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
 
 // Dominio definitivo: usado para canonical, Open Graph y sitemap.
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/preview') && !page.includes('/proyectos') && !page.includes('/blog'),
     }),
+    mdx(),
   ],
   build: {
     inlineStylesheets: 'auto',
