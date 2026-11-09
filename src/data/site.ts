@@ -42,7 +42,7 @@ export const site = {
   locale: 'es_AR',
 
   // --- Contacto ---
-  email: 'ayelenec.uxui@gmail.com',
+  email: 'hola@ayelenec.com',
   // Clave de acceso de Web3Forms para el formulario popup "Escribime".
   // Generala gratis en https://web3forms.com (te la mandan por mail) y pegala aca.
   // Mientras este vacia, el formulario muestra el mail como alternativa.
