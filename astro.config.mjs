@@ -8,7 +8,10 @@ export default defineConfig({
   // /preview (portfolio completo mientras el index muestra "en construccion")
   // se excluye del sitemap para que no lo indexen.
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/preview') && !page.includes('/proyectos') }),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/preview') && !page.includes('/proyectos') && !page.includes('/blog'),
+    }),
   ],
   build: {
     inlineStylesheets: 'auto',

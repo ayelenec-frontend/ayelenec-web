@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import ContactModal from '../../../components/ContactModal.astro';
+import BlogArticle from '../../../components/BlogArticle.astro';
+import { getLang } from '../../../i18n';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (e) => e.data.lang === 'en' && !e.data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const lang = getLang(Astro.url);
+const { Content } = await post.render();
+---
+
+<BaseLayout noindex title={post.data.title} description={post.data.description}>
+  <Header />
+  <BlogArticle post={post} lang={lang}>
+    <Content />
+  </BlogArticle>
+  <Footer />
+  <ContactModal />
+</BaseLayout>

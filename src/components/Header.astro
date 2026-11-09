@@ -5,7 +5,10 @@ import ThemeToggle from './ThemeToggle.astro';
 import LangToggle from './LangToggle.astro';
 import CtaButton from './CtaButton.astro';
 
-const s = t[getLang(Astro.url)];
+const lang = getLang(Astro.url);
+const s = t[lang];
+const base = lang === 'en' ? '/en/preview' : '/preview';
+const blogHref = lang === 'en' ? '/en/blog' : '/blog';
 ---
 
 <header class="site-header" data-header>
@@ -15,11 +18,12 @@ const s = t[getLang(Astro.url)];
       <ThemeToggle />
     </div>
 
-    <a class="brand" href="#top" aria-label={`${site.name} — inicio`}>{site.name}</a>
+    <a class="brand" href={`${base}#top`} aria-label={`${site.name} — inicio`}>{site.name}</a>
 
     <div class="header-bar">
       <nav class="nav" aria-label="Principal">
-        {s.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        {s.nav.map((item) => <a href={`${base}${item.href}`}>{item.label}</a>)}
+        <a href={blogHref}>{s.blog.nav}</a>
       </nav>
       <div class="header-actions">
         <CtaButton label={s.cta} small data-open-contact />
