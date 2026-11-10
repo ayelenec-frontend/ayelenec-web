@@ -1,5 +1,5 @@
 ---
-// Imagen a lo ancho (mas que la columna de texto) con epigrafe opcional.
+// Imagen a pantalla completa (borde a borde) con epigrafe opcional.
 interface Props {
   image: string;
   alt?: string;
@@ -15,20 +15,21 @@ const { image, alt = '', caption } = Astro.props;
 
 <style>
   .figure {
-    width: min(1060px, 92vw);
-    margin-left: 50%;
-    transform: translateX(-50%);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     margin-block: var(--space-16);
   }
   .figure img {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 21 / 9;
     object-fit: cover;
-    border-radius: 18px;
     display: block;
+    border-radius: 0;
   }
   .figure figcaption {
-    margin-top: var(--space-3);
+    margin: var(--space-3) auto 0;
+    max-width: 720px;
+    padding-inline: var(--space-6);
     text-align: center;
     font-size: 0.8125rem;
     color: var(--ink-muted);

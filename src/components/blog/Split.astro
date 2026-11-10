@@ -1,64 +1,130 @@
 ---
-// Bloque imagen-texto para posts (MDX). `reverse` alterna el lado de la imagen.
+// Bloque imagen-texto a pantalla completa, estilo mosaico: dos cuadrados pegados
+// (foto + panel de color con texto centrado). Los bloques consecutivos se tocan
+// sin espacio. `reverse` alterna el lado de la foto.
+// Uso: <Split image="/x.jpg" tone="teal" label="Paso 1" note="#71A7A3">
+//        ### Titulo
+//        Texto opcional
+//      </Split>
 interface Props {
   image: string;
   alt?: string;
   reverse?: boolean;
+  tone?: 'teal' | 'brick' | 'stone' | 'plum';
+  label?: string; // linea chica arriba del titulo
+  note?: string; // linea chica abajo
 }
-const { image, alt = '', reverse = false } = Astro.props;
+const { image, alt = '', reverse = false, tone = 'teal', label, note } = Astro.props;
 ---
 
-<div class:list={['split', { 'split--reverse': reverse }]}>
+<section class:list={['split', `tone-${tone}`, { 'split--reverse': reverse }]}>
   <div class="split-media">
     <img src={image} alt={alt} loading="lazy" />
   </div>
   <div class="split-text">
-    <slot />
+    <div class="split-inner">
+      {label && <span class="split-label">{label}</span>}
+      <slot />
+      {note && <span class="split-note">{note}</span>}
+    </div>
   </div>
-</div>
+</section>
 
 <style>
   .split {
-    width: min(1060px, 92vw);
-    margin-left: 50%;
-    transform: translateX(-50%);
-    margin-block: var(--space-16);
+    --panel: #71a7a3;
+    --panel-ink: #f6e3c5;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: var(--space-16);
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-8);
-    align-items: center;
+  }
+  /* Bloques consecutivos: pegados, sin espacio entre ellos */
+  .split + .split {
+    margin-top: 0;
+  }
+  .split:not(:has(+ .split)) {
+    margin-bottom: var(--space-16);
   }
 
+  .tone-teal {
+    --panel: #71a7a3;
+    --panel-ink: #f6e3c5;
+  }
+  .tone-brick {
+    --panel: #b85f5a;
+    --panel-ink: #f6e3c5;
+  }
+  .tone-stone {
+    --panel: #aaa39a;
+    --panel-ink: #3f5378;
+  }
+  .tone-plum {
+    --panel: #6e4a4f;
+    --panel-ink: #f3e6d4;
+  }
+
+  .split-media {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+  .split-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .split-text {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8) var(--space-6);
+    background-color: var(--panel);
+    color: var(--panel-ink);
+    text-align: center;
+  }
+  .split-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 440px;
+  }
+
+  /* Escritorio: dos cuadrados lado a lado (la fila mide la mitad del ancho) */
   @media (min-width: 760px) {
     .split {
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-12);
     }
     .split--reverse .split-media {
       order: 2;
     }
   }
 
-  .split-media img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: 18px;
-    display: block;
+  .split-label,
+  .split-note {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.8;
   }
-
-  .split-text :global(h3) {
-    margin-bottom: var(--space-3);
-    font-size: 1.375rem;
-    line-height: 1.2;
+  .split-inner :global(h3) {
+    margin: var(--space-2) 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--panel-ink);
   }
-  .split-text :global(p) {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--ink-muted);
-    margin-block: var(--space-3);
-  }
-  .split-text :global(p:first-child) {
-    margin-top: 0;
+  .split-inner :global(p) {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--panel-ink);
   }
 </style>
