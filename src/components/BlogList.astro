@@ -211,8 +211,7 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     border: 1.5px solid var(--ink);
     border-radius: 22px;
     overflow: hidden;
-    box-shadow: 0 0 0 var(--ink);
-    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    transition: transform 0.25s var(--ease);
   }
   .bl-img img,
   .bl-img-fallback {
@@ -225,8 +224,8 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     background-color: var(--sky);
   }
   .bl-card:hover .bl-img {
-    transform: translate(-3px, -3px);
-    box-shadow: 5px 5px 0 var(--ink);
+    transform: translateY(-4px);
+
   }
 
   .bl-title {

@@ -108,7 +108,7 @@
   --maxw: 1200px;
 
   /* Sombra unica (hover de tarjetas) */
-  --shadow-card: 0 6px 0 var(--line);
+  --shadow-card: none;
 
   /* Grano de papel (SVG). Para usar una textura real: reemplazar por
      url('/textures/papel.jpg') */
