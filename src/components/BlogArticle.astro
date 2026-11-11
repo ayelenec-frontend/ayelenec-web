@@ -119,31 +119,39 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     color: var(--read-soft);
   }
 
-  /* Header con foto: degradé oscuro y titulo claro, pegado a los bloques */
+  /* Header con foto de fondo y titulo centrado encima. La foto se oscurece con
+     un filtro (brightness), no con una capa translucida. */
   .post--hero {
     padding-top: 0;
   }
   .post--hero .post-hero {
+    position: relative;
+    isolation: isolate;
     display: flex;
-    align-items: flex-end;
-    min-height: clamp(520px, 80vh, 780px);
-    padding: 150px 0 var(--space-12);
+    align-items: center;
+    min-height: clamp(380px, 54vh, 520px);
+    padding: 140px 0 var(--space-12);
     background-color: #2a2420;
+    color: #f6efe2;
+    text-align: center;
+  }
+  .post--hero .post-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background-image: var(--cover);
     background-size: cover;
     background-position: center;
-    color: #f6efe2;
+    filter: brightness(0.5) saturate(1.1);
   }
   .post--hero .post-hero .post-head {
     width: 100%;
+    max-width: 860px;
+    margin-inline: auto;
   }
-  /* Tarjeta solida sobre la foto: legible sin degrade ni velo */
-  .post--hero .post-card {
-    max-width: 640px;
-    padding: var(--space-8);
-    background-color: #2a2420;
-    border: 1px solid #4a4138;
-    box-shadow: 8px 8px 0 #4a4138;
+  .post--hero .post-tags {
+    justify-content: center;
   }
   .post--hero .post-back,
   .post--hero .post-meta,
@@ -159,7 +167,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .post--hero .post-hero :global(.tag) {
     color: #f6efe2;
     border-color: #8f8576;
-    background-color: #3a332d;
+    background-color: #2a2420;
   }
   /* Si el cuerpo arranca con un bloque, no hay espacio entre header y bloque */
   :global(.post-body:has(> .split:first-child)) {
