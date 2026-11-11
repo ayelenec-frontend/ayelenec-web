@@ -19,36 +19,40 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
 }).format(d.pubDate);
 ---
 
-<article class:list={['post', { 'post--hero': !!d.cover }]}>
-  <header class="post-hero" style={d.cover ? `--cover: url('${d.cover}')` : undefined}>
-    <div class="container post-head">
-      <div class="post-card">
-      <a class="post-back" href={backHref}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        {s.back}
-      </a>
+<article class="post">
+  <div class="container paper">
+    <a class="post-back" href={backHref}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      {s.back}
+    </a>
 
-      {
-        d.tags.length > 0 && (
-          <div class="post-tags">
-            {d.tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        )
-      }
-
-      <h1 class="post-title">{d.title}</h1>
-      <p class="post-lead">{d.description}</p>
-      <p class="post-meta">{date} · {d.readingTime}</p>
+    <!-- Cabecera tipo diario: filetes, seccion + fecha, cabezal -->
+    <header class="np-head">
+      <div class="np-line">
+        <span class="np-section">{d.tags.join(' · ')}</span>
+        <span class="np-date">{date}{d.readingTime ? ` · ${d.readingTime}` : ''}</span>
       </div>
-    </div>
-  </header>
+      <p class="np-mast" aria-hidden="true">{s.title}</p>
+    </header>
 
-  <div class="container post-body prose">
-    <slot />
+    {
+      d.cover && (
+        <figure class="np-photo">
+          <img src={d.cover} alt="" />
+          {d.coverCaption && <figcaption>{d.coverCaption}</figcaption>}
+        </figure>
+      )
+    }
+
+    <div class="post-body prose np-cols">
+      <header class="np-headline">
+        <h1 class="post-title">{d.title}</h1>
+        <p class="post-lead">{d.description}</p>
+      </header>
+      <slot />
+    </div>
   </div>
 
   <div class="container post-foot">
@@ -73,14 +77,15 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     --read-soft: #d9d0bd;
   }
 
-  .post-head {
-    max-width: 760px;
+  .paper {
+    max-width: 1120px;
   }
 
   .post-back {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
+    margin-bottom: var(--space-6);
     font-size: 0.9375rem;
     color: var(--ink-muted);
     text-decoration: none;
@@ -90,102 +95,116 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     color: var(--ink);
   }
 
-  .post-tags {
+  /* ---- Estructura de diario ---- */
+  .np-head {
+    border-top: 5px solid var(--ink);
+  }
+  .np-line {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-8);
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 5px double var(--ink);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--ink-muted);
   }
-
-  .post-title {
-    margin-top: var(--space-4);
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.12;
-  }
-
-  .post-meta {
-    margin-top: var(--space-6);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
+  .np-mast {
+    margin: var(--space-3) 0 0;
+    padding: var(--space-3) 0;
+    border-top: 3px dotted var(--ink);
+    border-bottom: 3px dotted var(--ink);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(3.5rem, 13vw, 8rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
+    text-align: center;
+    color: var(--ink);
+  }
+  .np-head::after {
+    content: '';
+    display: block;
+    height: 5px;
+    margin-top: var(--space-3);
+    background-color: var(--ink);
+  }
+
+  .np-photo {
+    margin: var(--space-8) 0 0;
+  }
+  .np-photo img {
+    display: block;
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+  }
+  .np-photo figcaption {
+    margin-top: var(--space-2);
+    text-align: right;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
     color: var(--ink-muted);
   }
 
+  .post-body {
+    margin-top: var(--space-8);
+  }
+  /* Texto en dos columnas, justificado */
+  .np-cols {
+    column-gap: 56px;
+    text-align: left;
+  }
+  @media (min-width: 820px) {
+    .np-cols {
+      column-count: 2;
+    }
+    .np-cols :global(p),
+    .np-cols :global(li) {
+      text-align: justify;
+      hyphens: auto;
+    }
+    /* Bloques anchos cortan las columnas y ocupan todo el ancho */
+    .np-cols :global(.split),
+    .np-cols :global(table),
+    .np-cols :global(blockquote) {
+      column-span: all;
+    }
+  }
+  .np-cols :global(h2),
+  .np-cols :global(h3) {
+    break-after: avoid;
+  }
+  .np-cols :global(img),
+  .np-cols :global(figure) {
+    break-inside: avoid;
+  }
+
+  .np-headline {
+    break-inside: avoid;
+    padding-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
+    border-bottom: 2px dotted var(--line-strong);
+  }
+  .post-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--read);
+  }
   .post-lead {
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
+    font-family: var(--font-display);
     font-size: 1.25rem;
-    line-height: 1.55;
+    line-height: 1.4;
     color: var(--read-soft);
   }
 
-  /* Header con foto de fondo y titulo centrado encima. La foto se oscurece con
-     un filtro (brightness), no con una capa translucida. */
-  .post--hero {
-    padding-top: 0;
-  }
-  .post--hero .post-hero {
-    position: relative;
-    isolation: isolate;
-    display: flex;
-    align-items: center;
-    min-height: clamp(460px, 62vh, 600px);
-    padding: 200px 0 var(--space-16);
-    background-color: #2a2420;
-    color: #f6efe2;
-    text-align: center;
-  }
-  .post--hero .post-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-image: var(--cover);
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.5) saturate(1.1);
-  }
-  .post--hero .post-hero .post-head {
-    width: 100%;
-    max-width: 860px;
-    margin-inline: auto;
-  }
-  .post--hero .post-tags {
-    justify-content: center;
-  }
-  .post--hero .post-meta,
-  .post--hero .post-lead {
-    max-width: none;
-    margin-inline: auto;
-  }
-  .post--hero .post-back,
-  .post--hero .post-meta,
-  .post--hero .post-lead {
-    color: #d8cfbe;
-  }
-  .post--hero .post-back:hover {
-    color: #fff;
-  }
-  .post--hero .post-title {
-    color: #f6efe2;
-  }
-  .post--hero .post-hero :global(.tag) {
-    padding: 0;
-    color: #f6efe2;
-    border: 0;
-    background: none;
-  }
-  /* Si el cuerpo arranca con un bloque, no hay espacio entre header y bloque */
-  :global(.post-body:has(> .split:first-child)) {
-    margin-top: 0;
-  }
   :global(.post-body > .split:first-child) {
     margin-top: 0;
-  }
-
-  .post-body {
-    max-width: 720px;
-    margin-top: var(--space-12);
   }
 
   .post-foot {
