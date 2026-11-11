@@ -159,8 +159,9 @@ const s = t[getLang(Astro.url)].contact;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-    background-color: #38322b;
-    border: 1px solid #4a4138;
+    background-color: #f1eadb;
+    border: 2px solid #f1eadb;
+    box-shadow: 0 6px 0 #d6a9a2;
     border-radius: 18px;
     padding: var(--space-8);
   }
@@ -176,7 +177,7 @@ const s = t[getLang(Astro.url)].contact;
     font-size: 0.6875rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #b3a68f;
+    color: #4a3f33;
   }
 
   .field input,
@@ -184,9 +185,9 @@ const s = t[getLang(Astro.url)].contact;
     width: 100%;
     padding: 11px 13px;
     border-radius: 10px;
-    border: 1px solid #4a4138;
-    background-color: #3c362e;
-    color: #ece3d3;
+    border: 1.5px solid #8f836e;
+    background-color: #fffaf0;
+    color: #2e2a24;
     font-family: var(--font-sans);
     font-size: 0.9375rem;
     transition: border-color 0.18s var(--ease);
@@ -198,11 +199,11 @@ const s = t[getLang(Astro.url)].contact;
   .field input:focus,
   .field textarea:focus {
     outline: none;
-    border-color: #d6a9a2;
+    border-color: #6e4a4f;
   }
   .field input::placeholder,
   .field textarea::placeholder {
-    color: #8a7e6c;
+    color: #7a6f5f;
   }
 
   .contact-submit {
@@ -210,8 +211,8 @@ const s = t[getLang(Astro.url)].contact;
     padding: 12px 24px;
     border: 0;
     border-radius: 12px;
-    background-color: #d6a9a2;
-    color: #2e2a24;
+    background-color: #6e4a4f;
+    color: #f2ece0;
     font-family: var(--font-sans);
     font-weight: 500;
     font-size: 0.9375rem;
@@ -219,7 +220,7 @@ const s = t[getLang(Astro.url)].contact;
     transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
   }
   .contact-submit:hover {
-    background-color: #e4c0ba;
+    background-color: #573a3e;
     transform: translateY(-1px);
   }
   .contact-submit:disabled {
@@ -233,12 +234,12 @@ const s = t[getLang(Astro.url)].contact;
     margin: 0;
     min-height: 1.2em;
     font-size: 0.875rem;
-    color: #b3a68f;
+    color: #4a3f33;
   }
   .contact-status.is-ok {
-    color: #9fd0bb;
+    color: #2e6a57;
   }
   .contact-status.is-error {
-    color: #e8a08f;
+    color: #a2342b;
   }
 </style>
