@@ -465,10 +465,10 @@ strong {
 
 @keyframes status-pulse {
   0% {
-    box-shadow: 0 0 0 0 var(--success);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 55%, transparent);
   }
   100% {
-    box-shadow: 0 0 0 8px var(--surface-raised);
+    box-shadow: 0 0 0 9px color-mix(in srgb, var(--success) 0%, transparent);
   }
 }
 
