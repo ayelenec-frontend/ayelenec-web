@@ -52,13 +52,13 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .post {
     /* Color de lectura: en oscuro un marfil que se destaca del fondo marron */
     --read: var(--ink);
-    --read-soft: var(--ink-muted);
+    --read-soft: var(--text-body);
     padding-top: 0;
     overflow-x: clip; /* los bloques full-bleed no generan scroll horizontal */
   }
   :global(:root[data-theme='dark']) .post {
     --read: #f6f1e4;
-    --read-soft: #d9d0bd;
+    --read-soft: #f6f1e4;
   }
 
   /* Franja de titulo: foto de fondo oscurecida con filtro (sin capas translucidas) */

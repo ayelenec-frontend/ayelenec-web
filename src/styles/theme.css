@@ -127,6 +127,7 @@
   --surface-sunken: #D3CAB3; /* Pergamino (bandas) */
   --ink: #2E2A24;            /* Tinta */
   --ink-muted: #7A6656;      /* Plumaje */
+  --text-body: #7A6656;      /* texto de cuerpo (parrafos) */
   --line: #CDC2AC;
   --line-strong: #A2967F;
   --plume: #6E4A4F;          /* Hoja de ciruelo (marca) */
@@ -151,6 +152,7 @@
   --surface-sunken: #1A1713;
   --ink: #F6F1E4;            /* marfil: texto principal */
   --ink-muted: #D9D0BD;      /* marfil suave: texto secundario */
+  --text-body: #F6F1E4;      /* marfil: texto de cuerpo (parrafos) */
   --line: #403830;
   --line-strong: #6B5F50;
   --plume: #C9A49E;          /* ciruelo aclarado para fondo oscuro */
