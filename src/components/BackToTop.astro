@@ -1,0 +1,62 @@
+---
+// Flecha fija abajo a la derecha que lleva al inicio de la pagina.
+// Aparece despues de bajar un poco.
+import { getLang } from '../i18n';
+const lang = getLang(Astro.url);
+const label = lang === 'en' ? 'Back to top' : 'Volver arriba';
+---
+
+<button type="button" class="to-top" data-to-top aria-label={label} title={label}>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+</button>
+
+<style>
+  .to-top {
+    position: fixed;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1.5px solid var(--plume);
+    border-radius: 50%;
+    background-color: var(--plume);
+    color: var(--on-plume);
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0s linear 0.25s,
+      background-color 0.18s var(--ease);
+  }
+  .to-top.is-visible {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .to-top:hover {
+    background-color: var(--plume-deep);
+    border-color: var(--plume-deep);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .to-top {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-to-top]');
+  if (btn) {
+    const toggle = () => btn.classList.toggle('is-visible', window.scrollY > 500);
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+</script>

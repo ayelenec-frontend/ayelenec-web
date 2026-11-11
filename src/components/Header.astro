@@ -34,7 +34,7 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
 
 <style>
   .site-header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -126,19 +126,7 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
 </style>
 
 <script>
+  // Sin hero (blog, 404): barra con fondo solido. En la portada queda transparente sobre el hero.
   const header = document.querySelector('[data-header]');
-  const hero = document.getElementById('top');
-  if (header) {
-    if (!hero) {
-      header.classList.add('is-solid');
-    } else {
-      const onScroll = () => {
-        const threshold = hero.offsetHeight - 90;
-        header.classList.toggle('is-solid', window.scrollY > threshold);
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      onScroll();
-    }
-  }
+  if (header && !document.getElementById('top')) header.classList.add('is-solid');
 </script>
