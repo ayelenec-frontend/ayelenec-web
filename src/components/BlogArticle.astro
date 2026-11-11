@@ -129,8 +129,8 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     isolation: isolate;
     display: flex;
     align-items: center;
-    min-height: clamp(380px, 54vh, 520px);
-    padding: 140px 0 var(--space-12);
+    min-height: clamp(460px, 62vh, 600px);
+    padding: 200px 0 var(--space-16);
     background-color: #2a2420;
     color: #f6efe2;
     text-align: center;
@@ -153,6 +153,11 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .post--hero .post-tags {
     justify-content: center;
   }
+  .post--hero .post-meta,
+  .post--hero .post-lead {
+    max-width: none;
+    margin-inline: auto;
+  }
   .post--hero .post-back,
   .post--hero .post-meta,
   .post--hero .post-lead {
@@ -165,9 +170,10 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     color: #f6efe2;
   }
   .post--hero .post-hero :global(.tag) {
+    padding: 4px 12px;
     color: #f6efe2;
-    border-color: #8f8576;
-    background-color: #2a2420;
+    border: 1px solid #b9ad99;
+    background: none;
   }
   /* Si el cuerpo arranca con un bloque, no hay espacio entre header y bloque */
   :global(.post-body:has(> .split:first-child)) {
