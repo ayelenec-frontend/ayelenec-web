@@ -61,8 +61,7 @@ const s = t[getLang(Astro.url)].modal;
   }
 
   .cm::backdrop {
-    background-color: color-mix(in srgb, var(--brand-night) 62%, transparent);
-    backdrop-filter: blur(3px);
+    background-color: var(--brand-night);
   }
 
   .cm[open] {
