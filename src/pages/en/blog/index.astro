@@ -45,11 +45,20 @@ const posts = (await getCollection('blog', (e) => e.data.lang === lang && !e.dat
 
 <style>
   .blog-index {
-    background-color: var(--surface);
-    background-image: var(--paper-grain);
+    /* Papel real (Texturelabs Paper 325, uso comercial libre) teñido por mezcla */
+    background-color: #fff6e0;
+    background-image: url("/textures/papel.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: multiply;
     padding-top: 172px;
     padding-bottom: var(--space-24);
   }
+  :global(:root[data-theme='dark']) .blog-index {
+    background-color: #4a4034;
+  }
+
   .blog-head {
     max-width: 640px;
     margin-bottom: var(--space-16);
