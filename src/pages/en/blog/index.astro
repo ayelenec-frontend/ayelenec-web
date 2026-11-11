@@ -4,7 +4,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import ContactModal from '../../../components/ContactModal.astro';
-import FolderCard from '../../../components/FolderCard.astro';
+import BlogList from '../../../components/BlogList.astro';
 import { getLang, t } from '../../../i18n';
 import { site } from '../../../data/site';
 
@@ -17,69 +17,7 @@ const posts = (await getCollection('blog', (e) => e.data.lang === lang && !e.dat
 
 <BaseLayout noindex title={`${s.title} · ${site.name}`} description={s.intro}>
   <Header />
-  <main id="contenido" class="blog-index">
-    <div class="container blog-head">
-      <h1>{s.title}</h1>
-      <p class="blog-lead">{s.intro}</p>
-    </div>
-
-    <div class="container">
-      {
-        posts.length > 0 ? (
-          <ul class="blog-grid">
-            {posts.map((post) => (
-              <li>
-                <FolderCard post={post} lang={lang} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="blog-empty">{s.empty}</p>
-        )
-      }
-    </div>
-  </main>
+  <BlogList posts={posts} lang={lang} />
   <Footer />
   <ContactModal />
 </BaseLayout>
-
-<style>
-  .blog-index {
-    background-color: var(--surface);
-    padding-top: 172px;
-    padding-bottom: var(--space-24);
-  }
-
-  .blog-head {
-    max-width: 640px;
-    margin-bottom: var(--space-16);
-  }
-  .blog-head h1 {
-    font-size: clamp(2.25rem, 6vw, 3.25rem);
-  }
-  .blog-lead {
-    margin-top: var(--space-4);
-    font-size: 1.1875rem;
-    line-height: 1.55;
-    color: var(--ink-muted);
-  }
-  .blog-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 56px 32px;
-  }
-  @media (min-width: 620px) {
-    .blog-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (min-width: 980px) {
-    .blog-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  .blog-empty {
-    font-size: 1.125rem;
-    color: var(--ink-muted);
-  }
-</style>

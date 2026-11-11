@@ -1,0 +1,328 @@
+---
+// Listado del blog: titulo, filtros por tema, orden y grilla de tarjetas.
+// Lo usan /blog y /en/blog.
+import type { CollectionEntry } from 'astro:content';
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  lang: Lang;
+}
+const { posts, lang } = Astro.props;
+const s = t[lang].blog;
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+const fmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
+---
+
+<main id="contenido" class="blog-index">
+  <div class="container">
+    <header class="bl-head">
+      <h1>{s.title}</h1>
+      <p class="bl-lead">{s.intro}</p>
+    </header>
+
+    {
+      posts.length > 0 ? (
+        <>
+          <div class="bl-bar">
+            <div class="bl-filters" role="group" aria-label={s.filterLabel}>
+              <button type="button" class="bl-filter is-active" data-filter="all" aria-pressed="true">
+                {s.all}
+              </button>
+              {tags.map((tag) => (
+                <button type="button" class="bl-filter" data-filter={tag} aria-pressed="false">
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <label class="bl-sort">
+              <span>{s.sortBy}</span>
+              <select id="bl-sort">
+                <option value="new">{s.newest}</option>
+                <option value="old">{s.oldest}</option>
+              </select>
+            </label>
+          </div>
+
+          <ul class="bl-grid" id="bl-grid">
+            {posts.map((post) => (
+              <li class="bl-item" data-tags={post.data.tags.join('|')} data-date={post.data.pubDate.valueOf()}>
+                <a class="bl-card" href={hrefOf(post.slug)}>
+                  <span class="bl-img">
+                    {post.data.cover ? (
+                      <img src={post.data.cover} alt="" loading="lazy" />
+                    ) : (
+                      <span class="bl-img-fallback" />
+                    )}
+                  </span>
+                  <span class="bl-title">{post.data.title}</span>
+                  <span class="bl-meta">
+                    {fmt.format(post.data.pubDate)}
+                    {post.data.readingTime ? ` · ${post.data.readingTime}` : ''}
+                  </span>
+                  <span class="bl-desc">{post.data.description}</span>
+                  <span class="bl-btn">{s.readMore}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p class="bl-empty">{s.empty}</p>
+      )
+    }
+  </div>
+</main>
+
+<style>
+  .blog-index {
+    padding-top: 172px;
+    padding-bottom: var(--space-24);
+    background-color: var(--surface);
+  }
+
+  .bl-head {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+  .bl-head h1 {
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+    line-height: 1.05;
+  }
+  .bl-lead {
+    margin: var(--space-3) auto 0;
+    max-width: 52ch;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+
+  /* Filtros + orden */
+  .bl-bar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  .bl-filters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: 6px 10px;
+    border: 1.5px solid var(--ink);
+    border-radius: 18px;
+    background-color: var(--plume-tint);
+  }
+  .bl-filter {
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .bl-filter:hover {
+    background-color: var(--surface-raised);
+  }
+  .bl-filter.is-active {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+
+  .bl-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px 12px;
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    background-color: var(--surface-raised);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .bl-sort select {
+    border: 0;
+    background-color: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  @media (min-width: 980px) {
+    .bl-sort {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Grilla */
+  .bl-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12) var(--space-8);
+  }
+  @media (min-width: 620px) {
+    .bl-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 980px) {
+    .bl-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .bl-item[hidden] {
+    display: none;
+  }
+
+  .bl-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .bl-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    margin-bottom: var(--space-3);
+    border: 1.5px solid var(--ink);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 0 0 var(--ink);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .bl-img img,
+  .bl-img-fallback {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bl-img-fallback {
+    background-color: var(--sky);
+  }
+  .bl-card:hover .bl-img {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .bl-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .bl-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .bl-desc {
+    max-width: 36ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .bl-btn {
+    margin-top: auto;
+    padding: 6px 22px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    background-color: var(--plume-tint);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .bl-card:hover .bl-btn {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  /* Separa el boton del texto aunque la descripcion sea corta */
+  .bl-desc {
+    margin-bottom: var(--space-3);
+  }
+
+  .bl-empty {
+    text-align: center;
+    font-size: 1.125rem;
+    color: var(--ink-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bl-img {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.getElementById('bl-grid');
+  if (grid) {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.bl-item'));
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.bl-filter'));
+    const sortEl = document.getElementById('bl-sort') as HTMLSelectElement | null;
+    let current = 'all';
+
+    const apply = () => {
+      items.forEach((el) => {
+        const tags = (el.dataset.tags ?? '').split('|');
+        el.hidden = current !== 'all' && !tags.includes(current);
+      });
+      const dir = sortEl?.value === 'old' ? 1 : -1;
+      items
+        .slice()
+        .sort((a, b) => dir * (Number(a.dataset.date) - Number(b.dataset.date)))
+        .forEach((el) => grid.appendChild(el));
+    };
+
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        current = btn.dataset.filter ?? 'all';
+        buttons.forEach((b) => {
+          const on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+        apply();
+      })
+    );
+    sortEl?.addEventListener('change', apply);
+  }
+</script>
