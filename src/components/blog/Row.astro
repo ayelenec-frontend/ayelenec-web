@@ -1,0 +1,76 @@
+---
+// Fila imagen-texto dentro de la columna del articulo: foto con esquinas
+// redondeadas a un lado y texto (titulo + parrafos) al otro. `reverse` alterna
+// el lado de la foto. En celular la foto va arriba.
+// Uso: <Row image="/x.jpg" alt="..." reverse>
+//        ## Titulo
+//        Texto...
+//      </Row>
+interface Props {
+  image: string;
+  alt?: string;
+  reverse?: boolean;
+}
+const { image, alt = '', reverse = false } = Astro.props;
+---
+
+<section class:list={['row', { 'row--reverse': reverse }]}>
+  <div class="row-media">
+    <img src={image} alt={alt} loading="lazy" />
+  </div>
+  <div class="row-text">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    margin-block: var(--space-12);
+  }
+  .row-media {
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .row-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .row-text :global(h2),
+  .row-text :global(h3) {
+    margin: 0 0 var(--space-3);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.15;
+    color: var(--plume);
+  }
+  .row-text :global(h3) {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+  .row-text :global(p) {
+    margin: 0 0 var(--space-4);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--read);
+  }
+  .row-text :global(h2:not(:first-child)),
+  .row-text :global(h3:not(:first-child)) {
+    margin-top: var(--space-8);
+  }
+
+  @media (min-width: 820px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      margin-block: var(--space-16);
+    }
+    .row--reverse .row-media {
+      order: 2;
+    }
+  }
+</style>

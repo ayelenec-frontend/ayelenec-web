@@ -20,47 +20,32 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
 ---
 
 <article class="post">
-  <div class="container paper">
+  <header class:list={['post-hero', { 'has-cover': !!d.cover }]} style={d.cover ? `--cover: url('${d.cover}')` : undefined}>
+    <div class="container post-head">
+      <h1 class="post-title">{d.title}</h1>
+      <p class="post-meta">
+        {d.tags.length > 0 && <span>{d.tags.join(' · ')} — </span>}{date}{d.readingTime ? ` · ${d.readingTime}` : ''}
+      </p>
+    </div>
+  </header>
+
+  <div class="container post-body prose">
     <a class="post-back" href={backHref}>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       {s.back}
     </a>
-
-    <!-- Cabecera tipo diario: filetes, seccion + fecha, cabezal -->
-    <header class="np-head">
-      <div class="np-line">
-        <span class="np-section">{d.tags.join(' · ')}</span>
-        <span class="np-date">{date}{d.readingTime ? ` · ${d.readingTime}` : ''}</span>
-      </div>
-      <p class="np-mast" aria-hidden="true">{s.title}</p>
-    </header>
-
-    {
-      d.cover && (
-        <figure class="np-photo">
-          <img src={d.cover} alt="" />
-          {d.coverCaption && <figcaption>{d.coverCaption}</figcaption>}
-        </figure>
-      )
-    }
-
-    <div class="post-body prose np-cols">
-      <header class="np-headline">
-        <h1 class="post-title">{d.title}</h1>
-        <p class="post-lead">{d.description}</p>
-      </header>
-      <slot />
-    </div>
+    {d.description && <p class="post-lead">{d.description}</p>}
+    <slot />
   </div>
 
-  <div class="container post-foot">
-    <div class="post-cta">
+  <section class="post-foot">
+    <div class="container post-cta">
       {d.cta && d.cta.length > 0 ? d.cta.map((line) => <p>{line}</p>) : <p>{s.cta}</p>}
-      <CtaButton label={s.ctaBtn} data-open-contact />
+      <CtaButton label={s.ctaBtn} data-open-contact onDark />
     </div>
-  </div>
+  </section>
 </article>
 
 <style>
@@ -68,8 +53,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     /* Color de lectura: en oscuro un marfil que se destaca del fondo marron */
     --read: var(--ink);
     --read-soft: var(--ink-muted);
-    padding-top: 150px;
-    padding-bottom: var(--space-24);
+    padding-top: 0;
     overflow-x: clip; /* los bloques full-bleed no generan scroll horizontal */
   }
   :global(:root[data-theme='dark']) .post {
@@ -77,15 +61,59 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     --read-soft: #d9d0bd;
   }
 
-  .paper {
-    max-width: 1120px;
+  /* Franja de titulo: foto de fondo oscurecida con filtro (sin capas translucidas) */
+  .post-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 340px;
+    padding: 170px 0 var(--space-12);
+    background-color: #2e2a24;
+    color: #f6efe2;
+    text-align: center;
+  }
+  .post-hero.has-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--cover);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5) saturate(1.1);
+  }
+  .post-head {
+    max-width: 900px;
+  }
+  .post-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.1;
+    color: #f6efe2;
+    text-wrap: balance;
+  }
+  .post-meta {
+    max-width: none;
+    text-align: center;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d8cfbe;
   }
 
+  /* ---- Cuerpo ---- */
+  .post-body {
+    max-width: 1120px;
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
   .post-back {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    margin-bottom: var(--space-6);
     font-size: 0.9375rem;
     color: var(--ink-muted);
     text-decoration: none;
@@ -94,141 +122,51 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .post-back:hover {
     color: var(--ink);
   }
-
-  /* ---- Estructura de diario ---- */
-  .np-head {
-    border-top: 5px solid var(--ink);
-  }
-  .np-line {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding: var(--space-3) 0;
-    border-bottom: 5px double var(--ink);
+  .post-lead {
+    max-width: 720px;
+    margin: var(--space-8) auto 0;
     font-family: var(--font-display);
-    font-size: 1rem;
-    color: var(--ink-muted);
-  }
-  .np-mast {
-    margin: var(--space-3) 0 0;
-    padding: var(--space-3) 0;
-    border-top: 3px dotted var(--ink);
-    border-bottom: 3px dotted var(--ink);
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(3.5rem, 13vw, 8rem);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--ink);
-  }
-  .np-head::after {
-    content: '';
-    display: block;
-    height: 5px;
-    margin-top: var(--space-3);
-    background-color: var(--ink);
-  }
-
-  .np-photo {
-    margin: var(--space-8) 0 0;
-  }
-  .np-photo img {
-    display: block;
-    width: 100%;
-    max-height: 520px;
-    object-fit: cover;
-  }
-  .np-photo figcaption {
-    margin-top: var(--space-2);
-    text-align: right;
-    font-family: var(--font-display);
-    font-size: 0.875rem;
-    color: var(--ink-muted);
-  }
-
-  .post-body {
-    margin-top: var(--space-8);
-  }
-  /* Texto en dos columnas, justificado */
-  .np-cols {
-    column-gap: 56px;
-    text-align: left;
-  }
-  @media (min-width: 820px) {
-    .np-cols {
-      column-count: 2;
-    }
-    .np-cols :global(p),
-    .np-cols :global(li) {
-      text-align: justify;
-      hyphens: auto;
-    }
-    /* Bloques anchos cortan las columnas y ocupan todo el ancho */
-    .np-cols :global(.split),
-    .np-cols :global(table),
-    .np-cols :global(blockquote) {
-      column-span: all;
-    }
-  }
-  .np-cols :global(h2),
-  .np-cols :global(h3) {
-    break-after: avoid;
-  }
-  .np-cols :global(img),
-  .np-cols :global(figure) {
-    break-inside: avoid;
-  }
-
-  .np-headline {
-    break-inside: avoid;
-    padding-bottom: var(--space-5);
-    margin-bottom: var(--space-4);
-    border-bottom: 2px dotted var(--line-strong);
-  }
-  .post-title {
-    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-    font-weight: 400;
-    line-height: 1.04;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
+    font-size: 1.375rem;
+    line-height: 1.5;
     color: var(--read);
   }
-  .post-lead {
-    margin-top: var(--space-4);
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    line-height: 1.4;
-    color: var(--read-soft);
-  }
 
-  :global(.post-body > .split:first-child) {
-    margin-top: 0;
-  }
-
-  .post-foot {
+  /* El texto suelto (sin bloque imagen-texto) queda en una columna de lectura */
+  .post-body > :global(p),
+  .post-body > :global(h2),
+  .post-body > :global(h3),
+  .post-body > :global(ul),
+  .post-body > :global(ol),
+  .post-body > :global(blockquote),
+  .post-body > :global(table) {
     max-width: 720px;
-    margin-top: var(--space-16);
+    margin-inline: auto;
+  }
+
+  /* ---- Cierre: banda oscura con llamado a escribir ---- */
+  .post-foot {
+    background-color: #2e2a24;
+    color: #f6efe2;
+    text-align: center;
   }
   .post-cta {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: var(--space-4);
-    padding: var(--space-10, 2.5rem) var(--space-8);
-    border-radius: 16px;
-    background-color: var(--surface-sunken);
+    padding-block: var(--space-16);
   }
   .post-cta p {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: 1.125rem;
-    line-height: 1.65;
-    color: var(--read);
     max-width: 44ch;
-    margin-inline: auto;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: #f6efe2;
+  }
+  .post-cta p + p {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    color: #d8cfbe;
   }
 
   /* ---- Prose (contenido markdown) ---- */
@@ -280,7 +218,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     color: var(--plume);
   }
   .prose :global(blockquote) {
-    margin-inline: calc(-1 * var(--space-6));
+    margin-inline: auto;
     padding: var(--space-6) var(--space-8);
     border-left: 4px solid var(--plume);
     background-color: var(--surface-sunken);
