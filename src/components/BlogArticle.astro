@@ -41,8 +41,8 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
       }
 
       <h1 class="post-title">{d.title}</h1>
-      <p class="post-meta">{date} · {d.readingTime}</p>
       <p class="post-lead">{d.description}</p>
+      <p class="post-meta">{date} · {d.readingTime}</p>
       </div>
     </div>
   </header>
@@ -104,7 +104,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   }
 
   .post-meta {
-    margin-top: var(--space-4);
+    margin-top: var(--space-6);
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
@@ -170,9 +170,9 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     color: #f6efe2;
   }
   .post--hero .post-hero :global(.tag) {
-    padding: 4px 12px;
+    padding: 0;
     color: #f6efe2;
-    border: 1px solid #b9ad99;
+    border: 0;
     background: none;
   }
   /* Si el cuerpo arranca con un bloque, no hay espacio entre header y bloque */
