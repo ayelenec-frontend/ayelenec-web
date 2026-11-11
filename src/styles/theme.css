@@ -108,7 +108,7 @@
   --maxw: 1200px;
 
   /* Sombra unica (hover de tarjetas) */
-  --shadow-card: 0 12px 32px -12px rgba(46, 42, 36, 0.22);
+  --shadow-card: 0 6px 0 var(--line);
 
   /* Grano de papel (SVG). Para usar una textura real: reemplazar por
      url('/textures/papel.jpg') */
@@ -465,10 +465,10 @@ strong {
 
 @keyframes status-pulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 50%, transparent);
+    box-shadow: 0 0 0 0 var(--success);
   }
   100% {
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--success) 0%, transparent);
+    box-shadow: 0 0 0 8px var(--surface-raised);
   }
 }
 

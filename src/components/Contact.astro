@@ -143,7 +143,7 @@ const s = t[getLang(Astro.url)].contact;
     letter-spacing: 0.04em;
     color: #d6a9a2;
     text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, #d6a9a2 45%, transparent);
+    border-bottom: 1px solid #8a6f69;
     padding-bottom: 2px;
   }
   .contact-mail:hover {
@@ -223,7 +223,8 @@ const s = t[getLang(Astro.url)].contact;
     transform: translateY(-1px);
   }
   .contact-submit:disabled {
-    opacity: 0.7;
+    background-color: #8a6f69;
+    border-color: #8a6f69;
     cursor: progress;
     transform: none;
   }

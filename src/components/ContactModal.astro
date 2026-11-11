@@ -57,11 +57,11 @@ const s = t[getLang(Astro.url)].modal;
     border-radius: 6px;
     background-color: var(--surface-raised);
     color: var(--ink);
-    box-shadow: 0 24px 64px -16px rgba(23, 19, 27, 0.45);
+    box-shadow: 8px 8px 0 var(--line-strong);
   }
 
   .cm::backdrop {
-    background-color: var(--brand-night);
+    background-color: var(--surface-sunken);
   }
 
   .cm[open] {
@@ -160,7 +160,7 @@ const s = t[getLang(Astro.url)].modal;
   .cm-field textarea:focus {
     outline: none;
     border-color: var(--plume);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--plume) 22%, transparent);
+    box-shadow: 0 0 0 3px var(--plume-tint);
   }
 
   .cm-status {

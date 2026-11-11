@@ -62,7 +62,7 @@ const Tag = href ? 'a' : 'button';
 <style>
   .cta {
     --cta-dot: var(--plume);
-    --cta-line: color-mix(in srgb, var(--plume) 55%, transparent);
+    --cta-line: var(--plume);
     position: relative;
     display: inline-flex;
     padding: 7px 9px;
@@ -104,7 +104,7 @@ const Tag = href ? 'a' : 'button';
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
-    box-shadow: 0 1px 1px rgba(23, 19, 27, 0.04), 0 8px 16px -10px rgba(23, 19, 27, 0.35);
+    box-shadow: 0 3px 0 var(--plume-deep);
     transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease),
       transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
   }
@@ -120,7 +120,8 @@ const Tag = href ? 'a' : 'button';
   }
 
   .cta-btn:disabled {
-    opacity: 0.7;
+    background-color: var(--ink-muted);
+    border-color: var(--ink-muted);
     cursor: progress;
     transform: none;
   }
@@ -160,7 +161,7 @@ const Tag = href ? 'a' : 'button';
   /* Variante para la banda oscura de contacto (color fijo, no depende del tema) */
   .cta--ondark {
     --cta-dot: #d6a9a2;
-    --cta-line: color-mix(in srgb, #d6a9a2 55%, transparent);
+    --cta-line: #d6a9a2;
   }
   .cta--ondark .cta-btn {
     background-color: #d6a9a2;
@@ -211,7 +212,7 @@ const Tag = href ? 'a' : 'button';
     left: 0;
     right: 0;
     height: 1px;
-    background-image: repeating-linear-gradient(90deg, transparent 0 2px, var(--cta-line) 2px 4px);
+    background-color: var(--cta-line);
     transform: scaleX(0);
   }
   .l-top { top: 0; transform-origin: left; }
@@ -221,7 +222,7 @@ const Tag = href ? 'a' : 'button';
     top: 0;
     bottom: 0;
     width: 1px;
-    background-image: repeating-linear-gradient(0deg, transparent 0 2px, var(--cta-line) 2px 4px);
+    background-color: var(--cta-line);
     transform: scaleY(0);
   }
   .l-left { left: 0; transform-origin: bottom; }

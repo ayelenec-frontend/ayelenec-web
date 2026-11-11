@@ -22,6 +22,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
 <article class:list={['post', { 'post--hero': !!d.cover }]}>
   <header class="post-hero" style={d.cover ? `--cover: url('${d.cover}')` : undefined}>
     <div class="container post-head">
+      <div class="post-card">
       <a class="post-back" href={backHref}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -42,6 +43,7 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
       <h1 class="post-title">{d.title}</h1>
       <p class="post-meta">{date} · {d.readingTime}</p>
       <p class="post-lead">{d.description}</p>
+      </div>
     </div>
   </header>
 
@@ -124,18 +126,24 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .post--hero .post-hero {
     display: flex;
     align-items: flex-end;
-    --photo-h: clamp(380px, 56vh, 560px);
-    padding: calc(var(--photo-h) + var(--space-8)) 0 var(--space-12);
-    /* Foto arriba y panel oscuro solido abajo (sin degrade ni velo) */
+    min-height: clamp(520px, 80vh, 780px);
+    padding: 150px 0 var(--space-12);
     background-color: #2a2420;
     background-image: var(--cover);
-    background-size: 100% var(--photo-h);
-    background-position: top center;
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     color: #f6efe2;
   }
   .post--hero .post-hero .post-head {
     width: 100%;
+  }
+  /* Tarjeta solida sobre la foto: legible sin degrade ni velo */
+  .post--hero .post-card {
+    max-width: 640px;
+    padding: var(--space-8);
+    background-color: #2a2420;
+    border: 1px solid #4a4138;
+    box-shadow: 8px 8px 0 #4a4138;
   }
   .post--hero .post-back,
   .post--hero .post-meta,
