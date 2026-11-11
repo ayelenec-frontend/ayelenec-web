@@ -34,12 +34,12 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
 
 <style>
   .folder {
-    --back: #c4ac78;
-    --front: #dfcda3;
+    --back: #efd9a0;
+    --front: #fff3cc;
     --edge: #a98f5a;
     --paper: #fbf7ec;
     --txt: #2e2a24;
-    --txt-soft: #5a4636;
+    --txt-soft: #4a3828;
     --accent: #573a3e;
     --photo: var(--sky);
     position: relative;
@@ -52,8 +52,8 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   }
 
   :global(:root[data-theme='dark']) .folder {
-    --back: #4b3d2d;
-    --front: #5b4a37;
+    --back: #5c4b38;
+    --front: #6e5b44;
     --edge: #2c2218;
     --paper: #eee6d3;
     --txt: #f6f1e4;
@@ -67,7 +67,10 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     position: absolute;
     inset: 34px 0 0 0;
     background-color: var(--back);
-    background-image: var(--paper-grain);
+    background-image: url('/textures/papel.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
     border-radius: 4px 12px 12px 12px;
     box-shadow: 0 7px 0 var(--edge);
   }
@@ -82,7 +85,10 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     height: 36px;
     padding: 4px 30px 0 16px;
     background-color: var(--back);
-    background-image: var(--paper-grain);
+    background-image: url('/textures/papel.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
     clip-path: polygon(0 100%, 0 14%, 3% 0, calc(100% - 22px) 0, 100% 100%);
   }
   .folder-date {
@@ -132,7 +138,10 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
     gap: var(--space-3);
     padding: var(--space-8) var(--space-6) var(--space-6);
     background-color: var(--front);
-    background-image: var(--paper-grain);
+    background-image: url('/textures/papel.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
     border-top: 2px solid var(--edge);
     border-radius: 3px 3px 12px 12px;
     box-shadow: 0 7px 0 var(--edge);
