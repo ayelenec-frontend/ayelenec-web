@@ -60,6 +60,29 @@
   src: url('/fonts/metropolis-latin-600-normal.woff2') format('woff2');
 }
 
+/* Inter - texto de cuerpo */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/inter-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/inter-latin-600-normal.woff2') format('woff2');
+}
+
 /* JetBrains Mono - sobretitulos, etiquetas y numeracion */
 @font-face {
   font-family: 'JetBrains Mono';
@@ -81,7 +104,7 @@
 :root {
   /* Fuentes */
   --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* Antes JetBrains Mono; Ayelen prefirio Metropolis (mayuscula, espaciada) en
      todos los labels/numeros. El token conserva el nombre por compatibilidad. */
   --font-mono: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
