@@ -104,7 +104,7 @@
 :root {
   /* Fuentes */
   --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* Antes JetBrains Mono; Ayelen prefirio Metropolis (mayuscula, espaciada) en
      todos los labels/numeros. El token conserva el nombre por compatibilidad. */
   --font-mono: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
