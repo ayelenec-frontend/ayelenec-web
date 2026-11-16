@@ -37,30 +37,7 @@
   src: url('/fonts/brygada-1918-latin-600-normal.woff2') format('woff2');
 }
 
-/* Metropolis - texto, interfaz y botones */
-@font-face {
-  font-family: 'Metropolis';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/metropolis-latin-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Metropolis';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/metropolis-latin-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Metropolis';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/metropolis-latin-600-normal.woff2') format('woff2');
-}
-
-/* Inter - texto de cuerpo */
+/* Inter - texto, interfaz, botones y etiquetas */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -105,9 +82,9 @@
   /* Fuentes */
   --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  /* Antes JetBrains Mono; Ayelen prefirio Metropolis (mayuscula, espaciada) en
-     todos los labels/numeros. El token conserva el nombre por compatibilidad. */
-  --font-mono: 'Metropolis', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Labels y numeros (antes JetBrains Mono, luego Metropolis). El token conserva
+     el nombre por compatibilidad. */
+  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Colores fijos de marca (no cambian con el tema) */
   --brand-plume: #6E4A4F;
