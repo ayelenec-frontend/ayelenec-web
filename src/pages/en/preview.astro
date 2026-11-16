@@ -26,3 +26,10 @@ import ContactModal from '../../components/ContactModal.astro';
   <Footer />
   <ContactModal />
 </BaseLayout>
+
+<style is:global>
+  /* Solo en /preview: Inter como fuente de cuerpo */
+  html:root {
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+</style>
