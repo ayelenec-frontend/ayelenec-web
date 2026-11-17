@@ -41,13 +41,10 @@ const s = t[lang].about;
     align-items: center;
     padding: var(--space-8);
     border-radius: 28px;
-    background-color: var(--plume);
-    color: var(--on-plume);
+    /* Colores fijos: el banner es ciruela profundo en claro y en oscuro */
+    background-color: #4a3236;
+    color: #f2ece0;
     box-shadow: 0 30px 60px -36px rgb(46 42 36 / 0.6);
-  }
-  /* En claro, un ciruela un poco mas profundo para que la textura se luzca */
-  :global(:root[data-theme='light']) .about-banner {
-    background-color: color-mix(in srgb, var(--plume) 46%, #1d1412);
   }
   @media (min-width: 860px) {
     .about-banner {
@@ -70,7 +67,7 @@ const s = t[lang].about;
     margin-top: var(--space-3);
     font-size: var(--title-size);
     line-height: 1.04;
-    color: var(--on-plume);
+    color: #f2ece0;
   }
   /* Nombre: negrita, sin cursiva ni marcador */
   .about-mark {
@@ -79,16 +76,12 @@ const s = t[lang].about;
     font-style: normal;
     font-weight: 600;
   }
-  /* En oscuro el banner es rosado claro: el nombre va en ciruela profundo */
-  :global(:root[data-theme='dark']) .about-mark {
-    color: #5a2a24;
-  }
 
   .about-bio {
     max-width: 58ch;
     margin-top: var(--space-6);
     line-height: 1.68;
-    color: var(--on-plume);
+    color: #f2ece0;
     opacity: 0.92;
   }
 
@@ -97,7 +90,7 @@ const s = t[lang].about;
     font-family: var(--font-display);
     font-style: italic;
     font-size: 1.375rem;
-    color: var(--on-plume);
+    color: #f2ece0;
   }
 
   .about-aside {
@@ -117,10 +110,6 @@ const s = t[lang].about;
     border-radius: 150px 150px 18px 18px;
     overflow: hidden;
     background-color: var(--sky); /* la foto es un recorte: este es su fondo */
-  }
-  /* En oscuro el banner es rosado: el arco va en ciruela para que se distinga */
-  :global(:root[data-theme='dark']) .portrait {
-    background-color: #6e4a4f;
   }
   .portrait img {
     width: 100%;
