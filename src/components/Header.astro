@@ -4,6 +4,7 @@ import { getLang, t } from '../i18n';
 import ThemeToggle from './ThemeToggle.astro';
 import LangToggle from './LangToggle.astro';
 import CtaButton from './CtaButton.astro';
+import Social from './Social.astro';
 
 const lang = getLang(Astro.url);
 const s = t[lang];
@@ -20,6 +21,10 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
 
     <a class="brand" href={`${base}#top`} aria-label={`${site.name}, inicio`}>{site.name}</a>
 
+    <button class="burger" type="button" aria-label={s.menu.open} aria-expanded="false" aria-controls="mobile-menu" data-burger>
+      <span></span><span></span><span></span>
+    </button>
+
     <div class="header-bar">
       <nav class="nav" aria-label="Principal">
         {s.nav.map((item) => <a href={`${base}${item.href}`}>{item.label}</a>)}
@@ -30,6 +35,34 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
       </div>
     </div>
   </div>
+
+  <!-- Menu de celular: panel lateral con fondo desenfocado -->
+  <div class="drawer-backdrop" data-drawer-close></div>
+  <aside class="drawer" id="mobile-menu" aria-label={s.menu.title} inert data-drawer>
+    <div class="drawer-top">
+      <span class="drawer-title">{s.menu.title}</span>
+      <button class="drawer-close" type="button" aria-label={s.menu.close} data-drawer-close>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+
+    <nav class="drawer-nav" aria-label={s.menu.title}>
+      {s.nav.map((item, i) => (
+        <a href={`${base}${item.href}`} data-drawer-close>
+          <span class="drawer-num">{String(i + 1).padStart(2, '0')}</span>{item.label}
+        </a>
+      ))}
+      <a href={blogHref} data-drawer-close>
+        <span class="drawer-num">{String(s.nav.length + 1).padStart(2, '0')}</span>{s.blog.nav}
+      </a>
+    </nav>
+
+    <div class="drawer-bottom">
+      <CtaButton label={s.cta} full data-open-contact data-drawer-close />
+      <a class="drawer-mail" href={`mailto:${site.email}`}>{site.email}</a>
+      <Social />
+    </div>
+  </aside>
 </header>
 
 <style>
@@ -151,27 +184,171 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
     }
   }
 
-  /* Celular: toggles en su propia fila arriba, nombre al medio, menu y boton debajo */
+  /* ---- Celular: barra simple con hamburguesa y panel lateral ---- */
+  .burger,
+  .drawer,
+  .drawer-backdrop {
+    display: none;
+  }
+
   @media (max-width: 719px) {
     .header-inner {
+      flex-direction: row;
+      justify-content: flex-start;
       gap: var(--space-2);
+      padding-block: var(--space-3);
+      padding-inline: var(--space-4);
     }
+    .brand {
+      font-size: 0.9375rem;
+      letter-spacing: 0.06em;
+      text-align: left;
+      order: 1;
+    }
+    /* El selector ES/EN se queda afuera, junto a la hamburguesa */
     .header-utility {
       position: static;
-      align-self: flex-end;
+      margin-left: auto;
+      order: 2;
+      gap: var(--space-2);
+      flex-shrink: 0;
     }
     .header-bar {
+      display: none;
+    }
+
+    .burger {
+      order: 3;
+      flex-shrink: 0;
+      display: inline-flex;
       flex-direction: column;
-      gap: var(--space-2);
-    }
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 2px 18px;
+      gap: 5px;
+      width: 46px;
+      height: 46px;
+      padding: 0 12px;
+      border-radius: 14px;
+      background-color: color-mix(in srgb, currentColor 10%, transparent);
+      color: inherit;
     }
-    .nav a {
-      font-size: 0.875rem;
+    .burger span {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background-color: currentColor;
+    }
+
+    .drawer-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      background-color: rgb(29 20 18 / 0.35);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    }
+    .drawer {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 200;
+      width: min(86vw, 360px);
+      padding: var(--space-6);
+      overflow-y: auto;
+      background-color: var(--surface-raised);
+      color: var(--ink);
+      border-radius: 24px 0 0 24px;
+      box-shadow: -24px 0 60px -20px rgb(0 0 0 / 0.35);
+      transform: translateX(105%);
+      transition: transform 0.38s var(--ease);
+    }
+    .site-header.menu-open .drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .site-header.menu-open .drawer {
+      transform: none;
+    }
+
+    .drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+    }
+    .drawer-title {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .drawer-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background-color: var(--surface-sunken);
+      color: var(--ink);
+    }
+
+    .drawer-nav {
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer-nav a {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      padding-block: 12px;
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      line-height: 1.15;
+      color: var(--ink);
+      transition: color 0.18s var(--ease), transform 0.18s var(--ease);
+    }
+    .drawer-nav a:hover,
+    .drawer-nav a:focus-visible {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+    .drawer-num {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+    }
+
+    .drawer-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-top: auto;
+      padding-top: var(--space-8);
+    }
+    .drawer-mail {
+      font-size: 0.9375rem;
+      color: var(--ink-muted);
+    }
+  }
+
+  /* Celulares muy angostos */
+  @media (max-width: 359px) {
+    .brand {
+      font-size: 0.8125rem;
+      letter-spacing: 0.04em;
+    }
+    .header-inner {
+      padding-inline: var(--space-3);
     }
   }
 </style>
@@ -180,4 +357,38 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
   // Sin hero (blog, 404): barra con fondo solido. En la portada queda transparente sobre el hero.
   const header = document.querySelector('[data-header]');
   if (header && !document.getElementById('top')) header.classList.add('is-solid');
+
+  // Menu de celular: abre/cierra el panel lateral
+  const root = document.querySelector<HTMLElement>('[data-header]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+  const mq = window.matchMedia('(max-width: 719px)');
+
+  if (root && burger && drawer) {
+    const setOpen = (open: boolean) => {
+      root.classList.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      drawer.inert = !open;
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      if (open) drawer.querySelector<HTMLElement>('.drawer-close')?.focus();
+    };
+    // al volver a escritorio el panel se cierra
+    mq.addEventListener('change', () => {
+      if (!mq.matches) setOpen(false);
+    });
+
+    burger.addEventListener('click', () => setOpen(true));
+    document.querySelectorAll('[data-drawer-close]').forEach((el) =>
+      el.addEventListener('click', () => {
+        setOpen(false);
+        burger.focus({ preventScroll: true });
+      })
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.classList.contains('menu-open')) {
+        setOpen(false);
+        burger.focus();
+      }
+    });
+  }
 </script>

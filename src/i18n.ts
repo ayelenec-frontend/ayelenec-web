@@ -32,6 +32,7 @@ export const t = {
       { label: 'Sobre mí', href: '#sobre-mi' },
     ],
     cta: 'Escribime',
+    menu: { title: 'Menú', open: 'Abrir menú', close: 'Cerrar menú' },
     marquee: ['Diseño UX/UI', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Diseño gráfico', 'No-code'],
     footerUi: { nav: 'Navegación', contact: 'Contacto', social: 'Redes' },
     hero: {
@@ -161,6 +162,7 @@ export const t = {
       { label: 'About', href: '#sobre-mi' },
     ],
     cta: 'Get in touch',
+    menu: { title: 'Menu', open: 'Open menu', close: 'Close menu' },
     marquee: ['UX/UI design', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Graphic design', 'No-code'],
     footerUi: { nav: 'Navigation', contact: 'Contact', social: 'Social' },
     hero: {

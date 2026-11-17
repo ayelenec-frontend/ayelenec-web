@@ -1,12 +1,17 @@
 ---
 import { getLang, t } from '../i18n';
 
-const s = t[getLang(Astro.url)].services;
+const lang = getLang(Astro.url);
+const s = t[lang].services;
 const items = s.titles.map((title, i) => ({
   number: String(i + 1).padStart(2, '0'),
   title,
   desc: s.descs[i],
 }));
+const labels =
+  lang === 'en'
+    ? { prev: 'Previous service', next: 'Next service', group: 'Services' }
+    : { prev: 'Servicio anterior', next: 'Servicio siguiente', group: 'Servicios' };
 ---
 
 <section class="section services" id="servicios">
@@ -16,87 +21,102 @@ const items = s.titles.map((title, i) => ({
       <p class="services-lead">{s.lead}</p>
     </div>
 
-    <ul class="service-grid">
-      {
-        items.map((item, i) => (
-          <li class={`service-card service-card--${i + 1}`}>
-            <span class="service-num">{item.number}</span>
-            {i === 0 && (
+    <div class="sv" data-sv>
+      <ul class="sv-track" data-sv-track tabindex="0" role="group" aria-roledescription="carrusel" aria-label={labels.group}>
+        {
+          items.map((item, i) => (
+            <li class={`service-card service-card--${i + 1}`}>
+              <span class="service-num">{item.number}</span>
+
               <div class="service-art" aria-hidden="true">
-                <svg viewBox="0 0 320 190" fill="none">
-                  <rect class="art-screen" x="8" y="30" width="82" height="128" rx="10" />
-                  <rect class="art-line" x="20" y="46" width="40" height="6" rx="3" />
-                  <rect class="art-block" x="20" y="64" width="58" height="34" rx="6" />
-                  <rect class="art-line" x="20" y="108" width="58" height="5" rx="2.5" />
-                  <rect class="art-line" x="20" y="120" width="36" height="5" rx="2.5" />
+                {i === 0 && (
+                  <svg viewBox="0 0 320 190" fill="none">
+                    <rect class="art-screen" x="8" y="30" width="82" height="128" rx="10" />
+                    <rect class="art-line" x="20" y="46" width="40" height="6" rx="3" />
+                    <rect class="art-block" x="20" y="64" width="58" height="34" rx="6" />
+                    <rect class="art-line" x="20" y="108" width="58" height="5" rx="2.5" />
+                    <rect class="art-line" x="20" y="120" width="36" height="5" rx="2.5" />
 
-                  <rect class="art-screen art-screen--hi" x="118" y="14" width="82" height="128" rx="10" />
-                  <rect class="art-line art-line--hi" x="130" y="30" width="40" height="6" rx="3" />
-                  <rect class="art-block art-block--hi" x="130" y="48" width="58" height="34" rx="6" />
-                  <rect class="art-line art-line--hi" x="130" y="92" width="58" height="5" rx="2.5" />
-                  <rect class="art-btn" x="130" y="110" width="30" height="12" rx="6" />
+                    <rect class="art-screen art-screen--hi" x="118" y="14" width="82" height="128" rx="10" />
+                    <rect class="art-line art-line--hi" x="130" y="30" width="40" height="6" rx="3" />
+                    <rect class="art-block art-block--hi" x="130" y="48" width="58" height="34" rx="6" />
+                    <rect class="art-line art-line--hi" x="130" y="92" width="58" height="5" rx="2.5" />
+                    <rect class="art-btn" x="130" y="110" width="30" height="12" rx="6" />
 
-                  <rect class="art-screen" x="228" y="40" width="82" height="128" rx="10" />
-                  <rect class="art-line" x="240" y="56" width="40" height="6" rx="3" />
-                  <rect class="art-block" x="240" y="74" width="26" height="26" rx="6" />
-                  <rect class="art-block" x="272" y="74" width="26" height="26" rx="6" />
-                  <rect class="art-line" x="240" y="112" width="58" height="5" rx="2.5" />
+                    <rect class="art-screen" x="228" y="40" width="82" height="128" rx="10" />
+                    <rect class="art-line" x="240" y="56" width="40" height="6" rx="3" />
+                    <rect class="art-block" x="240" y="74" width="26" height="26" rx="6" />
+                    <rect class="art-block" x="272" y="74" width="26" height="26" rx="6" />
+                    <rect class="art-line" x="240" y="112" width="58" height="5" rx="2.5" />
 
-                  <path class="art-link" d="M90 86 C 100 86 108 80 118 76" />
-                  <path class="art-link" d="M200 78 C 212 78 218 92 228 98" />
-                  <path class="art-cursor" d="M176 112 l0 20 l6 -5 l5 11 l5 -2 l-5 -11 l8 0 z" />
-                </svg>
+                    <path class="art-link" d="M90 86 C 100 86 108 80 118 76" />
+                    <path class="art-link" d="M200 78 C 212 78 218 92 228 98" />
+                    <path class="art-cursor" d="M176 112 l0 20 l6 -5 l5 11 l5 -2 l-5 -11 l8 0 z" />
+                  </svg>
+                )}
+                {i === 1 && (
+                  <svg viewBox="0 0 320 190" fill="none">
+                    <rect class="art-window" x="8" y="12" width="304" height="166" rx="12" />
+                    <path class="art-bar" d="M8 24a12 12 0 0 1 12-12h280a12 12 0 0 1 12 12v14H8z" />
+                    <circle class="art-dot" cx="22" cy="25" r="3.5" />
+                    <circle class="art-dot" cx="34" cy="25" r="3.5" />
+                    <circle class="art-dot" cx="46" cy="25" r="3.5" />
+                    <rect class="art-line" x="28" y="54" width="34" height="8" rx="4" />
+                    <rect class="art-line" x="220" y="56" width="22" height="4" rx="2" />
+                    <rect class="art-line" x="252" y="56" width="22" height="4" rx="2" />
+                    <rect class="art-line" x="284" y="56" width="16" height="4" rx="2" />
+                    <rect class="art-line art-line--t" x="28" y="80" width="120" height="12" rx="6" />
+                    <rect class="art-line art-line--t" x="28" y="100" width="84" height="12" rx="6" />
+                    <rect class="art-btn" x="28" y="124" width="52" height="16" rx="8" />
+                    <rect class="art-block art-block--hi" x="176" y="76" width="124" height="68" rx="9" />
+                    <circle class="art-sun" cx="272" cy="98" r="9" />
+                    <rect class="art-block" x="28" y="152" width="82" height="16" rx="5" />
+                    <rect class="art-block" x="119" y="152" width="82" height="16" rx="5" />
+                    <rect class="art-block" x="210" y="152" width="90" height="16" rx="5" />
+                  </svg>
+                )}
+                {i === 2 && (
+                  <svg class="service-icon" viewBox="0 0 80 64" fill="none">
+                    <path d="M10 52 C 20 4, 60 4, 70 52" />
+                    <path class="icon-handle" d="M10 52 L22 14 M70 52 L58 14" />
+                    <circle cx="22" cy="14" r="3.5" class="icon-fill" />
+                    <circle cx="58" cy="14" r="3.5" class="icon-fill" />
+                    <rect x="5" y="47" width="10" height="10" class="icon-fill" />
+                    <rect x="65" y="47" width="10" height="10" class="icon-fill" />
+                  </svg>
+                )}
+                {i === 3 && (
+                  <svg class="service-icon service-icon--code" viewBox="0 0 120 60" fill="none">
+                    <path d="M28 12 L6 30 L28 48" />
+                    <path d="M92 12 L114 30 L92 48" />
+                    <circle cx="60" cy="30" r="17" />
+                    <path d="M48 18 L72 42" />
+                  </svg>
+                )}
               </div>
-            )}
-            {i === 1 && (
-              <div class="service-art" aria-hidden="true">
-                <svg viewBox="0 0 320 190" fill="none">
-                  <rect class="art-window" x="8" y="12" width="304" height="166" rx="12" />
-                  <path class="art-bar" d="M8 24a12 12 0 0 1 12-12h280a12 12 0 0 1 12 12v14H8z" />
-                  <circle class="art-dot" cx="22" cy="25" r="3.5" />
-                  <circle class="art-dot" cx="34" cy="25" r="3.5" />
-                  <circle class="art-dot" cx="46" cy="25" r="3.5" />
-                  <rect class="art-line" x="28" y="54" width="34" height="8" rx="4" />
-                  <rect class="art-line" x="220" y="56" width="22" height="4" rx="2" />
-                  <rect class="art-line" x="252" y="56" width="22" height="4" rx="2" />
-                  <rect class="art-line" x="284" y="56" width="16" height="4" rx="2" />
-                  <rect class="art-line art-line--t" x="28" y="80" width="120" height="12" rx="6" />
-                  <rect class="art-line art-line--t" x="28" y="100" width="84" height="12" rx="6" />
-                  <rect class="art-btn" x="28" y="124" width="52" height="16" rx="8" />
-                  <rect class="art-block art-block--hi" x="176" y="76" width="124" height="68" rx="9" />
-                  <circle class="art-sun" cx="272" cy="98" r="9" />
-                  <rect class="art-block" x="28" y="152" width="82" height="16" rx="5" />
-                  <rect class="art-block" x="119" y="152" width="82" height="16" rx="5" />
-                  <rect class="art-block" x="210" y="152" width="90" height="16" rx="5" />
-                </svg>
+
+              <div class="service-text">
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
               </div>
-            )}
-            {i === 2 && (
-              <svg class="service-icon" viewBox="0 0 80 64" fill="none" aria-hidden="true">
-                <path d="M10 52 C 20 4, 60 4, 70 52" />
-                <path class="icon-handle" d="M10 52 L22 14 M70 52 L58 14" />
-                <circle cx="22" cy="14" r="3.5" class="icon-fill" />
-                <circle cx="58" cy="14" r="3.5" class="icon-fill" />
-                <rect x="5" y="47" width="10" height="10" class="icon-fill" />
-                <rect x="65" y="47" width="10" height="10" class="icon-fill" />
-              </svg>
-            )}
-            {i === 3 && (
-              <svg class="service-icon service-icon--code" viewBox="0 0 120 60" fill="none" aria-hidden="true">
-                <path d="M28 12 L6 30 L28 48" />
-                <path d="M92 12 L114 30 L92 48" />
-                <circle cx="60" cy="30" r="17" />
-                <path d="M48 18 L72 42" />
-              </svg>
-            )}
-            <div class="service-text">
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="sv-controls">
+        <button class="sv-nav" type="button" aria-label={labels.prev} data-sv-prev>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button class="sv-nav" type="button" aria-label={labels.next} data-sv-next>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -125,49 +145,49 @@ const items = s.titles.map((title, i) => ({
     }
   }
 
-  .service-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+  /* ---- Carrusel: tarjetas del mismo tamano, con scroll suave ---- */
+  .sv-track {
+    --gap: var(--space-4);
+    display: flex;
+    gap: var(--gap);
+    margin-block: -8px; /* aire para el movimiento al pasar el mouse */
+    padding-block: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    outline: none;
   }
-  @media (min-width: 620px) {
-    .service-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  @media (min-width: 980px) {
-    .service-grid {
-      grid-template-columns: 1.25fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-    }
-    .service-card--1,
-    .service-card--2 {
-      grid-row: span 2;
-    }
+  .sv-track::-webkit-scrollbar {
+    display: none;
   }
 
   .service-card {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: var(--space-8);
-    min-height: 190px;
+    gap: var(--space-4);
+    min-height: 420px;
     padding: var(--space-8);
     border-radius: 22px;
     background-color: var(--surface-sunken);
     color: var(--ink);
     transition: transform 0.25s var(--ease);
   }
+  @media (min-width: 620px) {
+    .service-card {
+      flex-basis: calc((100% - var(--gap)) / 2);
+    }
+  }
+  @media (min-width: 980px) {
+    .service-card {
+      flex-basis: calc((100% - 2 * var(--gap)) / 3);
+    }
+  }
   .service-card:hover {
     transform: translateY(-4px);
   }
-  @media (min-width: 980px) {
-    .service-card--1,
-    .service-card--2 {
-      min-height: 360px;
-    }
-  }
-
   .service-card--3 {
     background-color: var(--plume);
     color: var(--on-plume);
@@ -177,7 +197,18 @@ const items = s.titles.map((title, i) => ({
     color: #f4efe4;
   }
 
-  /* Dibujos de las tarjetas grandes */
+  .service-num {
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Zona del dibujo: misma altura en las cuatro tarjetas */
   .service-art {
     flex: 1;
     display: flex;
@@ -186,10 +217,34 @@ const items = s.titles.map((title, i) => ({
     min-height: 150px;
   }
   .service-art svg {
+    display: block;
     width: 100%;
-    max-width: 340px;
+    max-width: 250px;
     height: auto;
   }
+  .service-art .service-icon {
+    max-width: 92px;
+    stroke: currentColor;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .service-art .service-icon--code {
+    max-width: 112px;
+    stroke: #f2b891;
+    stroke-width: 6;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+  }
+  .icon-handle {
+    stroke-width: 2;
+    opacity: 0.7;
+  }
+  .icon-fill {
+    fill: currentColor;
+    stroke: none;
+  }
+
   .art-screen,
   .art-window {
     fill: color-mix(in srgb, var(--ink) 6%, transparent);
@@ -237,60 +292,45 @@ const items = s.titles.map((title, i) => ({
     fill: var(--ink);
   }
 
-  /* Iconos de las tarjetas chicas */
-  .service-card {
-    position: relative;
-  }
-  .service-icon {
-    position: absolute;
-    top: var(--space-8);
-    right: var(--space-8);
-    width: 76px;
-    height: auto;
-    stroke: currentColor;
-    stroke-width: 3.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .service-icon--code {
-    width: 96px;
-    stroke: #f2b891;
-    stroke-width: 6;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-  }
-  .icon-handle {
-    stroke-width: 2;
-    opacity: 0.7;
-  }
-  .icon-fill {
-    fill: currentColor;
-    stroke: none;
-  }
-
-  .service-num {
-    align-self: flex-start;
-    padding: 5px 12px;
-    border-radius: var(--radius-pill);
-    background-color: color-mix(in srgb, currentColor 12%, transparent);
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-  }
-
   .service-text h3 {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    line-height: 1.08;
+    font-size: clamp(1.625rem, 2.6vw, 2rem);
+    line-height: 1.1;
   }
   .service-text p {
     margin-top: var(--space-3);
-    max-width: 30ch;
+    max-width: 32ch;
     font-size: 0.9375rem;
     line-height: 1.55;
     opacity: 0.85;
+  }
+
+  /* ---- Controles ---- */
+  .sv-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+  .sv-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--surface-sunken);
+    color: var(--ink);
+    transition: background-color 0.2s var(--ease), color 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+  .sv-nav:hover:not(:disabled) {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  .sv-nav:disabled {
+    opacity: 0.4;
+    cursor: default;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -302,3 +342,28 @@ const items = s.titles.map((title, i) => ({
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-sv]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-sv-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-sv-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-sv-next]');
+    if (!track || !prev || !next) return;
+
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('.service-card');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+      return (card?.offsetWidth ?? 300) + gap;
+    };
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>

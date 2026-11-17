@@ -135,7 +135,7 @@ const buildCss = steps
   /* Celular: el header ocupa mas alto (toggles, nombre, menu y boton) */
   @media (max-width: 719px) {
     .hero-stage {
-      padding-top: 15.5rem;
+      padding-top: 8.5rem;
     }
   }
 
@@ -179,6 +179,15 @@ const buildCss = steps
     height: 7px;
     border-radius: 50%;
     background-color: var(--hero-dot);
+    animation: hero-pulse 2s ease-out infinite;
+  }
+  @keyframes hero-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--hero-dot) 55%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 9px color-mix(in srgb, var(--hero-dot) 0%, transparent);
+    }
   }
 
   .hero-title {

@@ -202,7 +202,8 @@ html {
   }
   /* Excepcion: el punto de "Disponible" late en un area de 7px, sin
      desplazamientos ni parallax, asi que no molesta al reducir movimiento. */
-  .status::before {
+  .status::before,
+  .hero-status::before {
     animation-duration: 2s !important;
     animation-iteration-count: infinite !important;
   }
