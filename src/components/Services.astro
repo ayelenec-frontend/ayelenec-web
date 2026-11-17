@@ -333,6 +333,75 @@ const labels =
     cursor: default;
   }
 
+  /* ---- Escritorio y tablet: grilla de siempre (el carrusel es solo para celular) ---- */
+  @media (min-width: 720px) {
+    .sv-track {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-block: 0;
+      padding-block: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+    .service-card {
+      position: relative;
+      flex: none;
+      justify-content: space-between;
+      gap: var(--space-8);
+      min-height: 190px;
+    }
+    .service-text h3 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+    }
+    .service-text p {
+      max-width: 30ch;
+    }
+    .sv-controls {
+      display: none;
+    }
+
+    /* Tarjetas grandes: el dibujo ocupa el espacio del medio */
+    .service-card--1 .service-art svg,
+    .service-card--2 .service-art svg {
+      max-width: 340px;
+    }
+    .service-card--1,
+    .service-card--2 {
+      min-height: 320px;
+    }
+
+    /* Tarjetas chicas: el icono va en la esquina, sin ocupar lugar */
+    .service-card--3,
+    .service-card--4 {
+      min-height: 190px;
+    }
+    .service-card--3 .service-art,
+    .service-card--4 .service-art {
+      position: absolute;
+      top: var(--space-8);
+      right: var(--space-8);
+      flex: none;
+      min-height: 0;
+    }
+    .service-art .service-icon {
+      max-width: 76px;
+    }
+    .service-art .service-icon--code {
+      max-width: 96px;
+    }
+  }
+  @media (min-width: 980px) {
+    .sv-track {
+      grid-template-columns: 1.25fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .service-card--1,
+    .service-card--2 {
+      grid-row: span 2;
+      min-height: 360px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .service-card {
       transition: none;
