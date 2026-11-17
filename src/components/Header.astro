@@ -150,6 +150,30 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
       display: flex;
     }
   }
+
+  /* Celular: toggles en su propia fila arriba, nombre al medio, menu y boton debajo */
+  @media (max-width: 719px) {
+    .header-inner {
+      gap: var(--space-2);
+    }
+    .header-utility {
+      position: static;
+      align-self: flex-end;
+    }
+    .header-bar {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2px 18px;
+    }
+    .nav a {
+      font-size: 0.875rem;
+    }
+  }
 </style>
 
 <script>

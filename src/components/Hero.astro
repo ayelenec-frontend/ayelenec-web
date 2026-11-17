@@ -132,6 +132,13 @@ const buildCss = steps
     );
   }
 
+  /* Celular: el header ocupa mas alto (toggles, nombre, menu y boton) */
+  @media (max-width: 719px) {
+    .hero-stage {
+      padding-top: 15.5rem;
+    }
+  }
+
   .hero-grid {
     display: grid;
     grid-template-columns: 1fr;
