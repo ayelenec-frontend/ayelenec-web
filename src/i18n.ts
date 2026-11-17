@@ -88,7 +88,7 @@ export const t = {
     },
     projects: {
       eyebrow: 'Proyectos',
-      head: 'Trabajo seleccionado.',
+      head: 'Trabajo seleccionado',
       cta: 'Ver sitio',
     },
     project: {
@@ -218,7 +218,7 @@ export const t = {
     },
     projects: {
       eyebrow: 'Projects',
-      head: 'Selected work.',
+      head: 'Selected work',
       cta: 'Visit site',
     },
     project: {
