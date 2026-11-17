@@ -1,158 +1,693 @@
 ---
 import { getLang, t } from '../i18n';
 
-const s = t[getLang(Astro.url)].process;
+const lang = getLang(Astro.url);
+const s = t[lang].process;
+const demoTitle = t[lang].hero.titleLead.split(', ')[0] + ',';
+const demoCta = t[lang].cta;
 const steps = s.steps.map((step, i) => ({ number: String(i + 1).padStart(2, '0'), ...step }));
+// "Primero la estructura, después el detalle." -> dos lineas, la segunda destacada
+const [first, ...rest] = s.head.split(', ');
+const second = rest.join(', ');
 ---
 
-<section class="section" id="proceso">
-  <div class="container">
-    <div class="process-head">
-      <span class="eyebrow">{s.eyebrow}</span>
-      <h2>{s.head}</h2>
-    </div>
+<section class="process" id="proceso">
+  <div class="container process-grid">
+    <div class="process-main">
+      <div class="process-head">
+        <span class="process-eyebrow">{s.eyebrow}</span>
+        <h2 class="process-title">
+          {first},<br />
+          <em>{second}</em>
+        </h2>
+      </div>
 
-    <ol class="process-flow">
-      {
-        steps.map((step, i) => (
-          <>
+      <ol class="process-steps">
+        {
+          steps.map((step) => (
             <li class="step">
-              <span class="step-circle">{step.number}</span>
+              <span class="step-num">{step.number}</span>
               <h3>{step.title}</h3>
               <p>{step.desc}</p>
             </li>
-            {i < steps.length - 1 && (
-              <li class="conn" aria-hidden="true">
-                <span class="conn-dot" />
-              </li>
-            )}
-          </>
-        ))
-      }
-    </ol>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="process-visual" aria-hidden="true">
+      <div class="stage" data-stage data-step="0">
+        <div class="scaler">
+          <!-- 1 Entender: notas y lupa -->
+          <div class="scene sc-1">
+            <div class="board">
+              <div class="note note--a"><i></i><i></i><i class="short"></i></div>
+              <div class="note note--b"><i></i><i class="short"></i></div>
+              <div class="note note--c"><i></i><i></i><i></i><i class="short"></i></div>
+              <svg class="lens" viewBox="0 0 80 80" fill="none">
+                <circle cx="32" cy="32" r="22" />
+                <path d="M48 48L72 72" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- 2 Ordenar y 3 Diseñar: el wireframe en grises y despues con detalle -->
+          {
+            ['wire', 'design'].map((mode, k) => (
+              <div class={`scene sc-${k + 2}`}>
+                <div class={`wf wf--${mode}`}>
+                  <div class="wf-bar"><i></i><i></i><i></i></div>
+                  <div class="wf-page">
+                    <div class="wf-nav">
+                      <span class="wf-logo"></span>
+                      <span class="wf-link"></span><span class="wf-link"></span><span class="wf-link"></span>
+                    </div>
+                    <div class="wf-hero">
+                      <div class="wf-copy">
+                        <div class="wf-title">
+                          <span class="wf-ph wf-ph--t1"></span>
+                          <span class="wf-ph wf-ph--t2"></span>
+                          <b class="wf-real">{demoTitle}</b>
+                        </div>
+                        <span class="wf-ph wf-ph--p1"></span>
+                        <span class="wf-ph wf-ph--p2"></span>
+                        <span class="wf-btn"><em>{demoCta}</em></span>
+                      </div>
+                      <div class="wf-img">
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 0L100 100M100 0L0 100"></path></svg>
+                        <span class="wf-sun"></span>
+                      </div>
+                    </div>
+                    <div class="wf-cards"><span></span><span></span><span></span></div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+
+          <!-- 4 Construir y medir: barras que suben -->
+          <div class="scene sc-5">
+            <div class="chart">
+              <div class="chart-bars">
+                <span style="--h:30%"></span>
+                <span style="--h:44%"></span>
+                <span style="--h:40%"></span>
+                <span style="--h:62%"></span>
+                <span style="--h:78%"></span>
+                <span style="--h:92%"></span>
+              </div>
+              <svg class="chart-line" viewBox="0 0 100 60" preserveAspectRatio="none" fill="none">
+                <path d="M4 48 L22 40 L40 43 L58 28 L76 18 L96 6"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage-label">
+          {steps.map((step) => <span>{step.title}</span>)}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .process-head {
-    text-align: center;
-    margin-bottom: var(--space-12);
+  /* Banda oscura fija (no depende del tema) */
+  .process {
+    padding-block: var(--space-16);
+    background-color: #2e2a24;
+    color: #f4efe4;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .process {
+      padding-block: var(--space-24);
+    }
   }
 
-  .process-flow {
-    display: flex;
-    flex-direction: column;
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
     align-items: center;
-    gap: var(--space-2);
+  }
+  @media (min-width: 1020px) {
+    .process-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      column-gap: 96px;
+      row-gap: 0;
+      align-items: stretch;
+    }
+    .process-main {
+      display: contents;
+    }
+    .process-head {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .process-steps {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .process-visual {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: center;
+      padding-top: 48px; /* compensa el margen superior de las tarjetas */
+    }
   }
 
-  @media (min-width: 880px) {
-    .process-flow {
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: center;
+  .process-eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d98a5b;
+  }
+
+  .process-title {
+    margin-top: var(--space-3);
+    font-size: var(--title-size);
+    line-height: 1.04;
+    color: #f4efe4;
+  }
+  /* En escritorio, dos lineas: "Primero la estructura," / "despues el detalle." */
+  @media (min-width: 1020px) {
+    .process-title {
+      font-size: var(--title-size);
+      white-space: nowrap;
+    }
+  }
+  .process-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: #d98a5b;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-12);
+  }
+  @media (min-width: 560px) {
+    .process-steps {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
   .step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-3);
+    padding: var(--space-6);
+    border-radius: 16px;
+    background-color: #3a332b;
+    transition: background-color 0.5s var(--ease);
   }
-  @media (min-width: 880px) {
-    .step {
-      flex: 1 1 0;
-      min-width: 0;
-      max-width: 220px;
+  .step.is-active {
+    background-color: #4a4036;
+  }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    line-height: 1;
+    color: #d98a5b;
+  }
+  .step h3 {
+    margin-top: var(--space-3);
+    font-size: 1.0625rem;
+    color: #f4efe4;
+  }
+  .step p {
+    margin-top: 6px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #b9ab93;
+  }
+
+  .process-visual {
+    display: none;
+  }
+  @media (min-width: 1020px) {
+    .process-visual {
+      display: block;
     }
   }
 
-  .step-circle {
-    display: inline-flex;
+  /* ---- Escenario: cada paso se superpone al anterior ---- */
+  .stage {
+    position: relative;
+    --s: 1.15; /* escala sobre la base de 440px; la ajusta el script */
+    width: 100%;
+    max-width: 420px;
+    margin-right: 28px;
+    margin-left: auto;
+  }
+  .scaler {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 440 / 270;
+  }
+  .scene {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 440px;
+    height: 270px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: 0;
-    background-color: var(--plume);
+    transform-origin: top left;
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  /* pos 0: el paso actual, al frente. pos 1: el anterior, detras y apenas
+     corrido, todavia visible. pos 2: se desvanece. pos 3: el que viene, abajo. */
+  .scene[data-pos='0'] {
+    z-index: 4;
+    opacity: 1;
+    transform: translate(0, 0) scale(var(--s));
+  }
+  .scene[data-pos='1'] {
+    z-index: 3;
+    opacity: 0.55;
+    transform: translate(26px, -22px) scale(calc(var(--s) * 0.94));
+  }
+  .scene[data-pos='2'] {
+    z-index: 2;
+    opacity: 0;
+    transform: translate(48px, -40px) scale(calc(var(--s) * 0.88));
+  }
+  .scene[data-pos='3'] {
+    z-index: 1;
+    opacity: 0;
+    transform: translate(-20px, 44px) scale(var(--s));
+    transition: opacity 0.4s var(--ease), transform 0s 0.4s;
+  }
+
+  .stage-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 1.2em;
+    margin-top: 28px;
+    text-align: center;
     font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 0.875rem;
-    letter-spacing: 0.04em;
-    color: var(--on-plume);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d98a5b;
+  }
+  .stage-label span {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+  }
+  .stage[data-step='0'] .stage-label span:nth-child(1),
+  .stage[data-step='1'] .stage-label span:nth-child(2),
+  .stage[data-step='2'] .stage-label span:nth-child(3),
+  .stage[data-step='3'] .stage-label span:nth-child(4) {
+    opacity: 1;
   }
 
-  .step h3 {
-    font-size: 1.1875rem;
-    min-height: 2.5em;
+  /* ---- Escena 1: notas y lupa ---- */
+  .board {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background-color: #35302a;
+  }
+  .note {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 124px;
+    padding: 18px 16px 20px;
+    border-radius: 6px;
+    box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.6);
+  }
+  .note i {
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgb(46 42 36 / 0.35);
+  }
+  .note i.short {
+    width: 60%;
+  }
+  .note--a {
+    left: 36px;
+    top: 40px;
+    background-color: #f2b891;
+    transform: rotate(-4deg);
+  }
+  .note--b {
+    left: 156px;
+    top: 72px;
+    background-color: #d6a9a2;
+    transform: rotate(3deg);
+  }
+  .note--c {
+    left: 270px;
+    top: 36px;
+    background-color: #e6dcc6;
+    transform: rotate(-2deg);
+  }
+  .lens {
+    position: absolute;
+    right: 56px;
+    bottom: 22px;
+    width: 96px;
+    height: 96px;
+    stroke: #d98a5b;
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .lens circle {
+    fill: rgb(217 138 91 / 0.12);
+  }
+
+  /* ---- Escenas 2 y 3: wireframe -> detalle ---- */
+  .wf {
+    --wire: #5a4e40;
+    width: 100%;
+  }
+  .wf-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 14px 14px 0 0;
+    background-color: #3a332b;
+  }
+  .wf-bar i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--wire);
+  }
+  .wf-page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px;
+    border-radius: 0 0 14px 14px;
+    background-color: #35302a;
+    transition: background-color 0.9s var(--ease);
+  }
+  .wf-nav {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 12px;
   }
-
-  .step p {
-    color: var(--text-body);
-    font-size: 0.9rem;
-    line-height: 1.55;
-    max-width: 24ch;
+  .wf-logo {
+    width: 26px;
+    height: 12px;
+    margin-right: auto;
+    border-radius: 4px;
+    background-color: var(--wire);
+    transition: background-color 0.9s var(--ease);
   }
-
-  /* ---- Conector animado ---- */
-  .conn {
+  .wf-link {
+    width: 28px;
+    height: 5px;
+    border-radius: 3px;
+    background-color: var(--wire);
+    transition: background-color 0.9s var(--ease);
+  }
+  .wf-hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+    align-items: stretch;
+  }
+  .wf-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .wf-title {
     position: relative;
-    overflow: hidden;
-    background-color: var(--line);
-    align-self: center;
-    width: 2px;
-    height: 28px;
-    flex: 0 0 auto;
+    height: 44px;
   }
-  .conn-dot {
+  .wf-ph {
+    display: block;
+    height: 8px;
+    border-radius: 4px;
+    background-color: var(--wire);
+    transition: opacity 0.7s var(--ease);
+  }
+  .wf-ph--t1,
+  .wf-ph--t2 {
+    height: 14px;
+  }
+  .wf-title .wf-ph {
+    margin-bottom: 8px;
+  }
+  .wf-ph--t2 {
+    width: 70%;
+  }
+  .wf-ph--p2 {
+    width: 60%;
+  }
+  .wf-real {
     position: absolute;
-    left: -2px;
-    width: 6px;
-    height: 6px;
+    left: 0;
+    top: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.12;
+    color: #2e2a24;
+    opacity: 0;
+    transition: opacity 0.8s var(--ease) 0.5s;
+  }
+  .wf-btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    width: 54px;
+    height: 20px;
+    margin-top: 6px;
+    border-radius: 6px;
+    background-color: var(--wire);
+    overflow: hidden;
+    transition: background-color 0.9s var(--ease) 0.3s, width 0.6s var(--ease) 0.3s;
+  }
+  .wf-btn em {
+    padding-inline: 10px;
+    font-style: normal;
+    font-family: var(--font-sans);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    color: #2e2a24;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease) 0.7s;
+  }
+  .wf-img {
+    position: relative;
+    min-height: 96px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--wire);
+    transition: background-color 0.9s var(--ease);
+  }
+  .wf-img svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: #77695a;
+    stroke-width: 1;
+    transition: opacity 0.6s var(--ease);
+  }
+  .wf-img svg path {
+    vector-effect: non-scaling-stroke;
+  }
+  .wf-sun {
+    position: absolute;
+    right: 18%;
+    top: 20%;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background-color: var(--plume);
-    animation: conn-down 1.8s var(--ease) infinite;
+    background-color: #f2b891;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.7s var(--ease) 0.6s, transform 0.7s var(--ease) 0.6s;
+  }
+  .wf-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .wf-cards span {
+    height: 48px;
+    border-radius: 8px;
+    background-color: var(--wire);
+    transition: background-color 0.9s var(--ease);
+  }
+  .wf-cards span:nth-child(2) {
+    transition-delay: 0.15s;
+  }
+  .wf-cards span:nth-child(3) {
+    transition-delay: 0.3s;
   }
 
-  @media (min-width: 880px) {
-    .conn {
-      width: auto;
-      flex: 1 1 0;
-      max-width: 90px;
-      height: 2px;
-      margin-top: 27px;
-    }
-    .conn-dot {
-      left: 0;
-      top: -2px;
-      animation-name: conn-right;
-    }
+  /* Paso 3 (Diseñar): detalle */
+  .wf--design .wf-page {
+    background-color: #f1eadb;
+  }
+  .wf--design .wf-logo {
+    background-color: #6e4a4f;
+  }
+  .wf--design .wf-link {
+    background-color: #a89a84;
+  }
+  .wf--design .wf-ph {
+    opacity: 0;
+  }
+  .wf--design .wf-real {
+    opacity: 1;
+  }
+  .wf--design .wf-btn {
+    background-color: #d98a5b;
+    width: 64px;
+  }
+  .wf--design .wf-btn em {
+    opacity: 1;
+  }
+  .wf--design .wf-img {
+    background: linear-gradient(150deg, #6e4a4f, #a2542f);
+  }
+  .wf--design .wf-img svg {
+    opacity: 0;
+  }
+  .wf--design .wf-sun {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .wf--design .wf-cards span:nth-child(1) {
+    background-color: #e6dcc6;
+  }
+  .wf--design .wf-cards span:nth-child(2) {
+    background-color: #d6a9a2;
+  }
+  .wf--design .wf-cards span:nth-child(3) {
+    background-color: #6e4a4f;
   }
 
-  @keyframes conn-down {
-    0% { top: -6px; opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { top: 28px; opacity: 0; }
+  /* ---- Escena 4: barras que suben ---- */
+  .chart {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 36px 40px 30px;
+    border-radius: 16px;
+    background-color: #35302a;
   }
-  @keyframes conn-right {
-    0% { left: -6px; opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { left: calc(100% + 6px); opacity: 0; }
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    height: 100%;
+  }
+  .chart-bars span {
+    flex: 1;
+    height: var(--h);
+    border-radius: 8px 8px 3px 3px;
+    background-color: #5a4e40;
+    transform: scaleY(0.15);
+    transform-origin: bottom;
+    transition: transform 0.9s var(--ease), background-color 0.9s var(--ease);
+  }
+  .chart-bars span:last-child {
+    background-color: #5a4e40;
+  }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span {
+    transform: scaleY(1);
+    background-color: #d98a5b;
+  }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span:nth-child(2) { transition-delay: 0.08s; }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span:nth-child(3) { transition-delay: 0.16s; }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span:nth-child(4) { transition-delay: 0.24s; }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span:nth-child(5) { transition-delay: 0.32s; }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-bars span:nth-child(6) { transition-delay: 0.4s; background-color: #f2b891; }
+  .chart-line {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    top: 36px;
+    bottom: 30px;
+    width: calc(100% - 80px);
+    height: calc(100% - 66px);
+    stroke: #f4efe4;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    opacity: 0;
+    transition: stroke-dashoffset 1.2s var(--ease) 0.5s, opacity 0.4s var(--ease) 0.5s;
+  }
+  .chart-line path {
+    vector-effect: non-scaling-stroke;
+  }
+  .sc-5:is([data-pos='0'], [data-pos='1']) .chart-line {
+    stroke-dashoffset: 0;
+    opacity: 0.9;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .conn-dot {
-      animation: none;
-      left: 0;
-      top: 11px;
+    .stage *,
+    .step {
+      transition: none !important;
     }
   }
 </style>
+
+<script>
+  // Recorre los 4 pasos mientras el bloque esta a la vista: cada escena se
+  // superpone a la anterior (que se desvanece) y resalta su tarjeta.
+  document.querySelectorAll<HTMLElement>('[data-stage]').forEach((stage) => {
+    const steps = Array.from(document.querySelectorAll<HTMLElement>('#proceso .step'));
+    const scaler = stage.querySelector<HTMLElement>('.scaler');
+
+    // la escena se disena sobre 440px de ancho y se escala al ancho disponible
+    const fit = () => {
+      if (scaler) stage.style.setProperty('--s', String(scaler.clientWidth / 440));
+    };
+    fit();
+    if (scaler) new ResizeObserver(fit).observe(scaler);
+
+    const scenes = Array.from(stage.querySelectorAll<HTMLElement>('.scene'));
+    const set = (i: number) => {
+      stage.dataset.step = String(i);
+      scenes.forEach((el, n) => (el.dataset.pos = String((((i - n) % 4) + 4) % 4)));
+      steps.forEach((el, n) => el.classList.toggle('is-active', n === i));
+    };
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      set(2);
+      steps.forEach((el) => el.classList.remove('is-active'));
+      return;
+    }
+
+    // Avanza siempre; solo se frena cuando el bloque sale de la pantalla.
+    let current = 0;
+    let visible = true;
+    set(0);
+    new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+    }).observe(stage);
+    window.setInterval(() => {
+      if (!visible) return;
+      current = (current + 1) % 4;
+      set(current);
+    }, 3600);
+  });
+</script>

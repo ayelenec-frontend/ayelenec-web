@@ -8,56 +8,142 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <span class="footer-mark" aria-hidden="true">
-      <img src="/favicon.svg" alt="" width="44" height="44" />
-    </span>
-    <span class="footer-name">{site.name}</span>
-    <Social />
-    <span class="footer-copy">{s.footer}{year}</span>
+  <div class="container footer-cols">
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true">
+        <img src="/favicon.svg" alt="" width="72" height="72" />
+      </span>
+      <p class="footer-about">
+        <span>{site.role}</span>
+        <span>{site.location}</span>
+      </p>
+    </div>
+
+    <nav class="footer-col" aria-label={s.footerUi.nav}>
+      <h3>{s.footerUi.nav}</h3>
+      <ul>
+        {s.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h3>{s.footerUi.contact}</h3>
+      <a class="footer-mail" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+
+    <div class="footer-col">
+      <h3>{s.footerUi.social}</h3>
+      <Social onDark />
+    </div>
   </div>
+
+  <div class="footer-wordmark" aria-hidden="true">{site.name}</div>
+  <p class="footer-copy">{s.footer}{year}</p>
 </footer>
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--line);
-    padding-block: var(--space-12);
-  }
-
-  .footer-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-3);
-    text-align: center;
-  }
-
-  .footer-mark {
-    display: inline-flex;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    background-color: #2e2a24;
+    color: #ece3d3;
+    padding-top: var(--space-16);
     overflow: hidden;
   }
 
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12) var(--space-8);
+  }
+  @media (min-width: 860px) {
+    .footer-cols {
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    }
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 860px) {
+    .footer-brand {
+      grid-column: auto;
+    }
+  }
+  .footer-mark {
+    display: inline-flex;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
   .footer-mark img {
     width: 100%;
     height: 100%;
-    display: block;
+  }
+  .footer-about {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #b9ab93;
   }
 
-  .footer-name {
-    font-family: var(--font-display);
+  .footer-col h3 {
+    margin-bottom: var(--space-4);
+    font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 1.25rem;
-    letter-spacing: -0.01em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d98a5b;
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-col a:not(.footer-mail) {
+    font-size: 0.9375rem;
+    color: #ece3d3;
+    transition: color 0.2s var(--ease);
+  }
+  .footer-col a:not(.footer-mail):hover,
+  .footer-mail:hover {
+    color: #d6a9a2;
+  }
+  .footer-mail {
+    font-size: 0.9375rem;
+    color: #ece3d3;
+    transition: color 0.2s var(--ease);
+  }
+
+  /* Nombre gigante, recortado por el borde inferior */
+  .footer-wordmark {
+    margin-top: var(--space-12);
+    padding-inline: var(--space-6);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12.5vw, 12rem);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    text-align: center;
+    color: #6e4a4f;
+    opacity: 0.55;
+    user-select: none;
+    margin-bottom: -0.1em;
   }
 
   .footer-copy {
+    position: relative;
+    max-width: none;
+    padding-block: var(--space-4);
+    text-align: center;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--ink-muted);
+    color: #b9ab93;
+    background-color: #2e2a24;
   }
 </style>

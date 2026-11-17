@@ -2,63 +2,101 @@
 import { getLang, t } from '../i18n';
 
 const s = t[getLang(Astro.url)].services;
-const items = s.titles.map((title, i) => ({ number: String(i + 1).padStart(2, '0'), title }));
-const left = items.slice(0, 2);
-const right = items.slice(2, 4);
+const items = s.titles.map((title, i) => ({
+  number: String(i + 1).padStart(2, '0'),
+  title,
+  desc: s.descs[i],
+}));
 ---
 
 <section class="section services" id="servicios">
   <div class="container">
     <div class="services-head">
-      <span class="services-leaf" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 21c0-6 2-10 8-12-1 6-3 9-8 10m0 2c0-5-2-8-7-9 1 5 3 7 7 7"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </span>
       <h2>{s.head}</h2>
+      <p class="services-lead">{s.lead}</p>
     </div>
 
-    <div class="services-cols">
-      <div class="services-col">
-        <p class="services-intro">{s.intro1}</p>
-        <ul class="service-bands">
-          {
-            left.map((service) => (
-              <li class="service-band">
-                <span class="service-band-num">{service.number}</span>
-                <span class="service-band-title">{service.title}</span>
-                <svg class="service-band-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+    <ul class="service-grid">
+      {
+        items.map((item, i) => (
+          <li class={`service-card service-card--${i + 1}`}>
+            <span class="service-num">{item.number}</span>
+            {i === 0 && (
+              <div class="service-art" aria-hidden="true">
+                <svg viewBox="0 0 320 190" fill="none">
+                  <rect class="art-screen" x="8" y="30" width="82" height="128" rx="10" />
+                  <rect class="art-line" x="20" y="46" width="40" height="6" rx="3" />
+                  <rect class="art-block" x="20" y="64" width="58" height="34" rx="6" />
+                  <rect class="art-line" x="20" y="108" width="58" height="5" rx="2.5" />
+                  <rect class="art-line" x="20" y="120" width="36" height="5" rx="2.5" />
 
-      <div class="services-col">
-        <ul class="service-bands">
-          {
-            right.map((service) => (
-              <li class="service-band">
-                <span class="service-band-num">{service.number}</span>
-                <span class="service-band-title">{service.title}</span>
-                <svg class="service-band-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <rect class="art-screen art-screen--hi" x="118" y="14" width="82" height="128" rx="10" />
+                  <rect class="art-line art-line--hi" x="130" y="30" width="40" height="6" rx="3" />
+                  <rect class="art-block art-block--hi" x="130" y="48" width="58" height="34" rx="6" />
+                  <rect class="art-line art-line--hi" x="130" y="92" width="58" height="5" rx="2.5" />
+                  <rect class="art-btn" x="130" y="110" width="30" height="12" rx="6" />
+
+                  <rect class="art-screen" x="228" y="40" width="82" height="128" rx="10" />
+                  <rect class="art-line" x="240" y="56" width="40" height="6" rx="3" />
+                  <rect class="art-block" x="240" y="74" width="26" height="26" rx="6" />
+                  <rect class="art-block" x="272" y="74" width="26" height="26" rx="6" />
+                  <rect class="art-line" x="240" y="112" width="58" height="5" rx="2.5" />
+
+                  <path class="art-link" d="M90 86 C 100 86 108 80 118 76" />
+                  <path class="art-link" d="M200 78 C 212 78 218 92 228 98" />
+                  <path class="art-cursor" d="M176 112 l0 20 l6 -5 l5 11 l5 -2 l-5 -11 l8 0 z" />
                 </svg>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="services-intro">{s.intro2}</p>
-      </div>
-    </div>
+              </div>
+            )}
+            {i === 1 && (
+              <div class="service-art" aria-hidden="true">
+                <svg viewBox="0 0 320 190" fill="none">
+                  <rect class="art-window" x="8" y="12" width="304" height="166" rx="12" />
+                  <path class="art-bar" d="M8 24a12 12 0 0 1 12-12h280a12 12 0 0 1 12 12v14H8z" />
+                  <circle class="art-dot" cx="22" cy="25" r="3.5" />
+                  <circle class="art-dot" cx="34" cy="25" r="3.5" />
+                  <circle class="art-dot" cx="46" cy="25" r="3.5" />
+                  <rect class="art-line" x="28" y="54" width="34" height="8" rx="4" />
+                  <rect class="art-line" x="220" y="56" width="22" height="4" rx="2" />
+                  <rect class="art-line" x="252" y="56" width="22" height="4" rx="2" />
+                  <rect class="art-line" x="284" y="56" width="16" height="4" rx="2" />
+                  <rect class="art-line art-line--t" x="28" y="80" width="120" height="12" rx="6" />
+                  <rect class="art-line art-line--t" x="28" y="100" width="84" height="12" rx="6" />
+                  <rect class="art-btn" x="28" y="124" width="52" height="16" rx="8" />
+                  <rect class="art-block art-block--hi" x="176" y="76" width="124" height="68" rx="9" />
+                  <circle class="art-sun" cx="272" cy="98" r="9" />
+                  <rect class="art-block" x="28" y="152" width="82" height="16" rx="5" />
+                  <rect class="art-block" x="119" y="152" width="82" height="16" rx="5" />
+                  <rect class="art-block" x="210" y="152" width="90" height="16" rx="5" />
+                </svg>
+              </div>
+            )}
+            {i === 2 && (
+              <svg class="service-icon" viewBox="0 0 80 64" fill="none" aria-hidden="true">
+                <path d="M10 52 C 20 4, 60 4, 70 52" />
+                <path class="icon-handle" d="M10 52 L22 14 M70 52 L58 14" />
+                <circle cx="22" cy="14" r="3.5" class="icon-fill" />
+                <circle cx="58" cy="14" r="3.5" class="icon-fill" />
+                <rect x="5" y="47" width="10" height="10" class="icon-fill" />
+                <rect x="65" y="47" width="10" height="10" class="icon-fill" />
+              </svg>
+            )}
+            {i === 3 && (
+              <svg class="service-icon service-icon--code" viewBox="0 0 120 60" fill="none" aria-hidden="true">
+                <path d="M28 12 L6 30 L28 48" />
+                <path d="M92 12 L114 30 L92 48" />
+                <circle cx="60" cy="30" r="17" />
+                <path d="M48 18 L72 42" />
+              </svg>
+            )}
+            <div class="service-text">
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
@@ -66,97 +104,201 @@ const right = items.slice(2, 4);
   .services-head {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-    text-align: center;
-    margin-bottom: var(--space-10, 2.5rem);
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
   }
-  .services-leaf {
-    color: var(--plume);
-    display: inline-flex;
+  .services-head h2 {
+    font-size: var(--title-size);
+    line-height: 1.02;
   }
-
-  .services-cols {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    max-width: 920px;
-    margin-inline: auto;
-  }
-  @media (min-width: 768px) {
-    .services-cols {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-12);
-    }
-  }
-
-  .services-col {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .services-intro {
+  .services-lead {
+    max-width: 34ch;
     color: var(--text-body);
     font-size: 0.9375rem;
     line-height: 1.6;
   }
+  @media (min-width: 820px) {
+    .services-head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
 
-  .service-bands {
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 620px) {
+    .service-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 980px) {
+    .service-grid {
+      grid-template-columns: 1.25fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .service-card--1,
+    .service-card--2 {
+      grid-row: span 2;
+    }
+  }
+
+  .service-card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    justify-content: space-between;
+    gap: var(--space-8);
+    min-height: 190px;
+    padding: var(--space-8);
+    border-radius: 22px;
+    background-color: var(--surface-sunken);
+    color: var(--ink);
+    transition: transform 0.25s var(--ease);
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+  }
+  @media (min-width: 980px) {
+    .service-card--1,
+    .service-card--2 {
+      min-height: 360px;
+    }
   }
 
-  .service-band {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: 16px 22px;
-    border-radius: 14px;
+  .service-card--3 {
     background-color: var(--plume);
     color: var(--on-plume);
-    cursor: default;
-    transition: background-color 0.25s var(--ease), transform 0.25s var(--ease),
-      box-shadow 0.25s var(--ease);
+  }
+  .service-card--4 {
+    background-color: #2e2a24;
+    color: #f4efe4;
   }
 
-  .service-band:hover {
-    background-color: var(--plume-deep);
-    transform: translateX(6px);
+  /* Dibujos de las tarjetas grandes */
+  .service-art {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+  }
+  .service-art svg {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+  }
+  .art-screen,
+  .art-window {
+    fill: color-mix(in srgb, var(--ink) 6%, transparent);
+    stroke: color-mix(in srgb, var(--ink) 18%, transparent);
+    stroke-width: 1.5;
+  }
+  .art-screen--hi {
+    fill: var(--plume);
+    stroke: none;
+  }
+  .art-bar {
+    fill: color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .art-dot {
+    fill: color-mix(in srgb, var(--ink) 35%, transparent);
+  }
+  .art-line {
+    fill: color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  .art-line--t {
+    fill: color-mix(in srgb, var(--ink) 38%, transparent);
+  }
+  .art-line--hi {
+    fill: color-mix(in srgb, var(--on-plume) 55%, transparent);
+  }
+  .art-block {
+    fill: color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+  .art-block--hi {
+    fill: var(--rust);
+  }
+  .art-btn {
+    fill: var(--rust);
+  }
+  .art-sun {
+    fill: #f2b891;
+  }
+  .art-link {
+    stroke: var(--plume);
+    stroke-width: 2;
+    stroke-dasharray: 5 5;
+    stroke-linecap: round;
+  }
+  .art-cursor {
+    fill: var(--ink);
   }
 
-  .service-band-arrow {
-    margin-left: auto;
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  /* Iconos de las tarjetas chicas */
+  .service-card {
+    position: relative;
   }
-  .service-band:hover .service-band-arrow {
-    opacity: 1;
-    transform: translateX(0);
+  .service-icon {
+    position: absolute;
+    top: var(--space-8);
+    right: var(--space-8);
+    width: 76px;
+    height: auto;
+    stroke: currentColor;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .service-icon--code {
+    width: 96px;
+    stroke: #f2b891;
+    stroke-width: 6;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+  }
+  .icon-handle {
+    stroke-width: 2;
+    opacity: 0.7;
+  }
+  .icon-fill {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .service-num {
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+  }
+
+  .service-text h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    line-height: 1.08;
+  }
+  .service-text p {
+    margin-top: var(--space-3);
+    max-width: 30ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    opacity: 0.85;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .service-band,
-    .service-band-arrow {
+    .service-card {
       transition: none;
     }
-    .service-band:hover {
+    .service-card:hover {
       transform: none;
     }
-  }
-
-  .service-band-num {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    opacity: 0.7;
-  }
-
-  .service-band-title {
-    font-family: var(--font-display);
-    font-size: 1.0625rem;
-    font-weight: 500;
   }
 </style>

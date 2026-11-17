@@ -6,12 +6,11 @@ import mdx from '@astrojs/mdx';
 // Dominio definitivo: usado para canonical, Open Graph y sitemap.
 export default defineConfig({
   site: 'https://ayelenec.com',
-  // /preview (portfolio completo mientras el index muestra "en construccion")
-  // se excluye del sitemap para que no lo indexen.
+  // El blog queda fuera del sitemap hasta que tenga contenido real.
   integrations: [
     sitemap({
       filter: (page) =>
-        !page.includes('/preview') && !page.includes('/proyectos') && !page.includes('/blog'),
+        !page.includes('/blog'),
     }),
     mdx(),
   ],

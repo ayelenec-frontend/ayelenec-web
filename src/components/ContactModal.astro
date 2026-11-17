@@ -6,7 +6,9 @@ import { site } from '../data/site';
 import { getLang, t } from '../i18n';
 import CtaButton from './CtaButton.astro';
 
-const s = t[getLang(Astro.url)].modal;
+const lang = getLang(Astro.url);
+const s = t[lang].modal;
+const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
 ---
 
 <dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
@@ -36,6 +38,18 @@ const s = t[getLang(Astro.url)].modal;
       <input id="cm-email" name="email" type="email" required autocomplete="email" />
     </div>
     <div class="cm-field">
+      <label for="cm-servicio">{s.service}</label>
+      <div class="cm-select">
+        <select id="cm-servicio" name="service">
+          <option value="">{s.servicePlaceholder}</option>
+          {serviceOptions.map((o) => <option value={o}>{o}</option>)}
+        </select>
+        <svg class="cm-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </div>
+    </div>
+    <div class="cm-field">
       <label for="cm-mensaje">{s.message}</label>
       <textarea id="cm-mensaje" name="message" rows="4" required></textarea>
     </div>
@@ -53,14 +67,21 @@ const s = t[getLang(Astro.url)].modal;
     width: min(92vw, 480px);
     max-height: 92vh;
     padding: 0;
-    border: 1px solid var(--line);
-    border-radius: 6px;
+    border: 0;
+    border-radius: 20px;
     background-color: var(--surface-raised);
     color: var(--ink);
+    box-shadow: 0 24px 60px rgb(46 42 36 / 0.28);
   }
 
+  /* El sitio sigue a la vista detras, solo desenfocado y apenas oscurecido */
   .cm::backdrop {
-    background-color: var(--surface-sunken);
+    background-color: rgb(46 42 36 / 0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  :global(:root[data-theme='dark']) .cm::backdrop {
+    background-color: rgb(0 0 0 / 0.4);
   }
 
   .cm[open] {
@@ -93,7 +114,7 @@ const s = t[getLang(Astro.url)].modal;
     justify-content: center;
     width: 36px;
     height: 36px;
-    border-radius: var(--radius);
+    border-radius: 10px;
     color: var(--ink-muted);
     transition: color 0.18s var(--ease), background-color 0.18s var(--ease);
   }
@@ -139,12 +160,13 @@ const s = t[getLang(Astro.url)].modal;
   }
 
   .cm-field input,
+  .cm-field select,
   .cm-field textarea {
     width: 100%;
     padding: 11px var(--space-3);
     border-radius: var(--radius);
-    border: 1.5px solid var(--ink-muted);
-    background-color: var(--surface);
+    border: 0;
+    background-color: var(--surface-sunken);
     color: var(--ink);
     font-size: 0.9375rem;
     transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
@@ -155,11 +177,30 @@ const s = t[getLang(Astro.url)].modal;
     min-height: 92px;
   }
 
+  .cm-select {
+    position: relative;
+  }
+  .cm-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 40px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .cm-chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-muted);
+    pointer-events: none;
+  }
+
   .cm-field input:focus,
+  .cm-field select:focus,
   .cm-field textarea:focus {
     outline: none;
-    border-color: var(--plume);
-    box-shadow: 0 0 0 3px var(--plume-tint);
+    box-shadow: 0 0 0 2px var(--plume);
   }
 
   .cm-status {
@@ -222,7 +263,7 @@ const s = t[getLang(Astro.url)].modal;
       if (!key) {
         const subject = encodeURIComponent('Contacto desde ayelenec.com');
         const body = encodeURIComponent(
-          `Nombre: ${data.get('name')}\nEmail: ${data.get('email')}\n\n${data.get('message')}`
+          `Nombre: ${data.get('name')}\nEmail: ${data.get('email')}\nServicio: ${data.get('service') || '-'}\n\n${data.get('message')}`
         );
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         return;

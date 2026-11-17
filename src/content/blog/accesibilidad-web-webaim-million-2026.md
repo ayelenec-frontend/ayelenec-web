@@ -5,7 +5,7 @@ pubDate: 2026-11-23
 readingTime: '5 min'
 lang: 'es'
 tags: ['Accesibilidad', 'UX', 'Datos']
-draft: false
+draft: true
 ---
 
 Casi todos los sitios de internet tienen barreras que impiden o dificultan su uso a personas con discapacidad. En 2026, el **95,9 % de las páginas de inicio** más visitadas del mundo tenía errores de accesibilidad detectables, y la cifra empeoró respecto del año anterior.
@@ -22,7 +22,7 @@ Algunas cifras clave de este año:
 | --- | --- | --- |
 | Páginas con errores detectables (WCAG 2 A/AA) | 94,8 % | 95,9 % |
 | Errores promedio por página | 51 | 56,1 |
-| Elementos promedio por página | — | 1.437 (+22,5 % en un año) |
+| Elementos promedio por página | n/d | 1.437 (+22,5 % en un año) |
 
 Dicho de otra forma: una persona con discapacidad encuentra **un error cada 26 elementos** de una página de inicio promedio.
 
@@ -82,8 +82,8 @@ La accesibilidad no es un extra que se agrega al final: es parte de diseñar bie
 
 ## Fuentes
 
-- **The WebAIM Million 2026** — informe original.
-- **Web accessibility is getting worse according to the 2026 WebAIM Million report** (Priority Pixels) — porcentajes por tipo de error y comparación con 2025.
-- **The WebAIM Million Report 2026: what it tells us** (Nexer Digital) — errores promedio y elementos por página.
-- **Informe mundial sobre la equidad sanitaria para las personas con discapacidad** (OPS/OMS) — 1.300 millones de personas, 16 % de la población.
-- **Claves de la entrada en vigor de la Ley de Accesibilidad en España** (Cuatrecasas) — fecha y alcance para comercio electrónico.
+- **The WebAIM Million 2026**: informe original.
+- **Web accessibility is getting worse according to the 2026 WebAIM Million report** (Priority Pixels): porcentajes por tipo de error y comparación con 2025.
+- **The WebAIM Million Report 2026: what it tells us** (Nexer Digital): errores promedio y elementos por página.
+- **Informe mundial sobre la equidad sanitaria para las personas con discapacidad** (OPS/OMS): 1.300 millones de personas, 16 % de la población.
+- **Claves de la entrada en vigor de la Ley de Accesibilidad en España** (Cuatrecasas): fecha y alcance para comercio electrónico.

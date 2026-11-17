@@ -3,39 +3,88 @@ import { getLang, t } from '../i18n';
 import CtaButton from './CtaButton.astro';
 
 const s = t[getLang(Astro.url)].hero;
+// "Interfaces claras, diseñadas con " -> "Interfaces claras," / "diseñadas con"
+const [line1, ...restLead] = s.titleLead.split(", ");
+const line2 = restLead.join(", ").trim();
+const cta = t[getLang(Astro.url)].cta;
+
+// Animacion "armando una pagina": cada pieza entra en su momento del ciclo (11 s).
+// [clase, inicio %, tipo]
+const steps: [string, number, 'drop' | 'rise' | 'reveal' | 'pop'][] = [
+  ['nav', 8, 'drop'],
+  ['title', 15, 'reveal'],
+  ['line1', 24, 'reveal'],
+  ['line2', 27, 'reveal'],
+  ['img', 30, 'pop'],
+  ['btn', 40, 'pop'],
+  ['card--1', 47, 'rise'],
+  ['card--2', 51, 'rise'],
+  ['card--3', 55, 'rise'],
+];
+const from = { drop: 'translateY(-14px)', rise: 'translateY(22px)', pop: 'scale(0.86)', reveal: 'none' };
+const buildCss = steps
+  .map(([name, a, kind]) => {
+    const b = a + (kind === 'reveal' ? 7 : 5);
+    const hidden = kind === 'reveal' ? 'clip-path: inset(0 100% 0 0); opacity: 1;' : `opacity: 0; transform: ${from[kind]};`;
+    const shown = kind === 'reveal' ? 'clip-path: inset(0 0 0 0); opacity: 1;' : 'opacity: 1; transform: none;';
+    const out = kind === 'reveal' ? 'clip-path: inset(0 0 0 0); opacity: 0;' : 'opacity: 0; transform: none;';
+    return `@keyframes hb-${name} { 0%, ${a}% { ${hidden} } ${b}%, 90% { ${shown} } 96%, 100% { ${out} } }
+.hb-${name} { animation: hb-${name} 11s cubic-bezier(0.34, 1.3, 0.5, 1) infinite; }`;
+  })
+  .join('\n');
 ---
 
 <section class="hero" id="top">
   <div class="hero-stage">
-    <div class="container hero-content">
-      <div class="hero-meta">
-        <span class="hero-eyebrow">{s.eyebrow}</span>
-        <span class="hero-status">{s.status}</span>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="hero-meta">
+          <span class="hero-eyebrow">{s.eyebrow}</span>
+          <span class="hero-status">{s.status}</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="hero-line">{line1},</span>
+          <span class="hero-line">{line2}</span>
+          <span class="hero-line"><span class="accent">{s.titleAccent}</span>.</span>
+        </h1>
+        <p class="hero-lead">{s.lead}</p>
+        <div class="hero-actions">
+          <CtaButton label={s.projectsBtn} href="#proyectos" icon="arrow" />
+          <CtaButton label={s.cvBtn} href={s.cv} icon="download" secondary download />
+        </div>
       </div>
-      <h1 class="hero-title">
-        {s.titleLead}<span class="accent">{s.titleAccent}</span>.
-      </h1>
-      <span class="hero-badge" aria-hidden="true">
-        <img src="/ac-badge.svg" alt="" width="76" height="76" />
-      </span>
-    </div>
-  </div>
 
-  <div class="container hero-below">
-    <p class="hero-lead">{s.lead}</p>
-    <div class="hero-actions">
-      <CtaButton label={s.projectsBtn} href="#proyectos" icon="arrow" />
-      <CtaButton label={s.cvBtn} href={s.cv} icon="download" secondary download />
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hb">
+          <div class="hb-bar"><i></i><i></i><i></i></div>
+          <div class="hb-nav hb-el">
+            <span class="hb-logo"></span>
+            <span class="hb-link"></span><span class="hb-link"></span><span class="hb-link"></span>
+          </div>
+          <div class="hb-title hb-el">{line1},</div>
+          <div class="hb-line hb-line1 hb-el"></div>
+          <div class="hb-line hb-line2 hb-el"></div>
+          <div class="hb-btn hb-el"><em>{cta}</em></div>
+          <div class="hb-img hb-el"><span class="hb-sun"></span></div>
+          <div class="hb-card hb-el hb-card--1"></div>
+          <div class="hb-card hb-el hb-card--2"></div>
+          <div class="hb-card hb-el hb-card--3"></div>
+          <svg class="hb-cursor" viewBox="0 0 24 28" aria-hidden="true">
+            <path d="M3 2 L3 22 L8.5 17 L12.5 26 L16 24.5 L12 15.5 L19.5 15.5 Z" />
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<style is:inline set:html={buildCss}></style>
 
 <style>
   .hero {
     position: relative;
   }
 
-  /* Escenario a pantalla completa, con fade al fondo de la pagina */
   .hero-stage {
     --hero-veil: 46, 42, 36;
     --hero-text: #f4efe4;
@@ -43,19 +92,13 @@ const s = t[getLang(Astro.url)].hero;
     --hero-eyebrow: #b9ab93;
     --hero-status: #9fd0bb;
     --hero-dot: #7cc2a9;
-    min-height: 84vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding-block: var(--space-24) var(--space-24);
+    padding-block: 12.5rem var(--space-16); /* libra el header (brand + menu) con aire */
     color: var(--hero-text);
     background-color: var(--surface);
     position: relative;
     isolation: isolate;
   }
 
-  /* En claro, velo claro (Nube) y texto oscuro: se funde con la pagina sin linea */
   :global(:root[data-theme='light']) .hero-stage {
     --hero-veil: 230, 220, 198;
     --hero-text: #2e2a24;
@@ -69,18 +112,16 @@ const s = t[getLang(Astro.url)].hero;
   .hero-stage::after {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: 0 0 -140px 0;
     z-index: -1;
     pointer-events: none;
   }
-  /* Textura botanica, difuminada hacia abajo con mascara */
   .hero-stage::before {
     background: url('/hero/botanica.jpg') center / cover no-repeat;
     opacity: 0.42;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 86%);
     mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 86%);
   }
-  /* Velo que se desvanece al fondo de la pagina (sin corte) */
   .hero-stage::after {
     background: linear-gradient(
       180deg,
@@ -91,18 +132,24 @@ const s = t[getLang(Astro.url)].hero;
     );
   }
 
-  .hero-content {
-    display: flex;
-    flex-direction: column;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
     align-items: center;
+  }
+  @media (min-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: var(--space-8);
+    }
   }
 
   .hero-meta {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
-    justify-content: center;
     margin-bottom: var(--space-6);
     font-family: var(--font-sans);
     font-weight: 500;
@@ -110,11 +157,9 @@ const s = t[getLang(Astro.url)].hero;
     letter-spacing: 0.22em;
     text-transform: uppercase;
   }
-
   .hero-eyebrow {
     color: var(--hero-eyebrow);
   }
-
   .hero-status {
     display: inline-flex;
     align-items: center;
@@ -130,41 +175,21 @@ const s = t[getLang(Astro.url)].hero;
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 7vw, 4.75rem);
+    font-size: clamp(2.5rem, 4.2vw, 3.75rem);
     line-height: 1.04;
-    max-width: 16ch;
-    margin-inline: auto;
     color: var(--hero-text);
   }
-
+  .hero-line {
+    display: block;
+  }
   .hero-title .accent {
     font-weight: 600;
     color: var(--hero-accent);
   }
 
-  .hero-badge {
-    display: inline-flex;
-    width: 76px;
-    height: 76px;
-    margin-top: var(--space-10, 2.5rem);
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  }
-  .hero-badge img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  .hero-below {
-    text-align: center;
-    padding-bottom: var(--space-16);
-  }
-
   .hero-lead {
-    margin: 0 auto;
-    max-width: 56ch;
+    margin-top: var(--space-6);
+    max-width: 46ch;
     font-size: 1.125rem;
     line-height: 1.6;
     color: var(--text-body);
@@ -173,8 +198,185 @@ const s = t[getLang(Astro.url)].hero;
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--space-3);
     margin-top: var(--space-8);
+  }
+
+  /* ---- Composicion visual: capturas flotando ---- */
+  .hero-visual {
+    position: relative;
+    min-height: 300px;
+    padding: 0 0 56px;
+  }
+  @media (min-width: 960px) {
+    .hero-visual {
+      min-height: 440px;
+    }
+  }
+
+  /* ---- Escena: una pagina que se arma sola ---- */
+  .hero-visual {
+    container-type: inline-size;
+  }
+  .hb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 7 / 5;
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: var(--surface-raised);
+    box-shadow: 0 30px 60px -28px rgb(46 42 36 / 0.55);
+    color: var(--ink);
+  }
+  .hb-bar {
+    position: absolute;
+    inset: 0 0 auto 0;
+    display: flex;
+    align-items: center;
+    gap: 1.6cqw;
+    height: 8.5%;
+    padding-inline: 3.2cqw;
+    background-color: color-mix(in srgb, var(--ink) 9%, transparent);
+  }
+  .hb-bar i {
+    width: 1.5cqw;
+    height: 1.5cqw;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--ink) 30%, transparent);
+  }
+  .hb-el {
+    position: absolute;
+  }
+  .hb-nav {
+    left: 6%;
+    right: 6%;
+    top: 14%;
+    display: flex;
+    align-items: center;
+    gap: 2.4cqw;
+  }
+  .hb-logo {
+    width: 7cqw;
+    height: 2.6cqw;
+    margin-right: auto;
+    border-radius: 0.8cqw;
+    background-color: var(--plume);
+  }
+  .hb-link {
+    width: 5.2cqw;
+    height: 1cqw;
+    border-radius: 1cqw;
+    background-color: color-mix(in srgb, var(--ink) 28%, transparent);
+  }
+  .hb-title {
+    left: 6%;
+    top: 27%;
+    width: 52%;
+    font-family: var(--font-display);
+    font-size: 5.6cqw;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+  .hb-line {
+    left: 6%;
+    height: 1.5cqw;
+    border-radius: 1cqw;
+    background-color: color-mix(in srgb, var(--ink) 24%, transparent);
+  }
+  .hb-line1 {
+    top: 47%;
+    width: 38%;
+  }
+  .hb-line2 {
+    top: 52%;
+    width: 28%;
+  }
+  .hb-btn {
+    left: 6%;
+    top: 61%;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 3cqw;
+    height: 7.2cqw;
+    border-radius: 2cqw;
+    background-color: #d98a5b;
+  }
+  .hb-btn em {
+    font-style: normal;
+    font-family: var(--font-sans);
+    font-size: 2.3cqw;
+    font-weight: 500;
+    color: #2e2a24;
+  }
+  .hb-img {
+    right: 6%;
+    top: 27%;
+    width: 36%;
+    height: 38%;
+    border-radius: 2cqw;
+    background: linear-gradient(150deg, #6e4a4f, #a2542f);
+    overflow: hidden;
+  }
+  .hb-sun {
+    position: absolute;
+    right: 20%;
+    top: 20%;
+    width: 22%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #f2b891;
+  }
+  .hb-card {
+    top: 76%;
+    width: 26.7%;
+    height: 17%;
+    border-radius: 1.8cqw;
+  }
+  .hb-card--1 { left: 6%; background-color: #e6dcc6; }
+  .hb-card--2 { left: 36.6%; background-color: #d6a9a2; }
+  .hb-card--3 { left: 67.3%; background-color: #6e4a4f; }
+
+  /* Cursor que recorre la pagina mientras se arma */
+  .hb-cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4.2cqw;
+    fill: #2e2a24;
+    stroke: #f4efe4;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.35));
+    opacity: 0;
+    animation: hb-cursor 11s ease-in-out infinite;
+  }
+  @keyframes hb-cursor {
+    0% { opacity: 0; left: 88%; top: 92%; }
+    8% { opacity: 1; left: 70%; top: 18%; }
+    16% { left: 36%; top: 34%; }
+    28% { left: 40%; top: 50%; }
+    32% { left: 74%; top: 42%; }
+    39% { left: 16%; top: 68%; }
+    42% { left: 16%; top: 68%; transform: scale(0.88); }
+    44% { left: 16%; top: 68%; transform: scale(1); }
+    50% { left: 22%; top: 84%; }
+    54% { left: 52%; top: 84%; }
+    58% { left: 82%; top: 84%; }
+    66% { opacity: 1; left: 88%; top: 96%; }
+    72%, 100% { opacity: 0; left: 94%; top: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hb-el,
+    .hb-cursor {
+      animation: none !important;
+      opacity: 1;
+      clip-path: none !important;
+      transform: none !important;
+    }
+    .hb-cursor {
+      display: none;
+    }
   }
 </style>

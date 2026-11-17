@@ -1,147 +1,28 @@
 ---
-// Pagina publica "en construccion". El portfolio completo vive en /preview.
-// Para lanzar: reemplazar este archivo por el contenido de preview.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import Services from '../components/Services.astro';
+import Projects from '../components/Projects.astro';
+import Process from '../components/Process.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 import ContactModal from '../components/ContactModal.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import CtaButton from '../components/CtaButton.astro';
-import { site } from '../data/site';
 ---
 
-<BaseLayout
-  title={`${site.name} · Diseñadora UX/UI y web`}
-  description="Nuevo portfolio de Ayelen Caceres, diseñadora UX/UI y web. Muy pronto."
->
-  <main id="contenido" class="cs">
-    <div class="container cs-inner">
-      <header class="cs-head">
-        <span class="cs-brand">{site.name}</span>
-        <div class="cs-head-right">
-          <span class="status">Disponible</span>
-          <ThemeToggle />
-        </div>
-      </header>
-
-      <section class="cs-body">
-        <span class="eyebrow">Sitio en construcción</span>
-        <h1 class="cs-title">
-          Estoy preparando<br />algo hecho con<br /><span class="accent">intención</span>.
-        </h1>
-        <p class="cs-lead">
-          Mi nuevo portfolio de diseño UX/UI y web está en camino. Si tenés un
-          proyecto en mente, no hace falta esperar: escribime y conversamos.
-        </p>
-        <CtaButton label="Escribime" data-open-contact />
-      </section>
-
-      <footer class="cs-foot">
-        <span>{site.role}</span>
-        <span class="cs-tagline">{site.tagline}</span>
-        <span>{site.location}</span>
-      </footer>
-    </div>
+<BaseLayout>
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <Marquee />
+    <Services />
+    <Process />
+    <Projects />
+    <About />
+    <Contact />
   </main>
-
+  <Footer />
   <ContactModal />
 </BaseLayout>
-
-<style>
-  .cs {
-    min-height: 100vh;
-    display: flex;
-  }
-
-  .cs-inner {
-    flex: 1;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: var(--space-12);
-    padding-block: var(--space-12);
-    min-height: 100vh;
-  }
-
-  .cs-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding: 0.5rem 0.75rem 0.5rem 1.5rem;
-    background-color: var(--surface-raised);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-  }
-
-  .cs-head-right {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  /* Disponibilidad sin la pastilla: solo el punto que late + texto */
-  .cs-head .status {
-    padding: 0;
-    border: 0;
-    background: transparent;
-  }
-
-  .cs-brand {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-
-  .cs-body {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-6);
-  }
-
-  .cs-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    line-height: 1;
-    text-wrap: balance;
-  }
-
-  .cs-lead {
-    max-width: 52ch;
-    font-size: 1.1875rem;
-    line-height: 1.58;
-    color: var(--text-body);
-  }
-
-  .cs-body .btn {
-    margin-top: var(--space-2);
-  }
-
-  .cs-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2) var(--space-6);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    color: var(--ink-muted);
-  }
-
-  .cs-tagline {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.0625rem;
-    letter-spacing: 0;
-    color: var(--plume);
-  }
-
-  @media (max-width: 560px) {
-    .cs-foot {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-</style>

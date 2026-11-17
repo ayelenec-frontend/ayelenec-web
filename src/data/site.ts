@@ -152,7 +152,7 @@ export const about = {
     'IA aplicada al diseño',
   ],
   // Retrato pendiente: cuando exista, cargarlo en /public/ y completar portrait.
-  portrait: '',
+  portrait: '/ayelen.webp',
 } as const;
 
 export const contact = {

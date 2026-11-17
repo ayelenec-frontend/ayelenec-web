@@ -45,20 +45,20 @@ const icons: Record<string, string> = {
     height: 38px;
     border-radius: 50%;
     color: var(--ink-muted);
-    border: 1px solid var(--line);
-    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+    background-color: var(--surface-sunken);
+    transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
   }
   .socials a:hover {
-    color: var(--plume);
-    border-color: var(--plume);
+    color: var(--on-plume);
+    background-color: var(--plume);
   }
 
   .socials--ondark a {
     color: #b3a68f;
-    border-color: #4a4138;
+    background-color: #3a332b;
   }
   .socials--ondark a:hover {
-    color: #d6a9a2;
-    border-color: #d6a9a2;
+    color: #2e2a24;
+    background-color: #d6a9a2;
   }
 </style>

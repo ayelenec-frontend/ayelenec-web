@@ -26,12 +26,14 @@ export const t = {
     },
     nav: [
       { label: 'Inicio', href: '#top' },
-      { label: 'Sobre mí', href: '#sobre-mi' },
       { label: 'Servicios', href: '#servicios' },
       { label: 'Proceso', href: '#proceso' },
       { label: 'Proyectos', href: '#proyectos' },
+      { label: 'Sobre mí', href: '#sobre-mi' },
     ],
     cta: 'Escribime',
+    marquee: ['Diseño UX/UI', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Diseño gráfico', 'No-code'],
+    footerUi: { nav: 'Navegación', contact: 'Contacto', social: 'Redes' },
     hero: {
       eyebrow: 'UX/UI · Web · Producto',
       status: 'Disponible',
@@ -41,6 +43,10 @@ export const t = {
       projectsBtn: 'Ver proyectos',
       cvBtn: 'Descargar CV',
       cv: '/cv/cv-ayelen-caceres-es.pdf',
+      stats: [
+        { v: '3', l: 'países' },
+        { v: '48 h', l: 'de respuesta' },
+      ],
     },
     services: {
       head: 'Qué hago',
@@ -49,10 +55,18 @@ export const t = {
       intro2:
         'Identidad visual y piezas gráficas para redes y campañas; y MVPs con no-code e IA para validar ideas antes de invertir en desarrollo.',
       titles: ['Diseño UX/UI', 'Diseño y desarrollo web', 'Diseño gráfico', 'Producto no-code'],
+      lead: 'Cuatro áreas que se combinan en un mismo proceso, de la investigación a la entrega.',
+      descs: [
+        'Investigación, arquitectura de información y prototipos en Figma.',
+        'Sitios institucionales y e-commerce en WordPress, Webflow o Shopify.',
+        'Identidad visual y piezas gráficas para redes y campañas.',
+        'MVPs con no-code e IA para validar ideas antes de invertir en desarrollo.',
+      ],
     },
     process: {
       eyebrow: 'Proceso',
       head: 'Primero la estructura, después el detalle.',
+      wfLabels: ['Estructura', 'Detalle'],
       steps: [
         { title: 'Entender', desc: 'Escucho al negocio y a las personas; defino el problema antes que la solución.' },
         { title: 'Ordenar', desc: 'Arquitectura, flujos y wireframes; la estructura se valida antes del color.' },
@@ -74,7 +88,7 @@ export const t = {
     projects: {
       eyebrow: 'Proyectos',
       head: 'Trabajo seleccionado.',
-      cta: 'Ver proyecto',
+      cta: 'Ver sitio',
     },
     project: {
       back: 'Volver a proyectos',
@@ -85,7 +99,7 @@ export const t = {
     blog: {
       nav: 'Blog',
       title: 'Blog',
-      intro: 'Notas sobre UX, diseño web y datos — en lenguaje claro.',
+      intro: 'Notas sobre UX, diseño web y datos, en lenguaje claro.',
       readMore: 'Leer más',
       all: 'Todos',
       filterLabel: 'Filtrar por tema',
@@ -96,7 +110,7 @@ export const t = {
       back: 'Volver al blog',
       cta: '¿Querés saber cómo está tu sitio? Escribime y lo revisamos juntos.',
       ctaBtn: 'Escribime',
-      empty: 'Muy pronto, los primeros artículos.',
+      empty: 'Próximamente: estoy preparando los primeros artículos.',
       published: 'Publicado el',
     },
     contact: {
@@ -118,6 +132,9 @@ export const t = {
       intro: 'Contame sobre tu proyecto y te respondo en menos de 48 horas.',
       name: 'Nombre',
       email: 'Email',
+      service: 'Servicio de interés',
+      servicePlaceholder: 'Elegí una opción (opcional)',
+      serviceExtra: ['Trabajo en conjunto', 'Otro'],
       message: 'Mensaje',
       send: 'Enviar mensaje',
       sending: 'Enviando…',
@@ -138,12 +155,14 @@ export const t = {
     },
     nav: [
       { label: 'Home', href: '#top' },
-      { label: 'About', href: '#sobre-mi' },
       { label: 'Services', href: '#servicios' },
       { label: 'Process', href: '#proceso' },
       { label: 'Projects', href: '#proyectos' },
+      { label: 'About', href: '#sobre-mi' },
     ],
     cta: 'Get in touch',
+    marquee: ['UX/UI design', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Graphic design', 'No-code'],
+    footerUi: { nav: 'Navigation', contact: 'Contact', social: 'Social' },
     hero: {
       eyebrow: 'UX/UI · Web · Product',
       status: 'Available',
@@ -153,6 +172,10 @@ export const t = {
       projectsBtn: 'View projects',
       cvBtn: 'Download CV',
       cv: '/cv/cv-ayelen-caceres-en.pdf',
+      stats: [
+        { v: '3', l: 'countries' },
+        { v: '48 h', l: 'reply time' },
+      ],
     },
     services: {
       head: 'What I do',
@@ -161,10 +184,18 @@ export const t = {
       intro2:
         'Visual identity and graphic pieces for social media and campaigns; and MVPs with no-code and AI to validate ideas before investing in development.',
       titles: ['UX/UI Design', 'Web design & development', 'Graphic design', 'No-code product'],
+      lead: 'Four areas that combine in a single process, from research to delivery.',
+      descs: [
+        'Research, information architecture and prototypes in Figma.',
+        'Corporate sites and e-commerce in WordPress, Webflow or Shopify.',
+        'Visual identity and graphic pieces for social media and campaigns.',
+        'MVPs with no-code and AI to validate ideas before investing in development.',
+      ],
     },
     process: {
       eyebrow: 'Process',
       head: 'Structure first, detail second.',
+      wfLabels: ['Structure', 'Detail'],
       steps: [
         { title: 'Understand', desc: 'I listen to the business and the people; I define the problem before the solution.' },
         { title: 'Organize', desc: 'Architecture, flows and wireframes; structure is validated before color.' },
@@ -186,7 +217,7 @@ export const t = {
     projects: {
       eyebrow: 'Projects',
       head: 'Selected work.',
-      cta: 'View project',
+      cta: 'Visit site',
     },
     project: {
       back: 'Back to projects',
@@ -197,7 +228,7 @@ export const t = {
     blog: {
       nav: 'Blog',
       title: 'Blog',
-      intro: 'Notes on UX, web design and data — in plain language.',
+      intro: 'Notes on UX, web design and data, in plain language.',
       readMore: 'Read more',
       all: 'All',
       filterLabel: 'Filter by topic',
@@ -208,7 +239,7 @@ export const t = {
       back: 'Back to the blog',
       cta: "Want to know how your site is doing? Get in touch and we'll review it together.",
       ctaBtn: 'Get in touch',
-      empty: 'First articles coming soon.',
+      empty: 'Coming soon: the first articles are on the way.',
       published: 'Published on',
     },
     contact: {
@@ -230,6 +261,9 @@ export const t = {
       intro: 'Tell me about your project and I’ll reply within 48 hours.',
       name: 'Name',
       email: 'Email',
+      service: 'Service you need',
+      servicePlaceholder: 'Pick an option (optional)',
+      serviceExtra: ['Working together', 'Other'],
       message: 'Message',
       send: 'Send message',
       sending: 'Sending…',

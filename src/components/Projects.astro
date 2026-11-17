@@ -1,13 +1,12 @@
 ---
 // Carrusel "coverflow" de proyectos: la tarjeta activa al centro, grande, y
 // las vecinas mas chicas asomando a los costados. Cada tarjeta lleva info
-// breve + herramientas y un boton "Ver proyecto" que linkea a /proyectos/[slug].
-import { projects } from '../data/projects';
+// breve + rubros y un boton que abre el sitio en vivo en otra pestana.
+import { projects, kindLabel } from '../data/projects';
 import { getLang, t } from '../i18n';
 
 const lang = getLang(Astro.url);
 const s = t[lang].projects;
-const prefix = lang === 'en' ? '/en' : '';
 ---
 
 <section class="section" id="proyectos">
@@ -31,43 +30,41 @@ const prefix = lang === 'en' ? '/en' : '';
             projects.map((project, i) => (
               <li class="pcard" data-index={i}>
                 <article class="pcard-inner">
-                  <div class={`pcard-media ${i % 2 === 0 ? 'media--night' : 'media--linen'}`}>
-                    {project.image ? (
-                      <img
-                        src={project.image}
-                        alt={`${project.client} — ${project.title[lang]}`}
-                        loading="lazy"
-                        width="800"
-                        height="600"
-                      />
-                    ) : (
-                      <span class="media-label">{project.client}</span>
-                    )}
-                    <span class="pcard-tag">{project.discipline}</span>
+                  <div class="pcard-media">
+                    <img
+                      src={project.image}
+                      alt={`${project.client}: ${project.title[lang]}`}
+                      loading="lazy"
+                      width="1200"
+                      height="603"
+                    />
                   </div>
 
                   <div class="pcard-body">
+                    <span class="pcard-tag">{kindLabel[project.kind][lang]}</span>
                     <h3 class="pcard-title">{project.title[lang]}</h3>
                     <p class="pcard-desc">{project.description[lang]}</p>
 
                     <ul class="pcard-tools">
-                      {project.tools.slice(0, 3).map((tool) => (
-                        <li class="chip">{tool}</li>
+                      {project.tags.map((tag) => (
+                        <li class="chip">{tag[lang]}</li>
                       ))}
                     </ul>
 
-                    <a class="pc-btn" href={`${prefix}/proyectos/${project.slug}`}>
-                      {s.cta}
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path
-                          d="M5 12h14M13 6l6 6-6 6"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </a>
+                    <div class="pc-actions">
+                      <a class="pc-btn" href={project.href} target="_blank" rel="noopener noreferrer">
+                        {s.cta}
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path
+                              d="M7 17 17 7M9 7h8v8"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </a>
+                    </div>
                   </div>
                 </article>
               </li>
@@ -109,10 +106,18 @@ const prefix = lang === 'en' ? '/en' : '';
 </section>
 
 <style>
+  /* Las tarjetas fuera de vista (invisibles) no deben estirar el ancho de la pagina */
+  #proyectos {
+    overflow-x: clip;
+  }
+
   .section-head {
-    text-align: center;
-    align-items: center;
-    margin-inline: auto;
+    max-width: none;
+    margin-bottom: 0;
+  }
+  .section-head h2 {
+    font-size: var(--title-size);
+    line-height: 1.02;
   }
 
   .pc {
@@ -145,11 +150,12 @@ const prefix = lang === 'en' ? '/en' : '';
   }
 
   .pcard-inner {
+    height: var(--pc-h, auto);
     display: flex;
     flex-direction: column;
     background-color: var(--surface-raised);
-    border: 1px solid var(--line);
-    border-radius: 16px;
+    border: 0;
+    border-radius: 10px; /* cerca del radio de la ventana de la captura, para que siga su borde */
     overflow: hidden;
     transition: box-shadow 0.3s var(--ease);
   }
@@ -165,59 +171,33 @@ const prefix = lang === 'en' ? '/en' : '';
     pointer-events: none;
   }
 
+  /* La captura ocupa todo el ancho de la tarjeta, sin margenes */
   .pcard-media {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--line);
+    border: 0;
   }
-
   .pcard-media img {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 603;
     object-fit: cover;
   }
 
-  .media--night {
-    background-color: var(--brand-night);
-  }
-  .media--linen {
-    background-color: var(--brand-linen);
-  }
-
-  .media-label {
-    font-family: var(--font-display);
-    font-size: 1.625rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    padding: var(--space-4);
-    text-align: center;
-  }
-  .media--night .media-label {
-    color: #f7f9ec;
-  }
-  .media--linen .media-label {
-    color: #17131b;
-  }
-
   .pcard-tag {
-    position: absolute;
-    top: var(--space-3);
-    left: var(--space-3);
-    padding: 4px 10px;
+    align-self: flex-start;
+    padding: 5px 12px;
     border-radius: 999px;
-    background-color: var(--surface-raised);
-    border: 1px solid var(--line);
+    background-color: var(--plume);
+    color: var(--on-plume);
     font-family: var(--font-mono);
+    font-weight: 500;
     font-size: 0.625rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink);
   }
 
   .pcard-body {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -227,19 +207,18 @@ const prefix = lang === 'en' ? '/en' : '';
   .pcard-title {
     font-size: 1.1875rem;
     line-height: 1.25;
-    min-height: 2.5em;
   }
 
   .pcard-desc {
     color: var(--text-body);
     font-size: 0.9rem;
     line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 4.05em;
+  }
+
+  .pcard-tools .chip {
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 0.75rem;
   }
 
   .pcard-tools {
@@ -249,14 +228,19 @@ const prefix = lang === 'en' ? '/en' : '';
     margin-top: var(--space-1);
   }
 
+  .pc-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
   .pc-btn {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    align-self: flex-start;
-    margin-top: var(--space-4);
-    padding: 11px 20px;
-    border: 1px solid var(--plume);
+    padding: 11px 16px;
+    border: 0;
     border-radius: 12px;
     background-color: var(--plume);
     color: var(--on-plume);
@@ -269,7 +253,6 @@ const prefix = lang === 'en' ? '/en' : '';
   }
   .pc-btn:hover {
     background-color: var(--plume-deep);
-    border-color: var(--plume-deep);
     transform: translateX(2px);
   }
   .pc-btn svg {
@@ -295,20 +278,18 @@ const prefix = lang === 'en' ? '/en' : '';
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background-color: var(--surface-raised);
+    border: 0;
+    background-color: var(--surface-sunken);
     color: var(--ink);
     cursor: pointer;
-    transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease), opacity 0.2s var(--ease);
+    transition: background-color 0.2s var(--ease), color 0.2s var(--ease), opacity 0.2s var(--ease);
   }
   .pc-nav:hover:not(:disabled) {
     background-color: var(--plume);
-    border-color: var(--plume);
     color: var(--on-plume);
   }
   .pc-nav:disabled {
-    color: var(--line-strong);
-    border-color: var(--line);
+    opacity: 0.4;
     cursor: default;
   }
 
@@ -359,14 +340,28 @@ const prefix = lang === 'en' ? '/en' : '';
 
     function layout() {
       const w = cards[0].offsetWidth;
-      const gap = w * 0.42;
+      // todas las tarjetas con la misma altura (la del contenido mas largo)
+      root.style.removeProperty('--pc-h');
+      const maxH = Math.max(...cards.map((c) => c.offsetHeight));
+      root.style.setProperty('--pc-h', maxH + 'px');
+      const GAP = 20; // espacio identico entre bordes de tarjetas contiguas
+      const scaleOf = (a: number) => (a === 0 ? 1 : a === 1 ? 0.88 : 0.78);
+      // centro (en px) de la tarjeta a distancia k de la activa, acumulando anchos + GAP
+      const centerOf = (k: number) => {
+        let x = 0;
+        for (let j = 1; j <= k; j++) {
+          x += (w * scaleOf(j - 1)) / 2 + GAP + (w * scaleOf(j)) / 2;
+        }
+        return x;
+      };
       cards.forEach((card, i) => {
         let off = i - active;
         if (off > n / 2) off -= n;
         if (off < -n / 2) off += n;
         const abs = Math.abs(off);
-        const scale = abs === 0 ? 1 : abs === 1 ? 0.86 : 0.72;
-        card.style.transform = `translate(-50%, -50%) translateX(${off * gap}px) scale(${scale})`;
+        const scale = scaleOf(abs);
+        const x = Math.sign(off) * centerOf(abs);
+        card.style.transform = `translate(-50%, -50%) translateX(${x}px) scale(${scale})`;
         card.style.opacity = abs === 0 ? '1' : abs <= 2 ? '1' : '0';
         card.style.zIndex = String(50 - abs);
         card.style.pointerEvents = abs <= 2 ? 'auto' : 'none';

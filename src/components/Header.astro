@@ -7,7 +7,7 @@ import CtaButton from './CtaButton.astro';
 
 const lang = getLang(Astro.url);
 const s = t[lang];
-const base = lang === 'en' ? '/en/preview' : '/preview';
+const base = lang === 'en' ? '/en/' : '/';
 const blogHref = lang === 'en' ? '/en/blog' : '/blog';
 ---
 
@@ -18,7 +18,7 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
       <ThemeToggle />
     </div>
 
-    <a class="brand" href={`${base}#top`} aria-label={`${site.name} — inicio`}>{site.name}</a>
+    <a class="brand" href={`${base}#top`} aria-label={`${site.name}, inicio`}>{site.name}</a>
 
     <div class="header-bar">
       <nav class="nav" aria-label="Principal">
@@ -103,13 +103,40 @@ const blogHref = lang === 'en' ? '/en/blog' : '/blog';
   }
 
   .nav a {
+    position: relative;
+    padding-block: 4px;
     font-size: 0.9375rem;
     color: currentColor;
     opacity: 0.78;
     transition: opacity 0.18s var(--ease);
   }
-  .nav a:hover {
+  .nav a:hover,
+  .nav a:focus-visible {
     opacity: 1;
+  }
+
+  /* Subrayado ondulado, como un trazo a mano: se dibuja de izquierda a derecha */
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 6px;
+    background-color: var(--accent);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath d='M0 3Q3 0 6 3T12 3' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 50% / 12px 6px;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath d='M0 3Q3 0 6 3T12 3' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 50% / 12px 6px;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.4s var(--ease);
+  }
+  .nav a:hover::after,
+  .nav a:focus-visible::after {
+    clip-path: inset(0 0 0 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav a::after {
+      transition: none;
+    }
   }
 
   .header-actions {

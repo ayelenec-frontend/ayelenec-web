@@ -1,8 +1,7 @@
 // Datos de proyectos (bilingue). Agregar un proyecto = sumar un objeto aqui.
-// title/description/result llevan { es, en }. Cuando haya mockups, cargarlos en
-// /public/work/ y completar `image`. `href` opcional para un caso de estudio.
+// Cada tarjeta del carrusel linkea al sitio en vivo (`href`). `image` va en /public/work/.
 
-export type Discipline = 'UX/UI' | 'Web' | 'SEO' | 'UI' | 'E-commerce' | 'Producto';
+export type Kind = 'redesign' | 'maintenance';
 
 interface Loc {
   es: string;
@@ -13,105 +12,160 @@ export interface Project {
   slug: string;
   client: string;
   country: string;
-  discipline: Discipline;
+  kind: Kind;
   title: Loc;
   description: Loc;
-  tools: string[];
-  result?: Loc;
+  /** Chips: rubro + herramientas (el tipo de trabajo va en la pildora) */
+  tags: Loc[];
   image?: string;
+  /** Sitio en vivo */
   href?: string;
 }
 
+export const kindLabel: Record<Kind, Loc> = {
+  redesign: { es: 'Rediseño', en: 'Redesign' },
+  maintenance: { es: 'Mantenimiento', en: 'Maintenance' },
+};
+
 export const projects: Project[] = [
   {
-    slug: 'vinales',
-    client: 'Viñales',
-    country: 'Chile',
-    discipline: 'SEO',
-    title: {
-      es: 'Auditoría SEO y migración de e-commerce',
-      en: 'SEO audit and e-commerce migration',
-    },
-    description: {
-      es: 'Auditoría completa de una tienda de vinos, ajustes de búsqueda interna y acompañamiento de la migración de hosting.',
-      en: 'Full audit of a wine store, internal search tweaks and support through the hosting migration.',
-    },
-    tools: ['WooCommerce', 'Cloudflare'],
-    result: { es: 'Puntaje SEO de 44 a 68/100', en: 'SEO score from 44 to 68/100' },
-  },
-  {
     slug: 'termas-de-chillan',
+    image: '/work/termas-de-chillan.webp',
     client: 'Hotel Termas de Chillán',
     country: 'Chile',
-    discipline: 'Web',
+    kind: 'redesign',
     title: {
-      es: 'Widget de clima para un hotel de montaña',
-      en: 'Weather widget for a mountain hotel',
+      es: 'Un hotel de montaña, listo para reservar',
+      en: 'A mountain hotel, ready to book',
     },
     description: {
-      es: 'Componente flotante con el clima en vivo para que los huéspedes planifiquen su estadía, más reportes mensuales de búsqueda.',
-      en: 'A floating live-weather component so guests can plan their stay, plus monthly search reports.',
+      es: 'Rediseño del sitio del hotel: actividades de invierno y verano, habitaciones, spa y reservas en línea en una navegación clara.',
+      en: "Redesign of the hotel's site: winter and summer activities, rooms, spa and online booking in a clear navigation.",
     },
-    tools: ['API Open-Meteo', 'Search Console'],
+    tags: [
+      { es: 'Turismo', en: 'Tourism' },
+      { es: 'WordPress', en: 'WordPress' },
+    ],
+    href: 'https://termaschillan.cl/',
   },
   {
-    slug: 'la-maisonnette',
-    client: 'La Maisonnette',
+    slug: 'la-butiq',
+    image: '/work/la-butiq.webp',
+    client: 'La Butiq',
     country: 'Chile',
-    discipline: 'UI',
+    kind: 'redesign',
     title: {
-      es: 'Resultados académicos animados',
-      en: 'Animated academic results',
+      es: 'Una tienda de vinos y licores más fácil de recorrer',
+      en: 'A wine and spirits store that is easier to browse',
     },
     description: {
-      es: 'Widget que presenta los resultados SIMCE y PAES del colegio con animación y los colores de la institución.',
-      en: "A widget that presents the school's SIMCE and PAES results with animation and the institution's colors.",
+      es: 'Rediseño del e-commerce de vinos, champagnes y whisky: promociones, categorías y catálogo ordenados para comprar rápido.',
+      en: 'Redesign of a wine, champagne and whisky e-commerce site: promotions, categories and catalog organized for quick buying.',
     },
-    tools: ['HTML', 'CSS', 'JavaScript'],
+    tags: [
+      { es: 'WordPress', en: 'WordPress' },
+      { es: 'WooCommerce', en: 'WooCommerce' },
+    ],
+    href: 'https://labutiq.cl/',
   },
   {
-    slug: 'isn',
-    client: 'ISN',
+    slug: 'yoprofe',
+    image: '/work/yoprofe.webp',
+    client: 'YoProfe',
     country: 'Chile',
-    discipline: 'Web',
+    kind: 'redesign',
     title: {
-      es: 'Componentes web para una inmobiliaria',
-      en: 'Web components for a real-estate agency',
+      es: 'Docentes y colegios, un paso más cerca',
+      en: 'Teachers and schools, one step closer',
     },
     description: {
-      es: 'Slider de imágenes solo con CSS, liviano y accesible, dentro de un trabajo continuo de SEO.',
-      en: 'A CSS-only image slider, lightweight and accessible, within ongoing SEO work.',
+      es: 'Rediseño de la plataforma que conecta a profesores con colegios: un sitio que explica rápido cómo funciona y lleva a la app.',
+      en: 'Redesign of the platform that connects teachers with schools: a site that quickly explains how it works and leads to the app.',
     },
-    tools: ['CSS', 'SEO'],
+    tags: [
+      { es: 'Educación', en: 'Education' },
+      { es: 'WordPress', en: 'WordPress' },
+    ],
+    href: 'https://yoprofe.cl/',
+  },
+  {
+    slug: 'bcd-travel',
+    image: '/work/bcd-travel.webp',
+    client: 'BCD Travel',
+    country: 'España',
+    kind: 'redesign',
+    title: {
+      es: 'Viajes corporativos, más fáciles de entender',
+      en: 'Corporate travel, easier to understand',
+    },
+    description: {
+      es: 'Rediseño del sitio de gestión de viajes corporativos en España: propuesta de valor, productos y acceso de clientes en una navegación clara.',
+      en: 'Redesign of the corporate travel management site in Spain: value proposition, products and client access in a clear navigation.',
+    },
+    tags: [
+      { es: 'Viajes corporativos', en: 'Corporate travel' },
+      { es: 'WordPress', en: 'WordPress' },
+    ],
+    href: 'https://bcdtravel.es/',
+  },
+  {
+    slug: 'tw-logistica',
+    image: '/work/tw-logistica.webp',
+    client: 'TW Logística',
+    country: 'Chile',
+    kind: 'redesign',
+    title: {
+      es: 'Logística con mucho que mostrar',
+      en: 'Logistics with a lot to show',
+    },
+    description: {
+      es: 'Rediseño del sitio de un operador logístico con muchos servicios y rubros, para que cada cliente encuentre su solución rápido.',
+      en: 'Redesign of a logistics operator site with many services and industries, so each client finds their solution fast.',
+    },
+    tags: [
+      { es: 'Logística', en: 'Logistics' },
+      { es: 'WordPress', en: 'WordPress' },
+    ],
+    href: 'https://www.tw.cl/',
   },
   {
     slug: 'aldea-nativa',
+    image: '/work/aldea-nativa.webp',
     client: 'Aldea Nativa',
-    country: 'Argentina',
-    discipline: 'SEO',
+    country: 'Chile',
+    kind: 'maintenance',
     title: {
-      es: 'SEO para una tienda de alimentos naturales',
-      en: 'SEO for a natural-food store',
+      es: 'Una tienda de productos naturales, siempre al día',
+      en: 'A natural-products store, always up to date',
     },
     description: {
-      es: 'Optimización continua y reportes mensuales con plantillas claras para que el cliente siga la evolución.',
-      en: 'Ongoing optimization and monthly reports with clear templates so the client can track progress.',
+      es: 'Mantenimiento y retoques continuos de la tienda online: ajustes, mejoras y cambios del día a día.',
+      en: 'Ongoing maintenance and touch-ups for the online store: tweaks, improvements and day-to-day changes.',
     },
-    tools: ['Shopify', 'Search Console'],
+    tags: [
+      { es: 'E-commerce', en: 'E-commerce' },
+      { es: 'Shopify', en: 'Shopify' },
+    ],
+    href: 'https://aldeanativa.cl/',
   },
   {
-    slug: 'regalos-pardo',
-    client: 'Regalos Pardo',
-    country: 'Argentina',
-    discipline: 'E-commerce',
+    slug: 'auto360',
+    image: '/work/auto360.webp',
+    client: 'Auto360',
+    country: 'Chile',
+    kind: 'maintenance',
     title: {
-      es: 'Migración de catálogo a WooCommerce',
-      en: 'Catalog migration to WooCommerce',
+      es: 'Compra y venta de autos usados, siempre al día',
+      en: 'Used-car buying and selling, always up to date',
     },
     description: {
-      es: 'Importación del catálogo completo desde PrestaShop a WooCommerce, cuidando categorías, variaciones e imágenes.',
-      en: 'Full catalog import from PrestaShop to WooCommerce, preserving categories, variations and images.',
+      es: 'Mantenimiento y retoques continuos del sitio: ajustes, mejoras y cambios del día a día.',
+      en: 'Ongoing maintenance and touch-ups for the site: tweaks, improvements and day-to-day changes.',
     },
-    tools: ['PrestaShop', 'WooCommerce'],
+    tags: [
+      { es: 'Automotriz', en: 'Automotive' },
+      { es: 'WordPress', en: 'WordPress' },
+    ],
+    href: 'https://www.auto360.cl/',
   },
 ];

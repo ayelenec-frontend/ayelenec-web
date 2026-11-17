@@ -116,6 +116,9 @@
 
   /* Transicion */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Tamano unico de los titulos de seccion */
+  --title-size: clamp(2.25rem, 4vw, 3.5rem);
 }
 
 /* Tema claro (Linen) - por defecto */
@@ -127,7 +130,7 @@
   --surface-sunken: #D3CAB3; /* Pergamino (bandas) */
   --ink: #2E2A24;            /* Tinta */
   --ink-muted: #7A6656;      /* Plumaje */
-  --text-body: #7A6656;      /* texto de cuerpo (parrafos) */
+  --text-body: #2E2A24;      /* texto de cuerpo (parrafos): tinta, oscuro */
   --line: #CDC2AC;
   --line-strong: #A2967F;
   --plume: #6E4A4F;          /* Hoja de ciruelo (marca) */
@@ -351,6 +354,11 @@ strong {
   max-width: 48ch;
 }
 
+/* En claro, los titulos de seccion van en el color de marca */
+:root[data-theme='light'] :is(#servicios, #proyectos) h2 {
+  color: var(--plume);
+}
+
 .section-head p {
   color: var(--ink-muted);
   font-size: 1.1875rem;
@@ -389,14 +397,15 @@ strong {
 }
 
 .btn-secondary {
-  background-color: transparent;
+  background-color: var(--surface-sunken);
   color: var(--ink);
-  border-color: var(--line-strong);
+  border-color: var(--surface-sunken);
 }
 
 .btn-secondary:hover {
+  background-color: var(--plume);
   border-color: var(--plume);
-  color: var(--plume);
+  color: var(--on-plume);
 }
 
 .btn-small {
@@ -428,7 +437,7 @@ strong {
   line-height: 1.2;
   color: var(--ink-muted);
   background-color: var(--surface-sunken);
-  border: 1px solid var(--line);
+  border: 0;
 }
 
 /* Etiqueta de disciplina (moss) */
@@ -450,7 +459,7 @@ strong {
   gap: var(--space-2);
   padding: 4px 12px 4px 11px;
   border-radius: var(--radius-pill);
-  border: 1px solid color-mix(in srgb, var(--success) 28%, var(--line));
+  border: 0;
   background-color: color-mix(in srgb, var(--success) 12%, var(--surface-raised));
   font-size: 0.75rem;
   font-weight: 500;
@@ -511,4 +520,222 @@ strong {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ---------- Dropdown propio (formularios) ---------- */
+
+.dd {
+  position: relative;
+}
+/* El <select> nativo queda oculto pero sigue guardando el valor del formulario */
+.dd-native {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.dd-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 40px 11px 13px;
+  border: 0;
+  border-radius: 10px;
+  background-color: var(--dd-bg, var(--surface-sunken));
+  color: var(--dd-fg, var(--ink));
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.dd-btn.is-empty {
+  opacity: 0.72;
+}
+.dd-btn:focus-visible,
+.dd-btn[aria-expanded='true'] {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dd-ring, var(--plume));
+}
+.dd-btn[aria-expanded='true'] ~ .cm-chevron,
+.dd-btn[aria-expanded='true'] ~ .select-chevron {
+  transform: translateY(-50%) rotate(180deg);
+}
+.cm-chevron,
+.select-chevron {
+  transition: transform 0.2s var(--ease);
+}
+.dd-list {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 6px;
+  border-radius: 14px;
+  background-color: var(--dd-list-bg, var(--surface-raised));
+  color: var(--dd-fg, var(--ink));
+  box-shadow: 0 18px 40px -14px rgb(0 0 0 / 0.4);
+  animation: dd-in 0.16s var(--ease);
+}
+.dd-list[hidden] {
+  display: none;
+}
+.dd-up .dd-list {
+  top: auto;
+  bottom: calc(100% + 6px);
+}
+.dd-list li {
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.dd-list li.dd-placeholder {
+  opacity: 0.6;
+}
+.dd-list li.is-active {
+  background-color: var(--dd-hover, var(--plume-tint));
+}
+.dd-list li[aria-selected='true'] {
+  font-weight: 600;
+}
+@keyframes dd-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* colores por formulario */
+.cm-select {
+  --dd-bg: var(--surface-sunken);
+  --dd-list-bg: var(--surface-raised);
+  --dd-fg: var(--ink);
+  --dd-hover: var(--plume-tint);
+}
+.select-wrap {
+  --dd-bg: #e6dcc6;
+  --dd-list-bg: #fffaf0;
+  --dd-fg: #2e2a24;
+  --dd-hover: #efe4d0;
+  --dd-ring: #6e4a4f;
+}
+.select-wrap .select-chevron {
+  color: #7a6f5f;
+}
+
+/* ---------- Animaciones de entrada ---------- */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s var(--ease) var(--rd, 0ms), transform 0.8s var(--ease) var(--rd, 0ms);
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Entrada del hero al cargar */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+.hero-meta,
+.hero-line,
+.hero-lead,
+.hero-actions {
+  animation: hero-rise 0.9s var(--ease) both;
+}
+.hero-meta { animation-delay: 0.05s; }
+.hero-line:nth-child(1) { animation-delay: 0.15s; }
+.hero-line:nth-child(2) { animation-delay: 0.27s; }
+.hero-line:nth-child(3) { animation-delay: 0.39s; }
+.hero-lead { animation-delay: 0.52s; }
+.hero-actions { animation-delay: 0.64s; }
+
+/* ---------- Texturas ---------- */
+
+:root {
+  /* Grano claro para bandas oscuras (mismo ruido, en blanco) */
+  --paper-grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#servicios,
+#proyectos,
+.process,
+.about-banner,
+.contact,
+.site-footer {
+  position: relative;
+  isolation: isolate;
+}
+#servicios::before,
+#proyectos::before,
+.process::before,
+.about-banner::before,
+.contact::before,
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Papel en las secciones claras */
+#servicios::before,
+#proyectos::before {
+  background-image: var(--paper-grain);
+  opacity: 0.9;
+}
+:root[data-theme='dark'] #servicios::before,
+:root[data-theme='dark'] #proyectos::before {
+  background-image: var(--paper-grain-light);
+  opacity: 0.6;
+}
+
+/* Grano claro + hojas botanicas apenas visibles en las bandas oscuras */
+.process::before,
+.contact::before,
+.site-footer::before {
+  background-image: var(--paper-grain-light);
+}
+.process::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/hero/botanica.jpg') center / cover no-repeat;
+  opacity: 0.07;
+  mix-blend-mode: screen;
+}
+/* Banner de Sobre mi: el color de fondo manda; las hojas se insinuan encima */
+.about-banner::before {
+  background: url('/hero/botanica.jpg') center / cover no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+}
+.about-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--paper-grain-light);
 }

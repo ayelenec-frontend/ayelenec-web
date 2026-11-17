@@ -2,97 +2,129 @@
 import { about, site } from '../data/site';
 import { getLang, t } from '../i18n';
 
-const s = t[getLang(Astro.url)].about;
+const lang = getLang(Astro.url);
+const s = t[lang].about;
 ---
 
 <section class="section" id="sobre-mi">
-  <div class="container about-grid">
-    <div class="about-aside">
-      <div class="portrait">
+  <div class="container">
+    <div class="about-banner">
+      <div class="about-text">
+        <span class="about-eyebrow">{s.eyebrow}</span>
+        <h2 class="about-hi">{s.hiLead}<mark class="about-mark">{s.hiName}</mark>.</h2>
+
+        {s.bio.map((paragraph) => <p class="about-bio">{paragraph}</p>)}
+
+        <p class="about-phrase">{s.phrase}</p>
+      </div>
+
+      <div class="about-aside">
         {
           about.portrait ? (
-            <img src={about.portrait} alt={site.name} loading="lazy" width="600" height="750" />
+            <div class="portrait">
+              <img src={about.portrait} alt={site.name} loading="lazy" width="600" height="750" />
+            </div>
           ) : (
-            <span class="portrait-note">{s.portraitNote}</span>
+            <img class="about-badge" src="/ac-badge.svg" alt="" width="240" height="240" loading="lazy" />
           )
         }
       </div>
-    </div>
-
-    <div class="about-text">
-      <span class="eyebrow">{s.eyebrow}</span>
-      <h2 class="about-hi">{s.hiLead}<span class="accent">{s.hiName}</span>.</h2>
-
-      {s.bio.map((paragraph) => <p class="about-bio">{paragraph}</p>)}
-
-      <p class="about-phrase">{s.phrase}</p>
     </div>
   </div>
 </section>
 
 <style>
-  .about-grid {
+  .about-banner {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-10, 2.5rem);
+    gap: var(--space-12);
     align-items: center;
+    padding: var(--space-8);
+    border-radius: 28px;
+    background-color: var(--plume);
+    color: var(--on-plume);
+    box-shadow: 0 30px 60px -36px rgb(46 42 36 / 0.6);
   }
-
+  /* En claro, un ciruela un poco mas profundo para que la textura se luzca */
+  :global(:root[data-theme='light']) .about-banner {
+    background-color: color-mix(in srgb, var(--plume) 46%, #1d1412);
+  }
   @media (min-width: 860px) {
-    .about-grid {
-      grid-template-columns: 0.8fr 1.2fr;
+    .about-banner {
+      grid-template-columns: 1.3fr 0.7fr;
       gap: var(--space-16);
+      padding: var(--space-16);
     }
   }
 
-  .about-aside {
-    display: flex;
-    justify-content: center;
-  }
-
-  .portrait {
-    width: 100%;
-    max-width: 300px;
-    aspect-ratio: 3 / 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--sky);
-    border-radius: 150px 150px 18px 18px;
-    overflow: hidden;
-  }
-
-  .portrait img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .portrait-note {
+  .about-eyebrow {
     font-family: var(--font-mono);
+    font-weight: 500;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--brand-night) 55%, var(--sky));
+    opacity: 0.75;
   }
 
   .about-hi {
-    margin-top: var(--space-6);
-    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    margin-top: var(--space-3);
+    font-size: var(--title-size);
+    line-height: 1.04;
+    color: var(--on-plume);
+  }
+  /* Nombre: negrita, sin cursiva ni marcador */
+  .about-mark {
+    background: none;
+    color: #f2b891; /* terracota claro: resalta sobre el ciruela */
+    font-style: normal;
+    font-weight: 600;
+  }
+  /* En oscuro el banner es rosado claro: el nombre va en ciruela profundo */
+  :global(:root[data-theme='dark']) .about-mark {
+    color: #5a2a24;
   }
 
   .about-bio {
-    color: var(--text-body);
     max-width: 58ch;
     margin-top: var(--space-6);
     line-height: 1.68;
+    color: var(--on-plume);
+    opacity: 0.92;
   }
 
   .about-phrase {
     margin-top: var(--space-6);
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.25rem;
-    color: var(--plume);
+    font-size: 1.375rem;
+    color: var(--on-plume);
+  }
+
+  .about-aside {
+    display: flex;
+    justify-content: center;
+  }
+  .about-badge {
+    width: min(240px, 60vw);
+    height: auto;
+    border-radius: 50%;
+    transform: rotate(-6deg);
+  }
+  .portrait {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 3 / 4;
+    border-radius: 150px 150px 18px 18px;
+    overflow: hidden;
+    background-color: var(--sky); /* la foto es un recorte: este es su fondo */
+  }
+  /* En oscuro el banner es rosado: el arco va en ciruela para que se distinga */
+  :global(:root[data-theme='dark']) .portrait {
+    background-color: #6e4a4f;
+  }
+  .portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

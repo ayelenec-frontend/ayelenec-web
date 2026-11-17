@@ -3,7 +3,10 @@ import { site } from '../data/site';
 import { getLang, t } from '../i18n';
 import Social from './Social.astro';
 
-const s = t[getLang(Astro.url)].contact;
+const lang = getLang(Astro.url);
+const s = t[lang].contact;
+const m = t[lang].modal;
+const serviceOptions = [...t[lang].services.titles, ...m.serviceExtra];
 ---
 
 <section class="contact" id="contacto">
@@ -28,6 +31,18 @@ const s = t[getLang(Astro.url)].contact;
         <input id="cf-email" name="email" type="email" required autocomplete="email" />
       </div>
       <div class="field">
+        <label for="cf-service">{m.service}</label>
+        <div class="select-wrap">
+          <select id="cf-service" name="service">
+            <option value="">{m.servicePlaceholder}</option>
+            {serviceOptions.map((o) => <option value={o}>{o}</option>)}
+          </select>
+          <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+      </div>
+      <div class="field">
         <label for="cf-message">{s.message}</label>
         <textarea id="cf-message" name="message" rows="4" required></textarea>
       </div>
@@ -47,7 +62,7 @@ const s = t[getLang(Astro.url)].contact;
       if (!key) {
         window.location.href =
           `mailto:${email}?subject=${encodeURIComponent('Consulta desde el sitio')}` +
-          `&body=${encodeURIComponent((data.message || '') + '\n\n' + (data.name || '') + ' · ' + (data.email || ''))}`;
+          `&body=${encodeURIComponent((data.service ? 'Servicio: ' + data.service + '\n\n' : '') + (data.message || '') + '\n\n' + (data.name || '') + ' · ' + (data.email || ''))}`;
         return;
       }
       const btn = form.querySelector('.contact-submit');
@@ -64,6 +79,7 @@ const s = t[getLang(Astro.url)].contact;
             from_name: data.name,
             name: data.name,
             email: data.email,
+            service: data.service || '-',
             message: data.message,
           }),
         });
@@ -118,7 +134,7 @@ const s = t[getLang(Astro.url)].contact;
 
   .contact-title {
     margin-top: var(--space-3);
-    font-size: clamp(2rem, 6vw, 3.25rem);
+    font-size: var(--title-size);
     line-height: 1.04;
     max-width: 16ch;
   }
@@ -139,12 +155,12 @@ const s = t[getLang(Astro.url)].contact;
     display: inline-block;
     margin-top: var(--space-4);
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 1.125rem;
     letter-spacing: 0.04em;
     color: #d6a9a2;
-    text-decoration: none;
-    border-bottom: 1px solid #8a6f69;
-    padding-bottom: 2px;
+    text-decoration: underline;
+    text-decoration-color: #8a6f69;
+    text-underline-offset: 4px;
   }
   .contact-mail:hover {
     color: #e4c0ba;
@@ -160,7 +176,6 @@ const s = t[getLang(Astro.url)].contact;
     flex-direction: column;
     gap: var(--space-4);
     background-color: #f1eadb;
-    border: 2px solid #f1eadb;
     border-radius: 18px;
     padding: var(--space-8);
   }
@@ -180,12 +195,13 @@ const s = t[getLang(Astro.url)].contact;
   }
 
   .field input,
+  .field select,
   .field textarea {
     width: 100%;
     padding: 11px 13px;
     border-radius: 10px;
-    border: 1.5px solid #8f836e;
-    background-color: #fffaf0;
+    border: 0;
+    background-color: #e6dcc6;
     color: #2e2a24;
     font-family: var(--font-sans);
     font-size: 0.9375rem;
@@ -195,10 +211,30 @@ const s = t[getLang(Astro.url)].contact;
     resize: vertical;
     min-height: 96px;
   }
+  .select-wrap {
+    position: relative;
+  }
+  .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+  .select-chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7a6f5f;
+    pointer-events: none;
+  }
+
   .field input:focus,
+  .field select:focus,
   .field textarea:focus {
     outline: none;
-    border-color: #6e4a4f;
+    background-color: #fffaf0;
+    box-shadow: 0 0 0 2px #6e4a4f;
   }
   .field input::placeholder,
   .field textarea::placeholder {

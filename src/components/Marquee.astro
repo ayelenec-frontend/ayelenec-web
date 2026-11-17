@@ -1,0 +1,71 @@
+---
+// Franja de texto en movimiento entre el hero y los servicios.
+import { getLang, t } from '../i18n';
+
+const items = t[getLang(Astro.url)].marquee;
+---
+
+<div class="marquee">
+  <div class="marquee-track">
+    {
+      [0, 1].map((n) => (
+        <ul class="marquee-list" aria-hidden={n === 1 ? 'true' : undefined}>
+          {[0, 1, 2].flatMap(() => items).map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding-block: 18px;
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 80s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-list {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .marquee-list li {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    white-space: nowrap;
+  }
+  .marquee-list li::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    margin-inline: 36px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.55;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none !important;
+    }
+  }
+</style>

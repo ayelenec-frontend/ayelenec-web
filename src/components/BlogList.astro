@@ -120,15 +120,12 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-1);
-    padding: 6px 10px;
-    border: 1.5px solid var(--ink);
-    border-radius: 18px;
-    background-color: var(--plume-tint);
+    gap: var(--space-2);
   }
   .bl-filter {
-    padding: 4px 14px;
+    padding: 6px 16px;
     border-radius: var(--radius-pill);
+    background-color: var(--surface-sunken);
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     letter-spacing: 0.04em;
@@ -136,7 +133,7 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
   }
   .bl-filter:hover {
-    background-color: var(--surface-raised);
+    background-color: var(--line);
   }
   .bl-filter.is-active {
     background-color: var(--plume);
@@ -147,10 +144,9 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: 6px 12px;
-    border: 1.5px solid var(--ink);
-    border-radius: 12px;
-    background-color: var(--surface-raised);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-sunken);
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
@@ -208,7 +204,6 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
     width: 100%;
     aspect-ratio: 5 / 4;
     margin-bottom: var(--space-3);
-    border: 1.5px solid var(--ink);
     border-radius: 22px;
     overflow: hidden;
     transition: transform 0.25s var(--ease);
@@ -259,7 +254,7 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
   .bl-btn {
     margin-top: auto;
     padding: 6px 22px;
-    border: 1.5px solid var(--ink);
+    border: 0;
     border-radius: var(--radius-pill);
     background-color: var(--plume-tint);
     font-family: var(--font-mono);
@@ -279,9 +274,11 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
   }
 
   .bl-empty {
+    margin-inline: auto; /* los <p> tienen max-width global: sin esto quedaba a la izquierda */
     text-align: center;
     font-size: 1.125rem;
     color: var(--ink-muted);
+    padding-block: var(--space-16, 5rem);
   }
 
   @media (prefers-reduced-motion: reduce) {

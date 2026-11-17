@@ -1,0 +1,46 @@
+---
+// Ramita decorativa dibujada en SVG: tallo curvo con hojas alternadas.
+// Colores por variables CSS: --leaf-a, --leaf-b, --stem (se heredan del contenedor).
+const leaves = Array.from({ length: 9 }, (_, i) => {
+  const t = i / 8;
+  const y = 470 - t * 400; // de abajo hacia arriba
+  const x = 150 + Math.sin(t * 2.4) * 22; // el tallo se curva suave
+  const size = 1.15 - t * 0.55;
+  const side = i % 2 === 0 ? 1 : -1;
+  const angle = side === 1 ? -38 : 218;
+  return { x, y, size, angle, tone: i % 3 === 1 ? 'b' : 'a' };
+});
+---
+
+<svg class="sprig" viewBox="0 0 300 500" fill="none" aria-hidden="true">
+  <path class="sprig-stem" d="M150 490 C 150 400 178 330 172 250 C 166 170 140 120 150 40" />
+  {
+    leaves.map((l) => (
+      <path
+        class={`sprig-leaf sprig-leaf--${l.tone}`}
+        d="M0 0 C 26 -26 78 -26 104 0 C 78 26 26 26 0 0 Z"
+        transform={`translate(${l.x} ${l.y}) rotate(${l.angle}) scale(${l.size})`}
+      />
+    ))
+  }
+  <path class="sprig-leaf sprig-leaf--a" d="M0 0 C 14 -14 34 -14 46 0 C 34 14 14 14 0 0 Z" transform="translate(150 40) rotate(-92) scale(1.1)" />
+</svg>
+
+<style>
+  .sprig {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .sprig-stem {
+    stroke: var(--stem, currentColor);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .sprig-leaf--a {
+    fill: var(--leaf-a, currentColor);
+  }
+  .sprig-leaf--b {
+    fill: var(--leaf-b, currentColor);
+  }
+</style>
