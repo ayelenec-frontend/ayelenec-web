@@ -1,0 +1,360 @@
+---
+// Grafico decorativo/explicativo para el lado visual de <Row>, dibujado con los
+// tokens de la marca (sin fotos). Variantes:
+//   range    barras flotantes con el rango de precio por tipo de sitio (USD)
+//   factors  controles deslizantes: cada factor sube o baja el precio
+//   costs    el presupuesto del rediseño + los costos que siguen despues
+//   brief    lista de lo que conviene tener claro antes de pedir presupuestos
+interface Props {
+  kind: 'range' | 'factors' | 'costs' | 'brief';
+}
+const { kind } = Astro.props;
+
+const MAX = 15000;
+const ranges = [
+  { label: 'Landing', from: 500, to: 2000, tone: 'sky' },
+  { label: 'Institucional', from: 800, to: 2500, tone: 'plume' },
+  { label: 'Corporativa', from: 1500, to: 5000, tone: 'egg' },
+  { label: 'Tienda (freelance)', from: 1000, to: 4000, tone: 'rust' },
+  { label: 'Tienda (agencia)', from: 4000, to: 15000, tone: 'moss' },
+];
+const fmt = (n: number) => n.toLocaleString('es-AR');
+
+const factors = [
+  { label: 'Cantidad de páginas', at: 62 },
+  { label: 'Diseño a medida', at: 78 },
+  { label: 'Investigación UX', at: 45 },
+  { label: 'Integraciones', at: 88 },
+  { label: 'Contenido listo', at: 22 },
+];
+
+const costs = [
+  { label: 'Dominio', cadence: 'por año' },
+  { label: 'Hosting', cadence: 'por mes' },
+  { label: 'Licencias', cadence: 'por año' },
+  { label: 'Mantenimiento', cadence: 'por mes' },
+  { label: 'Contenido nuevo', cadence: 'cuando haga falta' },
+];
+
+const brief = ['El objetivo', 'Qué no funciona hoy', 'La lista de páginas', 'Quién aporta el contenido', 'La plataforma'];
+---
+
+{
+  kind === 'range' && (
+    <figure class="g g-range" role="img" aria-label="Rangos de precio en dólares por tipo de sitio, de USD 500 a USD 15.000">
+      <figcaption class="g-title">Rango por tipo de sitio · USD</figcaption>
+      <ul class="range-list">
+        {ranges.map((r) => (
+          <li class="range-row">
+            <span class="range-label">{r.label}</span>
+            <span class="range-track">
+              <span
+                class={`range-bar tone-${r.tone}`}
+                style={`left:${(r.from / MAX) * 100}%;width:${((r.to - r.from) / MAX) * 100}%`}
+              />
+            </span>
+            <span class="range-val">
+              {fmt(r.from)} a {fmt(r.to)}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <div class="range-axis" aria-hidden="true">
+        <span>0</span>
+        <span>5.000</span>
+        <span>10.000</span>
+        <span>15.000</span>
+      </div>
+    </figure>
+  )
+}
+
+{
+  kind === 'factors' && (
+    <figure class="g g-factors" aria-hidden="true">
+      <figcaption class="g-title">Qué mueve el precio</figcaption>
+      <ul class="fac-list">
+        {factors.map((f) => (
+          <li class="fac-row">
+            <span class="fac-label">{f.label}</span>
+            <span class="fac-track">
+              <span class="fac-fill" style={`width:${f.at}%`} />
+              <span class="fac-knob" style={`left:${f.at}%`} />
+            </span>
+          </li>
+        ))}
+      </ul>
+      <div class="fac-scale">
+        <span>Menos</span>
+        <span>Más</span>
+      </div>
+    </figure>
+  )
+}
+
+{
+  kind === 'costs' && (
+    <figure class="g g-costs" aria-hidden="true">
+      <figcaption class="g-title">Lo que pagás en total</figcaption>
+      <div class="cost-main">
+        <span class="cost-main-label">El rediseño</span>
+        <span class="cost-main-note">una sola vez</span>
+      </div>
+      <ul class="cost-list">
+        {costs.map((c) => (
+          <li class="cost-row">
+            <span>{c.label}</span>
+            <span class="cost-cad">{c.cadence}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'brief' && (
+    <figure class="g g-brief" aria-hidden="true">
+      <figcaption class="g-title">Antes de pedir presupuestos</figcaption>
+      <ul class="brief-list">
+        {brief.map((b, i) => (
+          <li class="brief-row">
+            <span class="brief-box">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            </span>
+            <span class="brief-text">{b}</span>
+            <span class="brief-num">{String(i + 1).padStart(2, '0')}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+<style>
+  .g {
+    margin: 0;
+    padding: var(--space-6);
+    background-color: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--ink);
+  }
+  .g-title {
+    margin-bottom: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  /* .g gana a las reglas de lista del cuerpo del articulo (.prose ul) */
+  .g ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .g li {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: inherit;
+  }
+
+  .tone-sky {
+    --c: var(--sky);
+  }
+  .tone-plume {
+    --c: var(--plume);
+  }
+  .tone-egg {
+    --c: var(--egg);
+  }
+  .tone-rust {
+    --c: var(--rust);
+  }
+  .tone-moss {
+    --c: var(--moss);
+  }
+
+  /* ---- range ---- */
+  .g .range-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .g .range-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .range-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .range-val {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+  .range-track {
+    position: relative;
+    height: 12px;
+    border-radius: 999px;
+    background-color: var(--surface-sunken);
+  }
+  .range-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    min-width: 8px;
+    border-radius: 999px;
+    background-color: var(--c);
+  }
+  .range-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--ink-muted);
+  }
+
+  /* ---- factors ---- */
+  .g .fac-list {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .g .fac-row {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .fac-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .fac-track {
+    position: relative;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--surface-sunken);
+  }
+  .fac-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 999px;
+    background-color: var(--plume);
+  }
+  .fac-knob {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--surface-raised);
+    border: 2px solid var(--plume);
+    transform: translate(-50%, -50%);
+  }
+  .fac-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* ---- costs ---- */
+  .cost-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-6);
+    border-radius: 12px;
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  .cost-main-label {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+  .cost-main-note {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .g .cost-list {
+    margin-top: var(--space-2);
+    padding-left: var(--space-6);
+    border-left: 2px dashed var(--line-strong);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .g .cost-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 10px;
+    background-color: var(--surface-sunken);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .cost-cad {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+
+  /* ---- brief ---- */
+  .g .brief-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .g .brief-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 10px;
+    background-color: var(--surface-sunken);
+  }
+  .brief-box {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background-color: var(--plume);
+  }
+  .brief-box svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--on-plume);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .brief-text {
+    flex: 1;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .brief-num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--ink-muted);
+  }
+</style>

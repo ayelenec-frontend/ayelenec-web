@@ -207,6 +207,10 @@ const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   .prose :global(ul),
   .prose :global(ol) {
     padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .prose :global(ol) {
+    list-style: decimal;
   }
   .prose :global(li) {
     font-size: 1.0625rem;

@@ -6,8 +6,9 @@
 //        ## Titulo
 //        Texto...
 //      </Row>
+// Sin `image`, el lado visual toma el slot "media" (por ejemplo un <Graphic />).
 interface Props {
-  image: string;
+  image?: string;
   alt?: string;
   reverse?: boolean;
 }
@@ -15,8 +16,8 @@ const { image, alt = '', reverse = false } = Astro.props;
 ---
 
 <section class:list={['row', { 'row--reverse': reverse }]}>
-  <div class="row-media">
-    <img src={image} alt={alt} loading="lazy" />
+  <div class:list={['row-media', { 'row-media--graphic': !image }]}>
+    {image ? <img src={image} alt={alt} loading="lazy" /> : <slot name="media" />}
   </div>
   <div class="row-text">
     <slot />
@@ -35,6 +36,35 @@ const { image, alt = '', reverse = false } = Astro.props;
     border-radius: 14px;
     overflow: hidden;
     aspect-ratio: 4 / 3;
+  }
+  .row-media--graphic {
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+  .row-text :global(ul),
+  .row-text :global(ol) {
+    margin: 0 0 var(--space-4);
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .row-text :global(ol) {
+    list-style: decimal;
+  }
+  .row-text :global(li) {
+    margin-block: var(--space-2);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--read);
+  }
+  .row-text :global(li::marker) {
+    color: var(--plume);
+  }
+  .row-text :global(a) {
+    color: var(--plume);
+    text-underline-offset: 3px;
+  }
+  .row-text :global(strong) {
+    font-weight: 600;
   }
   .row-media img {
     display: block;
