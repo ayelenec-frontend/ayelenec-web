@@ -9,6 +9,8 @@ export default defineConfig({
   // El blog queda fuera del sitemap hasta que tenga contenido real.
   integrations: [
     sitemap({
+      // Agrega xhtml:link (hreflang) entre la version ES y la EN de cada URL.
+      i18n: { defaultLocale: 'es', locales: { es: 'es', en: 'en' } },
       filter: (page) =>
         !page.includes('/blog'),
     }),

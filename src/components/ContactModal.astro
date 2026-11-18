@@ -12,7 +12,7 @@ const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
 ---
 
 <dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
-  <form class="cm-form" id="contact-form" data-email={site.email}>
+  <form class="cm-form" id="contact-modal-form" data-email={site.email}>
     <button type="button" class="cm-close" aria-label={s.close} data-close-contact>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" />
@@ -221,7 +221,7 @@ const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
 <script define:vars={{ str: s }}>
   const modal = document.getElementById('contact-modal');
   if (modal) {
-    const form = modal.querySelector('#contact-form');
+    const form = modal.querySelector('#contact-modal-form');
     const statusEl = form.querySelector('.cm-status');
     const submitBtn = form.querySelector('#cm-submit');
     const email = form.dataset.email || '';

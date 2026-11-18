@@ -1,0 +1,35 @@
+# Ayelen Caceres
+
+> Diseñadora UX/UI y web en Resistencia, Chaco (Argentina). Trabajo remoto en español e inglés, con clientes en Argentina, Chile y España.
+
+Portfolio bilingüe: la versión en español está en la raíz y la versión en inglés en /en/.
+
+## Páginas
+
+- [Portfolio en español](https://ayelenec.com/): servicios, proceso, proyectos, sobre mí y contacto
+- [Portfolio in English](https://ayelenec.com/en/): same content in English
+
+## Servicios
+
+- Diseño UX/UI: investigación, arquitectura de información, wireframes y prototipos en Figma
+- Diseño y desarrollo web: sitios institucionales y e-commerce en WordPress, Webflow o Shopify
+- Diseño gráfico: identidad visual y piezas para redes y campañas
+- Producto no-code: MVPs y herramientas internas con no-code e IA
+
+## Proyectos (sitios publicados de clientes)
+
+- [Termas de Chillán](https://termaschillan.cl/)
+- [La Butiq](https://labutiq.cl/)
+- [YoProfe](https://yoprofe.cl/)
+- [BCD Travel](https://bcdtravel.es/)
+- [TW Logística](https://www.tw.cl/)
+- [Aldea Nativa](https://aldeanativa.cl/)
+- [Auto360](https://www.auto360.cl/)
+
+## Perfiles y contacto
+
+- Email: hola@ayelenec.com
+- [LinkedIn](https://www.linkedin.com/in/ayelenecuxui/)
+- [Instagram](https://www.instagram.com/ayelenec.uxui/)
+- [CV en español (PDF)](https://ayelenec.com/cv/cv-ayelen-caceres-es.pdf)
+- [CV in English (PDF)](https://ayelenec.com/cv/cv-ayelen-caceres-en.pdf)

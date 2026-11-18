@@ -17,7 +17,7 @@ const fmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   year: 'numeric',
   timeZone: 'UTC',
 });
-const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}`;
+const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
 ---
 
 <main id="contenido" class="blog-index">

@@ -10,7 +10,7 @@ interface Props {
 const { post, lang } = Astro.props;
 const s = t[lang].blog;
 const d = post.data;
-const backHref = lang === 'en' ? '/en/blog' : '/blog';
+const backHref = lang === 'en' ? '/en/blog/' : '/blog/';
 const date = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-AR', {
   day: 'numeric',
   month: 'long',

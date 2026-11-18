@@ -3,7 +3,7 @@ import '../styles/theme.css';
 import BackToTop from '../components/BackToTop.astro';
 import Enhance from '../components/Enhance.astro';
 import { site } from '../data/site';
-import { getLang, t } from '../i18n';
+import { getLang, t, hreflangPair } from '../i18n';
 
 interface Props {
   title?: string;
@@ -15,24 +15,56 @@ const lang = getLang(Astro.url);
 const tr = t[lang];
 const { title = tr.seo.title, description = tr.seo.description, noindex = false } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const origin = Astro.site ?? site.url;
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/';
+const canonical = new URL(pathname, origin).href;
+
+// hreflang: solo en paginas indexables que tienen su par en el otro idioma.
+const pair = noindex ? null : hreflangPair(pathname);
+const alternates = pair
+  ? [
+      { hreflang: 'es', href: new URL(pair.es, origin).href },
+      { hreflang: 'en', href: new URL(pair.en, origin).href },
+      { hreflang: 'x-default', href: new URL(pair.es, origin).href },
+    ]
+  : [];
 const ogImage = new URL(site.ogImage, Astro.site ?? site.url).href;
 
-// JSON-LD Person
-const personSchema = {
+// JSON-LD: @graph WebSite + Person (mismos @id en ES y EN)
+const root = new URL('/', origin).href;
+const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: site.name,
-  jobTitle: site.role,
-  email: `mailto:${site.email}`,
-  url: site.url,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Resistencia',
-    addressRegion: 'Chaco',
-    addressCountry: 'AR',
-  },
-  knowsLanguage: ['es', 'en'],
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${root}#website`,
+      url: root,
+      name: site.name,
+      inLanguage: ['es', 'en'],
+      publisher: { '@id': `${root}#person` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${root}#person`,
+      name: site.name,
+      jobTitle: lang === 'en' ? site.roleEn : site.role,
+      url: root,
+      image: new URL('/ayelen.webp', origin).href,
+      email: `mailto:${site.email}`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Resistencia',
+        addressRegion: 'Chaco',
+        addressCountry: 'AR',
+      },
+      knowsAbout:
+        lang === 'en'
+          ? ['UX design', 'UI design', 'Web design', 'Graphic design', 'No-code']
+          : ['Diseño UX', 'Diseño UI', 'Diseño web', 'Diseño gráfico', 'No-code'],
+      knowsLanguage: ['es', 'en'],
+      sameAs: site.social.map((l) => l.href),
+    },
+  ],
 };
 ---
 
@@ -43,6 +75,7 @@ const personSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Favicon: monograma AC -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -65,6 +98,7 @@ const personSchema = {
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
 
     <!-- Precarga de las dos fuentes principales -->
     <link
@@ -104,7 +138,7 @@ const personSchema = {
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>

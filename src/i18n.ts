@@ -7,22 +7,44 @@ export function getLang(url: URL): Lang {
   return url.pathname === '/en' || url.pathname.startsWith('/en/') ? 'en' : 'es';
 }
 
-// Dada una ruta, devuelve su equivalente en el otro idioma (para el toggle).
+// Rutas con version en los dos idiomas (en espanol, con barra final).
+// Al sumar una pagina traducida, agregarla aca: el layout genera su hreflang solo.
+export const translatedRoutes = ['/', '/blog/'];
+
+function withSlash(p: string): string {
+  return p.endsWith('/') ? p : p + '/';
+}
+
+// Ruta en espanol (sin prefijo /en) y con barra final.
+function esPath(pathname: string): string {
+  const p = withSlash(pathname);
+  if (p === '/en/') return '/';
+  return p.startsWith('/en/') ? p.slice(3) : p;
+}
+
+// URL equivalente en el otro idioma, para el selector. Los articulos del blog no
+// tienen traduccion uno a uno: llevan al indice del blog del otro idioma.
+// Rutas sin par (ej. 404) llevan a la home del otro idioma.
 export function altPath(pathname: string): string {
-  if (pathname === '/en' || pathname.startsWith('/en/')) {
-    const rest = pathname.replace(/^\/en/, '');
-    return rest === '' ? '/' : rest;
-  }
-  return pathname === '/' ? '/en' : `/en${pathname}`;
+  const es = esPath(pathname);
+  const target = es.startsWith('/blog/') ? '/blog/' : translatedRoutes.includes(es) ? es : '/';
+  return getLang(new URL(pathname, 'https://x')) === 'en' ? target : target === '/' ? '/en/' : '/en' + target;
+}
+
+// Pares hreflang de una ruta, o null si la pagina no tiene traduccion.
+export function hreflangPair(pathname: string): { es: string; en: string } | null {
+  const es = esPath(pathname);
+  if (!translatedRoutes.includes(es)) return null;
+  return { es, en: es === '/' ? '/en/' : '/en' + es };
 }
 
 export const t = {
   es: {
     htmlLang: 'es',
     seo: {
-      title: 'Ayelen Caceres · Diseñadora UX/UI y web',
+      title: 'Ayelen Caceres · Diseñadora UX/UI y web freelance en Argentina',
       description:
-        'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y diseño gráfico en un mismo proceso. Resistencia, Chaco · remoto.',
+        'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y diseño gráfico en un solo proceso. Resistencia, Chaco.',
     },
     nav: [
       { label: 'Inicio', href: '#top' },
@@ -36,7 +58,7 @@ export const t = {
     marquee: ['Diseño UX/UI', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Diseño gráfico', 'No-code'],
     footerUi: { nav: 'Navegación', contact: 'Contacto', social: 'Redes' },
     hero: {
-      eyebrow: 'UX/UI · Web · Producto',
+      eyebrow: 'Diseñadora UX/UI y web',
       status: 'Disponible',
       titleLead: 'Interfaces claras, diseñadas con ',
       titleAccent: 'intención',
@@ -150,7 +172,7 @@ export const t = {
   en: {
     htmlLang: 'en',
     seo: {
-      title: 'Ayelen Caceres · UX/UI & Web Designer',
+      title: 'Ayelen Caceres · Freelance UX/UI & Web Designer in Argentina',
       description:
         'I design clear interfaces for digital products and websites. Research, design, development and graphic design in a single process. Resistencia, Chaco · remote.',
     },
@@ -166,7 +188,7 @@ export const t = {
     marquee: ['UX/UI design', 'Figma', 'WordPress', 'Shopify', 'Webflow', 'Graphic design', 'No-code'],
     footerUi: { nav: 'Navigation', contact: 'Contact', social: 'Social' },
     hero: {
-      eyebrow: 'UX/UI · Web · Product',
+      eyebrow: 'UX/UI & Web Designer',
       status: 'Available',
       titleLead: 'Clear interfaces, designed with ',
       titleAccent: 'intention',

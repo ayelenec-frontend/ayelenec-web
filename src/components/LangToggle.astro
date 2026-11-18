@@ -1,16 +1,27 @@
 ---
-// Toggle de idioma ES/EN. Reusa la animacion de deslizar del ThemeToggle,
+// Selector de idioma ES/EN: es un enlace real a la pagina equivalente en el otro idioma
+// (rastreable, funciona sin JavaScript). Reusa la animacion de deslizar del ThemeToggle,
 // pero con texto (sin banderas): el thumb resalta el idioma activo.
-// El cambio real de idioma (navegar a /en) se cablea cuando exista la version.
+import { altPath, getLang } from '../i18n';
+
+const lang = getLang(Astro.url);
+const isEn = lang === 'en';
+const href = altPath(Astro.url.pathname);
 ---
 
-<button class="lang-switch" type="button" role="switch" aria-label="Cambiar idioma" data-lang-toggle>
+<a
+  class:list={['lang-switch', { 'is-en': isEn }]}
+  href={href}
+  hreflang={isEn ? 'es' : 'en'}
+  aria-label={isEn ? 'Cambiar a español (Spanish)' : 'Switch to English (inglés)'}
+  data-lang-toggle
+>
   <span class="lang-track">
     <span class="lang-opt lang-opt--es">ES</span>
     <span class="lang-opt lang-opt--en">EN</span>
     <span class="lang-thumb" aria-hidden="true"></span>
   </span>
-</button>
+</a>
 
 <style>
   .lang-switch {
@@ -21,6 +32,7 @@
     height: 30px;
     padding: 0;
     border: 0;
+    text-decoration: none;
     border-radius: var(--radius-pill);
     background-color: var(--surface-sunken);
     cursor: pointer;
@@ -84,22 +96,9 @@
 </style>
 
 <script>
-  const btn = document.querySelector('[data-lang-toggle]');
-  if (btn) {
-    const isEn = document.documentElement.lang === 'en';
-    btn.classList.toggle('is-en', isEn);
-    btn.setAttribute('aria-checked', isEn ? 'true' : 'false');
-
-    btn.addEventListener('click', () => {
-      const path = window.location.pathname;
-      let target;
-      if (path === '/en' || path.startsWith('/en/')) {
-        const rest = path.replace(/^\/en/, '');
-        target = rest === '' ? '/' : rest;
-      } else {
-        target = path === '/' ? '/en' : '/en' + path;
-      }
-      window.location.href = target + window.location.hash;
-    });
-  }
+  // Mantiene la seccion en la que estabas al cambiar de idioma (#servicios, etc.).
+  const link = document.querySelector<HTMLAnchorElement>('[data-lang-toggle]');
+  link?.addEventListener('click', () => {
+    if (window.location.hash) link.href = link.getAttribute('href') + window.location.hash;
+  });
 </script>
