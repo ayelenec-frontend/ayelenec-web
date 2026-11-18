@@ -38,6 +38,7 @@ const { image, alt = '', reverse = false } = Astro.props;
     aspect-ratio: 4 / 3;
   }
   .row-media--graphic {
+    display: flex;
     aspect-ratio: auto;
     overflow: visible;
   }
@@ -108,11 +109,12 @@ const { image, alt = '', reverse = false } = Astro.props;
     .row--reverse .row-media {
       order: 2;
     }
-    /* El grafico acompaña la lectura cuando el texto es largo (tablas, listas) */
+    /* El grafico ocupa todo el alto del texto; si el texto es mas corto, el texto se centra */
     .row-media--graphic {
-      align-self: start;
-      position: sticky;
-      top: 110px;
+      align-self: stretch;
+    }
+    .row:has(.row-media--graphic) .row-text {
+      align-self: center;
     }
   }
 </style>
