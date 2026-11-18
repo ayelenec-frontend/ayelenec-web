@@ -203,25 +203,38 @@ const second = rest.join(', ');
     background-color: #3a332b;
     transition: background-color 0.5s var(--ease);
   }
+  /* Paso activo: tarjeta crema clara con texto oscuro */
   .step.is-active {
-    background-color: #4a4036;
+    background-color: #efe6d3;
   }
   .step-num {
     font-family: var(--font-display);
     font-size: 2rem;
     line-height: 1;
     color: #d98a5b;
+    transition: color 0.5s var(--ease);
+  }
+  .step.is-active .step-num {
+    color: #a4502a;
   }
   .step h3 {
     margin-top: var(--space-3);
     font-size: 1.0625rem;
     color: #f4efe4;
+    transition: color 0.5s var(--ease);
+  }
+  .step.is-active h3 {
+    color: #2e2a24;
   }
   .step p {
     margin-top: 6px;
     font-size: 0.875rem;
     line-height: 1.55;
     color: #b9ab93;
+    transition: color 0.5s var(--ease);
+  }
+  .step.is-active p {
+    color: #5c5143;
   }
 
   .process-visual {
@@ -688,6 +701,6 @@ const second = rest.join(', ');
       if (!visible) return;
       current = (current + 1) % 4;
       set(current);
-    }, 3600);
+    }, 2800);
   });
 </script>
