@@ -12,6 +12,8 @@ const blog = defineCollection({
     lang: z.enum(['es', 'en']).default('es'),
     tags: z.array(z.string()).default([]),
     cover: z.string().optional(),
+    // Imagen de la tarjeta en el listado. Si falta, usa `cover`; si tampoco hay, un bloque liso.
+    thumb: z.string().optional(),
     // Epigrafe opcional de la foto de portada (ej. "Foto: Nombre")
     coverCaption: z.string().optional(),
     // Texto propio del cuadro final de "Escribime" (un item por parrafo).

@@ -56,8 +56,8 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
               <li class="bl-item" data-tags={post.data.tags.join('|')} data-date={post.data.pubDate.valueOf()}>
                 <a class="bl-card" href={hrefOf(post.slug)}>
                   <span class="bl-img">
-                    {post.data.cover ? (
-                      <img src={post.data.cover} alt="" loading="lazy" />
+                    {post.data.thumb ?? post.data.cover ? (
+                      <img src={post.data.thumb ?? post.data.cover} alt="" loading="lazy" />
                     ) : (
                       <span class="bl-img-fallback" />
                     )}
