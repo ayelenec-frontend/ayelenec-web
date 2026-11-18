@@ -44,7 +44,7 @@ export const t = {
     seo: {
       title: 'Ayelen Caceres · Diseñadora UX/UI y web freelance en Argentina',
       description:
-        'Diseño interfaces claras para productos digitales y sitios web. Investigación, diseño, desarrollo y diseño gráfico en un solo proceso. Resistencia, Chaco.',
+        'Diseñadora UX/UI y web. Investigación, diseño y desarrollo de productos digitales y sitios en WordPress, Shopify y Webflow. Resistencia, Chaco · remoto.',
     },
     nav: [
       { label: 'Inicio', href: '#top' },
@@ -59,10 +59,10 @@ export const t = {
     footerUi: { nav: 'Navegación', contact: 'Contacto', social: 'Redes' },
     hero: {
       eyebrow: 'Diseñadora UX/UI y web',
-      status: 'Disponible',
+      status: 'Disponible para proyectos freelance',
       titleLead: 'Interfaces claras, diseñadas con ',
       titleAccent: 'intención',
-      lead: 'Diseño interfaces claras para productos digitales y sitios web. Acompaño a marcas y equipos desde la investigación hasta la entrega en Figma, WordPress, Shopify o Webflow.',
+      lead: 'Diseño productos digitales y sitios web que se entienden a la primera. Acompaño a marcas y equipos desde la investigación hasta la entrega en Figma, WordPress, Shopify o Webflow.',
       projectsBtn: 'Ver proyectos',
       cvBtn: 'Descargar CV',
       cv: '/cv/cv-ayelen-caceres-es.pdf',
@@ -82,8 +82,8 @@ export const t = {
       descs: [
         'Investigación, arquitectura de información y prototipos en Figma.',
         'Sitios institucionales y e-commerce en WordPress, Webflow o Shopify.',
-        'Identidad visual y piezas gráficas para redes y campañas.',
-        'MVPs con no-code e IA para validar ideas antes de invertir en desarrollo.',
+        'Identidad visual y piezas para redes y campañas.',
+        'Prototipos funcionales con herramientas no-code e IA, para validar una idea antes de invertir en desarrollo.',
       ],
     },
     process: {
@@ -94,7 +94,7 @@ export const t = {
         { title: 'Entender', desc: 'Escucho al negocio y a las personas; defino el problema antes que la solución.' },
         { title: 'Ordenar', desc: 'Arquitectura, flujos y wireframes; la estructura se valida antes del color.' },
         { title: 'Diseñar', desc: 'Interfaz, sistema visual y prototipo; cada decisión tiene una razón.' },
-        { title: 'Construir y medir', desc: 'Desarrollo o acompaño la implementación, y mido el resultado.' },
+        { title: 'Construir y medir', desc: 'Desarrollo el sitio o acompaño la implementación, y después mido el resultado.' },
       ],
     },
     about: {
@@ -148,6 +148,7 @@ export const t = {
       sending: 'Enviando…',
       ok: '¡Gracias! Te respondo en menos de 48 horas.',
       error: 'No se pudo enviar. Escribime a ',
+      privacy: 'Uso tus datos solo para responder tu consulta. No los comparto con nadie.',
     },
     modal: {
       eyebrow: 'Escribime',
@@ -163,6 +164,7 @@ export const t = {
       sending: 'Enviando…',
       ok: '¡Gracias! Te voy a responder a la brevedad.',
       error: 'No se pudo enviar. Probá de nuevo o escribime por mail.',
+      privacy: 'Uso tus datos solo para responder tu consulta. No los comparto con nadie.',
       alt: 'O escribime directo a ',
       close: 'Cerrar',
     },
@@ -174,7 +176,7 @@ export const t = {
     seo: {
       title: 'Ayelen Caceres · Freelance UX/UI & Web Designer in Argentina',
       description:
-        'I design clear interfaces for digital products and websites. Research, design, development and graphic design in a single process. Resistencia, Chaco · remote.',
+        'UX/UI and web designer. Research, design and development of digital products and websites on WordPress, Shopify and Webflow. Based in Argentina · remote.',
     },
     nav: [
       { label: 'Home', href: '#top' },
@@ -189,10 +191,10 @@ export const t = {
     footerUi: { nav: 'Navigation', contact: 'Contact', social: 'Social' },
     hero: {
       eyebrow: 'UX/UI & Web Designer',
-      status: 'Available',
+      status: 'Available for freelance projects',
       titleLead: 'Clear interfaces, designed with ',
       titleAccent: 'intention',
-      lead: 'I design clear interfaces for digital products and websites. I support brands and teams from research to delivery in Figma, WordPress, Shopify or Webflow.',
+      lead: 'I design digital products and websites that make sense at first glance. I support brands and teams from research to delivery in Figma, WordPress, Shopify or Webflow.',
       projectsBtn: 'View projects',
       cvBtn: 'Download CV',
       cv: '/cv/cv-ayelen-caceres-en.pdf',
@@ -212,8 +214,8 @@ export const t = {
       descs: [
         'Research, information architecture and prototypes in Figma.',
         'Corporate sites and e-commerce in WordPress, Webflow or Shopify.',
-        'Visual identity and graphic pieces for social media and campaigns.',
-        'MVPs with no-code and AI to validate ideas before investing in development.',
+        'Visual identity and pieces for social media and campaigns.',
+        'Working prototypes built with no-code tools and AI, to validate an idea before investing in development.',
       ],
     },
     process: {
@@ -224,7 +226,7 @@ export const t = {
         { title: 'Understand', desc: 'I listen to the business and the people; I define the problem before the solution.' },
         { title: 'Organize', desc: 'Architecture, flows and wireframes; structure is validated before color.' },
         { title: 'Design', desc: 'Interface, visual system and prototype; every decision has a reason.' },
-        { title: 'Build & measure', desc: 'I build or support the implementation, and I measure the result.' },
+        { title: 'Build & measure', desc: 'I build the site or support the implementation, and then I measure the result.' },
       ],
     },
     about: {
@@ -278,6 +280,7 @@ export const t = {
       sending: 'Sending…',
       ok: "Thanks! I'll reply within 48 hours.",
       error: "Couldn't send. Email me at ",
+      privacy: 'I only use your details to reply to your message. I never share them.',
     },
     modal: {
       eyebrow: 'Get in touch',
@@ -287,12 +290,13 @@ export const t = {
       email: 'Email',
       service: 'Service you need',
       servicePlaceholder: 'Pick an option (optional)',
-      serviceExtra: ['Working together', 'Other'],
+      serviceExtra: ['Collaboration / partnership', 'Other'],
       message: 'Message',
       send: 'Send message',
       sending: 'Sending…',
       ok: "Thanks! I'll get back to you shortly.",
       error: "Couldn't send. Try again or email me.",
+      privacy: 'I only use your details to reply to your message. I never share them.',
       alt: 'Or email me directly at ',
       close: 'Close',
     },

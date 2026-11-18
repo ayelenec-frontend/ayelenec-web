@@ -24,7 +24,7 @@ export interface Project {
 
 export const kindLabel: Record<Kind, Loc> = {
   redesign: { es: 'Rediseño', en: 'Redesign' },
-  maintenance: { es: 'Mantenimiento', en: 'Maintenance' },
+  maintenance: { es: 'Mejora continua', en: 'Ongoing support' },
 };
 
 export const projects: Project[] = [
@@ -135,12 +135,12 @@ export const projects: Project[] = [
     country: 'Chile',
     kind: 'maintenance',
     title: {
-      es: 'Una tienda de productos naturales, siempre al día',
-      en: 'A natural-products store, always up to date',
+      es: 'Una tienda de productos naturales, fácil de recorrer',
+      en: 'A natural foods store, easy to browse',
     },
     description: {
-      es: 'Mantenimiento y retoques continuos de la tienda online: ajustes, mejoras y cambios del día a día.',
-      en: 'Ongoing maintenance and touch-ups for the online store: tweaks, improvements and day-to-day changes.',
+      es: 'Carga y actualización de productos, ajustes de diseño y mejoras de SEO en la tienda, con reportes periódicos.',
+      en: 'Product updates, design tweaks and SEO improvements across the store, with regular reporting.',
     },
     tags: [
       { es: 'E-commerce', en: 'E-commerce' },
@@ -155,12 +155,12 @@ export const projects: Project[] = [
     country: 'Chile',
     kind: 'maintenance',
     title: {
-      es: 'Compra y venta de autos usados, siempre al día',
-      en: 'Used-car buying and selling, always up to date',
+      es: 'Autos usados, publicados y fáciles de encontrar',
+      en: 'Used cars, listed and easy to find',
     },
     description: {
-      es: 'Mantenimiento y retoques continuos del sitio: ajustes, mejoras y cambios del día a día.',
-      en: 'Ongoing maintenance and touch-ups for the site: tweaks, improvements and day-to-day changes.',
+      es: 'Actualización de contenidos, ajustes de diseño y nuevas secciones en WordPress, a medida que el negocio lo necesita.',
+      en: 'Content updates, design tweaks and new WordPress sections, as the business needs them.',
     },
     tags: [
       { es: 'Automotriz', en: 'Automotive' },

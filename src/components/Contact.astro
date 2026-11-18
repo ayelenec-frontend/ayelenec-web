@@ -47,6 +47,7 @@ const serviceOptions = [...t[lang].services.titles, ...m.serviceExtra];
         <textarea id="cf-message" name="message" rows="4" required></textarea>
       </div>
       <button class="contact-submit" type="submit">{s.send}</button>
+      <p class="contact-privacy">{s.privacy}</p>
       <p class="contact-status" id="cf-status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -263,6 +264,12 @@ const serviceOptions = [...t[lang].services.titles, ...m.serviceExtra];
     border-color: #8a6f69;
     cursor: progress;
     transform: none;
+  }
+
+  .contact-privacy {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: #4a3f33;
   }
 
   .contact-status {

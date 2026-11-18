@@ -11,7 +11,7 @@ const s = t[lang].modal;
 const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
 ---
 
-<dialog class="cm" id="contact-modal" aria-labelledby="cm-title">
+<dialog class="cm" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="cm-title">
   <form class="cm-form" id="contact-modal-form" data-email={site.email}>
     <button type="button" class="cm-close" aria-label={s.close} data-close-contact>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
@@ -55,6 +55,7 @@ const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
     </div>
 
     <CtaButton label={s.send} type="submit" full id="cm-submit" />
+    <p class="cm-privacy">{s.privacy}</p>
     <p class="cm-status" role="status" aria-live="polite"></p>
     <p class="cm-alt">{s.alt}<a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
   </form>
@@ -212,6 +213,12 @@ const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
   .cm-status.is-ok { color: var(--success); }
   .cm-status.is-error { color: var(--error); }
 
+  .cm-privacy {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--ink-muted);
+    text-align: center;
+  }
   .cm-alt {
     font-size: 0.8125rem;
     color: var(--ink-muted);
@@ -245,9 +252,20 @@ const serviceOptions = [...t[lang].services.titles, ...s.serviceExtra];
     modal.querySelectorAll('[data-close-contact]').forEach((btn) => {
       btn.addEventListener('click', close);
     });
-    // Click en el fondo (fuera del form) cierra
+    // Click en el fondo cierra, pero solo si el gesto empezo y termino FUERA de la
+    // tarjeta. Asi no se cierra al usar la barra de scroll, al seleccionar texto
+    // arrastrando ni al elegir una sugerencia de autocompletado del navegador.
+    const outside = (e) => {
+      const r = modal.getBoundingClientRect();
+      return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+    };
+    let downOutside = false;
+    modal.addEventListener('pointerdown', (e) => {
+      downOutside = e.target === modal && outside(e);
+    });
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) close();
+      if (downOutside && e.target === modal && outside(e)) close();
+      downOutside = false;
     });
     modal.addEventListener('close', () => lastFocus?.focus());
 

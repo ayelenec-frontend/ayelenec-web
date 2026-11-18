@@ -9,7 +9,6 @@ import Social from './Social.astro';
 const lang = getLang(Astro.url);
 const s = t[lang];
 const base = lang === 'en' ? '/en/' : '/';
-const blogHref = lang === 'en' ? '/en/blog/' : '/blog/';
 ---
 
 <header class="site-header" data-header>
@@ -28,7 +27,6 @@ const blogHref = lang === 'en' ? '/en/blog/' : '/blog/';
     <div class="header-bar">
       <nav class="nav" aria-label="Principal">
         {s.nav.map((item) => <a href={`${base}${item.href}`}>{item.label}</a>)}
-        <a href={blogHref}>{s.blog.nav}</a>
       </nav>
       <div class="header-actions">
         <CtaButton label={s.cta} small data-open-contact />
@@ -52,9 +50,6 @@ const blogHref = lang === 'en' ? '/en/blog/' : '/blog/';
           <span class="drawer-num">{String(i + 1).padStart(2, '0')}</span>{item.label}
         </a>
       ))}
-      <a href={blogHref} data-drawer-close>
-        <span class="drawer-num">{String(s.nav.length + 1).padStart(2, '0')}</span>{s.blog.nav}
-      </a>
     </nav>
 
     <div class="drawer-bottom">

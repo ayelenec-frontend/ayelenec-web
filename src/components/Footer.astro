@@ -3,7 +3,9 @@ import { site } from '../data/site';
 import { getLang, t } from '../i18n';
 import Social from './Social.astro';
 
-const s = t[getLang(Astro.url)];
+const lang = getLang(Astro.url);
+const s = t[lang];
+const blogHref = lang === 'en' ? '/en/blog/' : '/blog/';
 const year = new Date().getFullYear();
 ---
 
@@ -23,6 +25,7 @@ const year = new Date().getFullYear();
       <h3>{s.footerUi.nav}</h3>
       <ul>
         {s.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href={blogHref}>{s.blog.nav}</a></li>
       </ul>
     </nav>
 

@@ -50,7 +50,7 @@ const buildCss = steps
         <p class="hero-lead">{s.lead}</p>
         <div class="hero-actions">
           <CtaButton label={s.projectsBtn} href="#proyectos" icon="arrow" />
-          <CtaButton label={s.cvBtn} href={s.cv} icon="download" secondary download />
+          <CtaButton label={s.cvBtn} href={s.cv} icon="download" secondary download={s.cv.split('/').pop()} />
         </div>
       </div>
 
