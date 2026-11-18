@@ -27,7 +27,7 @@ const { image, alt = '', reverse = false } = Astro.props;
 <style>
   .row {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
     align-items: center;
     margin-block: var(--space-12);
@@ -63,6 +63,12 @@ const { image, alt = '', reverse = false } = Astro.props;
     color: var(--plume);
     text-underline-offset: 3px;
   }
+  /* Las tablas se desplazan dentro de su columna en lugar de ensancharla */
+  .row-text :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
   .row-text :global(strong) {
     font-weight: 600;
   }
@@ -95,12 +101,18 @@ const { image, alt = '', reverse = false } = Astro.props;
 
   @media (min-width: 820px) {
     .row {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--space-12);
       margin-block: var(--space-16);
     }
     .row--reverse .row-media {
       order: 2;
+    }
+    /* El grafico acompaña la lectura cuando el texto es largo (tablas, listas) */
+    .row-media--graphic {
+      align-self: start;
+      position: sticky;
+      top: 110px;
     }
   }
 </style>

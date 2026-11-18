@@ -5,8 +5,13 @@
 //   factors  controles deslizantes: cada factor sube o baja el precio
 //   costs    el presupuesto del rediseño + los costos que siguen despues
 //   brief    lista de lo que conviene tener claro antes de pedir presupuestos
+//   answer   las tres cifras de la respuesta corta
+//   platforms plataformas y para que sirve cada una
+//   compare  dos presupuestos lado a lado con lo que hay que revisar
+//   summary  alcance, presupuestos, comparacion
+//   sources  las fuentes consultadas
 interface Props {
-  kind: 'range' | 'factors' | 'costs' | 'brief';
+  kind: 'range' | 'factors' | 'costs' | 'brief' | 'answer' | 'platforms' | 'compare' | 'summary' | 'sources';
 }
 const { kind } = Astro.props;
 
@@ -34,6 +39,27 @@ const costs = [
   { label: 'Licencias', cadence: 'por año' },
   { label: 'Mantenimiento', cadence: 'por mes' },
   { label: 'Contenido nuevo', cadence: 'cuando haga falta' },
+];
+
+const answer = [
+  { label: 'Sitio institucional', who: 'Freelance con experiencia', val: 'USD 800 a 2.500' },
+  { label: 'Tienda online', who: 'Freelance', val: 'USD 1.000 a 4.000' },
+  { label: 'A medida', who: 'Agencia', val: 'Más de USD 15.000' },
+];
+const platforms = [
+  { label: 'WordPress / WooCommerce', tag: 'contenido y flexibilidad' },
+  { label: 'Tiendanube', tag: 'arrancar rápido' },
+  { label: 'Shopify', tag: 'vender afuera' },
+  { label: 'Webflow', tag: 'diseño y animación' },
+  { label: 'Código a medida', tag: 'rápido y liviano' },
+];
+const checks = ['Rondas de cambios', 'Capacitación', 'Accesos a tu nombre', 'Soporte posterior', 'Pagos por etapas'];
+const steps = ['Definir el alcance', 'Pedir presupuestos', 'Compararlos'];
+const sources = [
+  { label: 'Neolo', tag: 'mar 2026' },
+  { label: 'GoDaddy', tag: 'jul 2026' },
+  { label: 'Develop Argentina', tag: 'jun 2026' },
+  { label: 'Hostinger', tag: '2026' },
 ];
 
 const brief = ['El objetivo', 'Qué no funciona hoy', 'La lista de páginas', 'Quién aporta el contenido', 'La plataforma'];
@@ -126,6 +152,102 @@ const brief = ['El objetivo', 'Qué no funciona hoy', 'La lista de páginas', 'Q
             </span>
             <span class="brief-text">{b}</span>
             <span class="brief-num">{String(i + 1).padStart(2, '0')}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'answer' && (
+    <figure class="g g-answer" aria-hidden="true">
+      <figcaption class="g-title">La respuesta corta</figcaption>
+      <ul class="ans-list">
+        {answer.map((a) => (
+          <li class="ans-row">
+            <span class="ans-who">
+              {a.label} · {a.who}
+            </span>
+            <span class="ans-val">{a.val}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'platforms' && (
+    <figure class="g g-platforms" aria-hidden="true">
+      <figcaption class="g-title">Cada plataforma, su caso</figcaption>
+      <ul class="pill-list">
+        {platforms.map((p) => (
+          <li class="pill-row">
+            <span>{p.label}</span>
+            <span class="pill-tag">{p.tag}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'compare' && (
+    <figure class="g g-compare" aria-hidden="true">
+      <figcaption class="g-title">Qué revisar en cada presupuesto</figcaption>
+      <div class="cmp-head">
+        <span />
+        <span>A</span>
+        <span>B</span>
+      </div>
+      <ul class="cmp-list">
+        {checks.map((c) => (
+          <li class="cmp-row">
+            <span class="cmp-label">{c}</span>
+            <span class="cmp-box">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            </span>
+            <span class="cmp-box">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'summary' && (
+    <figure class="g g-summary" aria-hidden="true">
+      <figcaption class="g-title">El orden que conviene</figcaption>
+      <ul class="pill-list">
+        {steps.map((st, i) => (
+          <li class:list={['pill-row', { 'pill-row--on': i === 0 }]}>
+            <span>{st}</span>
+            <span class="pill-tag">{String(i + 1).padStart(2, '0')}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  kind === 'sources' && (
+    <figure class="g g-sources" aria-hidden="true">
+      <figcaption class="g-title">Dónde salieron los datos</figcaption>
+      <ul class="pill-list">
+        {sources.map((so) => (
+          <li class="pill-row">
+            <span>{so.label}</span>
+            <span class="pill-tag">{so.tag}</span>
           </li>
         ))}
       </ul>
@@ -356,5 +478,110 @@ const brief = ['El objetivo', 'Qué no funciona hoy', 'La lista de páginas', 'Q
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     color: var(--ink-muted);
+  }
+
+  /* ---- answer ---- */
+  .g .ans-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .g .ans-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4);
+    border-radius: 10px;
+    background-color: var(--surface-sunken);
+  }
+  .g .ans-row:first-child {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  .ans-who {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .ans-val {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  /* ---- pill list (platforms, summary, sources) ---- */
+  .g .pill-list {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .g .pill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 10px;
+    background-color: var(--surface-sunken);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .g .pill-row--on {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  .pill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    opacity: 0.75;
+    text-align: right;
+  }
+
+  /* ---- compare ---- */
+  .cmp-head,
+  .g .cmp-row {
+    display: grid;
+    grid-template-columns: 1fr 44px 44px;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .cmp-head {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+  .g .cmp-list {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .g .cmp-row {
+    padding: var(--space-2) var(--space-3);
+    border-radius: 10px;
+    background-color: var(--surface-sunken);
+  }
+  .cmp-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .cmp-box {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    margin-inline: auto;
+    border-radius: 6px;
+    background-color: var(--plume);
+  }
+  .cmp-box svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--on-plume);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 </style>

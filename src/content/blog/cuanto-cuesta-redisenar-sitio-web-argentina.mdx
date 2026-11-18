@@ -11,9 +11,9 @@ draft: false
 import Row from '../../components/blog/Row.astro';
 import Graphic from '../../components/blog/Graphic.astro';
 
-<Row>
+<Row reverse>
 
-<Graphic slot="media" kind="range" />
+<Graphic slot="media" kind="answer" />
 
 ## La respuesta corta
 
@@ -24,6 +24,10 @@ El rango es amplio porque "rediseñar un sitio" puede ser cambiar la estética d
 Un rediseño no siempre sale más barato que un sitio nuevo. Ahorrás en contenido que ya existe, pero suma trabajo que un sitio nuevo no tiene: revisar qué funciona hoy, migrar contenido y cuidar que Google no pierda las páginas que ya posicionan.
 
 </Row>
+
+<Row>
+
+<Graphic slot="media" kind="range" />
 
 ## Rangos de precio por tipo de sitio
 
@@ -43,7 +47,9 @@ Fuentes: [Neolo](https://www.neolo.com/blog/?p=31071), [GoDaddy](https://www.god
 
 Vas a encontrar precios más bajos, por ejemplo landings desde USD 150. Suelen ser sitios hechos sobre una plantilla, sin investigación ni diseño a medida. Pueden servir para arrancar, pero no son lo mismo que un rediseño.
 
-<Row>
+</Row>
+
+<Row reverse>
 
 <Graphic slot="media" kind="factors" />
 
@@ -62,6 +68,10 @@ El precio depende más del alcance que de la plataforma. Estos son los factores 
 
 </Row>
 
+<Row>
+
+<Graphic slot="media" kind="platforms" />
+
 ## La plataforma también cambia la cuenta
 
 La plataforma define sobre todo los costos mensuales y quién puede hacer cambios después.
@@ -76,7 +86,9 @@ La plataforma define sobre todo los costos mensuales y quién puede hacer cambio
 
 Fuente de los valores de WooCommerce y Tiendanube: [Develop Argentina](https://developargentina.com/blog/cuanto-cuesta-tienda-online-argentina-2026).
 
-<Row>
+</Row>
+
+<Row reverse>
 
 <Graphic slot="media" kind="costs" />
 
@@ -110,6 +122,10 @@ Dos presupuestos solo se comparan si responden al mismo pedido. Antes de escribi
 
 </Row>
 
+<Row reverse>
+
+<Graphic slot="media" kind="compare" />
+
 Y cuando lleguen los presupuestos, fijate que digan:
 
 - Cuántas rondas de cambios incluye.
@@ -118,11 +134,23 @@ Y cuando lleguen los presupuestos, fijate que digan:
 - Qué pasa después de la entrega: garantía, soporte o mantenimiento, y a qué costo.
 - Plazos y forma de pago, idealmente dividido por etapas.
 
+</Row>
+
+<Row>
+
+<Graphic slot="media" kind="summary" />
+
 ## En resumen
 
 Un rediseño bien hecho no es un gasto en estética: es ordenar el sitio para que la gente encuentre lo que busca y haga lo que vos necesitás que haga. El precio justo depende del alcance, y el alcance se define antes de pedir números.
 
 Si estás pensando en rediseñar tu sitio y querés armar ese alcance, [escribime](https://ayelenec.com/#contacto) y lo vemos juntos.
+
+</Row>
+
+<Row reverse>
+
+<Graphic slot="media" kind="sources" />
 
 ## Fuentes
 
@@ -130,3 +158,5 @@ Si estás pensando en rediseñar tu sitio y querés armar ese alcance, [escribim
 - [GoDaddy: ¿Cuánto cuesta crear una página web en Argentina?](https://www.godaddy.com/resources/latam/crearweb/cuanto-cuesta-crear-pagina-en-argentina), actualizado en julio de 2026
 - [Develop Argentina: ¿Cuánto cuesta hacer una tienda online en Argentina?](https://developargentina.com/blog/cuanto-cuesta-tienda-online-argentina-2026), junio de 2026
 - [Hostinger: ¿Cuánto cuesta mantener una página web en 2026?](https://www.hostinger.com/ar/tutoriales/?p=20607)
+
+</Row>
