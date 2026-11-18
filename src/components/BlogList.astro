@@ -42,13 +42,36 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
               ))}
             </div>
 
-            <label class="bl-sort">
-              <span>{s.sortBy}</span>
-              <select id="bl-sort">
-                <option value="new">{s.newest}</option>
-                <option value="old">{s.oldest}</option>
-              </select>
-            </label>
+            <div class="bl-sort" id="bl-sort">
+              <span class="bl-sort-label" id="bl-sort-label">{s.sortBy}</span>
+              <button
+                type="button"
+                class="bl-sort-btn"
+                id="bl-sort-btn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="bl-sort-menu"
+                aria-labelledby="bl-sort-label bl-sort-current"
+              >
+                <span id="bl-sort-current">{s.newest}</span>
+                <svg class="bl-sort-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <ul class="bl-sort-menu" id="bl-sort-menu" role="listbox" aria-labelledby="bl-sort-label">
+                {[
+                  { value: 'new', label: s.newest },
+                  { value: 'old', label: s.oldest },
+                ].map((o, i) => (
+                  <li class="bl-sort-opt" role="option" tabindex="-1" data-value={o.value} data-label={o.label} aria-selected={i === 0 ? 'true' : 'false'}>
+                    <span>{o.label}</span>
+                    <svg class="bl-sort-check" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <ul class="bl-grid" id="bl-grid">
@@ -140,11 +163,13 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
     color: var(--on-plume);
   }
 
+  /* Desplegable propio: misma pastilla que los filtros, menu con los colores de marca */
   .bl-sort {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: 6px 14px;
+    padding: 4px 4px 4px 16px;
     border-radius: var(--radius-pill);
     background-color: var(--surface-sunken);
     font-family: var(--font-mono);
@@ -152,12 +177,88 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
     letter-spacing: 0.04em;
     color: var(--ink);
   }
-  .bl-sort select {
-    border: 0;
-    background-color: transparent;
+  .bl-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-raised);
     font: inherit;
-    color: inherit;
+    color: var(--ink);
     cursor: pointer;
+    transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .bl-sort-btn:hover,
+  .bl-sort-btn[aria-expanded='true'] {
+    background-color: var(--plume);
+    color: var(--on-plume);
+  }
+  .bl-sort-btn:focus-visible,
+  .bl-sort-opt:focus-visible {
+    outline: 2px solid var(--plume);
+    outline-offset: 2px;
+  }
+  .bl-sort-chev {
+    transition: transform 0.2s var(--ease);
+  }
+  .bl-sort-btn[aria-expanded='true'] .bl-sort-chev {
+    transform: rotate(180deg);
+  }
+  .bl-sort-menu {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 100%;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.16s var(--ease), transform 0.16s var(--ease), visibility 0s linear 0.16s;
+  }
+  .bl-sort-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .bl-sort-opt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: 8px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s var(--ease);
+  }
+  .bl-sort-opt:hover,
+  .bl-sort-opt:focus {
+    background-color: var(--plume-tint);
+    outline: none;
+  }
+  .bl-sort-check {
+    visibility: hidden;
+    color: var(--plume);
+  }
+  .bl-sort-opt[aria-selected='true'] {
+    font-weight: 600;
+  }
+  .bl-sort-opt[aria-selected='true'] .bl-sort-check {
+    visibility: visible;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bl-sort-menu,
+    .bl-sort-chev {
+      transition: none;
+    }
   }
   @media (min-width: 980px) {
     .bl-sort {
@@ -293,15 +394,20 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
   if (grid) {
     const items = Array.from(grid.querySelectorAll<HTMLElement>('.bl-item'));
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.bl-filter'));
-    const sortEl = document.getElementById('bl-sort') as HTMLSelectElement | null;
+    const sortBox = document.getElementById('bl-sort');
+    const sortBtn = document.getElementById('bl-sort-btn') as HTMLButtonElement | null;
+    const sortMenu = document.getElementById('bl-sort-menu');
+    const sortCurrent = document.getElementById('bl-sort-current');
+    const opts = sortMenu ? Array.from(sortMenu.querySelectorAll<HTMLElement>('[role="option"]')) : [];
     let current = 'all';
+    let sort = 'new';
 
     const apply = () => {
       items.forEach((el) => {
         const tags = (el.dataset.tags ?? '').split('|');
         el.hidden = current !== 'all' && !tags.includes(current);
       });
-      const dir = sortEl?.value === 'old' ? 1 : -1;
+      const dir = sort === 'old' ? 1 : -1;
       items
         .slice()
         .sort((a, b) => dir * (Number(a.dataset.date) - Number(b.dataset.date)))
@@ -319,6 +425,60 @@ const hrefOf = (slug: string) => `${lang === 'en' ? '/en' : ''}/blog/${slug}/`;
         apply();
       })
     );
-    sortEl?.addEventListener('change', apply);
+    // Desplegable de orden (listbox accesible: flechas, Enter/Espacio, Escape)
+    if (sortBtn && sortMenu && sortCurrent) {
+      const setOpen = (open: boolean) => {
+        sortMenu.classList.toggle('is-open', open);
+        sortBtn.setAttribute('aria-expanded', String(open));
+        if (open) (opts.find((o) => o.dataset.value === sort) ?? opts[0])?.focus();
+      };
+      const choose = (opt: HTMLElement) => {
+        sort = opt.dataset.value ?? 'new';
+        opts.forEach((o) => o.setAttribute('aria-selected', String(o === opt)));
+        sortCurrent.textContent = opt.dataset.label ?? '';
+        apply();
+        setOpen(false);
+        sortBtn.focus();
+      };
+      const isOpen = () => sortMenu.classList.contains('is-open');
+
+      sortBtn.addEventListener('click', () => setOpen(!isOpen()));
+      sortBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          setOpen(true);
+        }
+      });
+      opts.forEach((opt, i) => {
+        opt.addEventListener('click', () => choose(opt));
+        opt.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            opts[(i + 1) % opts.length].focus();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            opts[(i - 1 + opts.length) % opts.length].focus();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            opts[0].focus();
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            opts[opts.length - 1].focus();
+          } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            choose(opt);
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            setOpen(false);
+            sortBtn.focus();
+          } else if (e.key === 'Tab') {
+            setOpen(false);
+          }
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (isOpen() && !sortBox?.contains(e.target as Node)) setOpen(false);
+      });
+    }
   }
 </script>
