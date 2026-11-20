@@ -109,7 +109,7 @@
   --font-sans: 'Adwaita Sans', 'Liberation Sans', Arial, Helvetica, sans-serif;
   /* Labels y numeros (antes JetBrains Mono, luego Metropolis). El token conserva
      el nombre por compatibilidad. */
-  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-sans);
 
   /* Colores fijos de marca (no cambian con el tema) */
   --brand-plume: #6E4A4F;
