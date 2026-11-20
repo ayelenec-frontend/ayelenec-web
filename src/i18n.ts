@@ -59,7 +59,7 @@ export const t = {
     footerUi: { nav: 'Navegación', contact: 'Contacto', social: 'Redes' },
     hero: {
       eyebrow: 'Diseñadora UX/UI y web',
-      status: 'Disponible para proyectos freelance',
+      status: 'Disponible',
       titleLead: 'Interfaces claras, diseñadas con ',
       titleAccent: 'intención',
       lead: 'Diseño productos digitales y sitios web que se entienden a la primera. Acompaño a marcas y equipos desde la investigación hasta la entrega en Figma, WordPress, Shopify o Webflow.',
@@ -102,7 +102,7 @@ export const t = {
       hiLead: 'Hola, soy ',
       hiName: 'Ayelen',
       bio: [
-        'Soy Ayelen Caceres, diseñadora UX/UI y web desde Resistencia, Chaco. Trabajo con clientes de Argentina, Chile y España, y desde 2026 soy Especialista en Diseño en Performanze, un equipo remoto con base en España.',
+        'Soy Ayelen Caceres, diseñadora UX/UI y web. Vivo en Resistencia, Chaco, y trabajo de forma remota con personas y equipos de Argentina, Chile y España. Me gusta acompañar proyectos desde la idea hasta que están en línea, y entender qué necesita cada uno antes de diseñar.',
         'Me interesa el punto donde la estructura se encuentra con el detalle: que un sitio sea fácil de usar, rápido y que además se sienta cuidado. Por eso combino diseño de interfaces, desarrollo y diseño gráfico en un mismo proceso.',
       ],
       phrase: 'La intención antecede a la forma.',
@@ -191,7 +191,7 @@ export const t = {
     footerUi: { nav: 'Navigation', contact: 'Contact', social: 'Social' },
     hero: {
       eyebrow: 'UX/UI & Web Designer',
-      status: 'Available for freelance projects',
+      status: 'Available',
       titleLead: 'Clear interfaces, designed with ',
       titleAccent: 'intention',
       lead: 'I design digital products and websites that make sense at first glance. I support brands and teams from research to delivery in Figma, WordPress, Shopify or Webflow.',
@@ -234,7 +234,7 @@ export const t = {
       hiLead: "Hi, I'm ",
       hiName: 'Ayelen',
       bio: [
-        "I'm Ayelen Caceres, a UX/UI and web designer based in Resistencia, Chaco. I work with clients in Argentina, Chile and Spain, and since 2026 I'm a Design Specialist at Performanze, a remote team based in Spain.",
+        "I'm Ayelen Caceres, a UX/UI and web designer. I live in Resistencia, Chaco, and work remotely with people and teams in Argentina, Chile and Spain. I like to support projects from the initial idea until they're live, and to understand what each one needs before designing.",
         "I care about the point where structure meets detail: a site that's easy to use, fast, and that also feels cared for. That's why I combine interface design, development and graphic design in a single process.",
       ],
       phrase: 'Intention before form.',

@@ -131,7 +131,7 @@ export const process: ProcessStep[] = [
 
 export const about = {
   bio: [
-    'Soy Ayelen Caceres, diseñadora UX/UI y web desde Resistencia, Chaco. Trabajo con clientes de Argentina, Chile y España, y desde 2026 soy Especialista en Diseño en Performanze, un equipo remoto con base en España.',
+    'Soy Ayelen Caceres, diseñadora UX/UI y web. Vivo en Resistencia, Chaco, y trabajo de forma remota con personas y equipos de Argentina, Chile y España. Me gusta acompañar proyectos desde la idea hasta que están en línea, y entender qué necesita cada uno antes de diseñar.',
     'Me interesa el punto donde la estructura se encuentra con el detalle: que un sitio sea fácil de usar, rápido y que además se sienta cuidado. Por eso combino diseño de interfaces, desarrollo y diseño gráfico en un mismo proceso.',
     'Fuera de los proyectos, diseño piezas gráficas y de redes como voluntaria para organizaciones por los derechos de los animales.',
   ],
