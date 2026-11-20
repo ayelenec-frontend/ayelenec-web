@@ -60,6 +60,31 @@
   src: url('/fonts/inter-latin-600-normal.woff2') format('woff2');
 }
 
+/* Liberation Sans Regular - texto de cuerpo (solo 400, TTF self-hosted) */
+@font-face {
+  font-family: 'Liberation Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/liberation-sans-400-normal.ttf') format('truetype');
+}
+
+/* Adwaita Sans - variable (eje de peso), normal + italica */
+@font-face {
+  font-family: 'Adwaita Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/adwaita-sans-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Adwaita Sans';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/adwaita-sans-Italic.ttf') format('truetype');
+}
+
 /* JetBrains Mono - sobretitulos, etiquetas y numeracion */
 @font-face {
   font-family: 'JetBrains Mono';
@@ -81,7 +106,7 @@
 :root {
   /* Fuentes */
   --font-display: 'Brygada 1918', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Adwaita Sans', 'Liberation Sans', Arial, Helvetica, sans-serif;
   /* Labels y numeros (antes JetBrains Mono, luego Metropolis). El token conserva
      el nombre por compatibilidad. */
   --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
