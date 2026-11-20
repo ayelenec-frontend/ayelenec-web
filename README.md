@@ -9,7 +9,7 @@ Sitio one-page, estático, construido con [Astro 4](https://astro.build/).
 
 - **Astro 4** — salida 100 % estática, sin frameworks de UI ni Tailwind.
 - **CSS propio** con variables por tema (`src/styles/theme.css`) y estilos por componente.
-- **Fuentes self-hosted** (woff2): Cormorant Garamond, Instrument Sans, JetBrains Mono.
+- **Fuentes self-hosted** (woff2 y ttf): Brygada 1918 (titulos) y Adwaita Sans (texto).
 - **Cloudflare Workers** sirviendo el build estático desde `./dist` (`wrangler.jsonc`).
 
 ## Desarrollo
