@@ -5,6 +5,7 @@ import Social from './Social.astro';
 
 const lang = getLang(Astro.url);
 const s = t[lang];
+const base = lang === 'en' ? '/en/' : '/';
 const blogHref = lang === 'en' ? '/en/blog/' : '/blog/';
 const year = new Date().getFullYear();
 ---
@@ -24,7 +25,7 @@ const year = new Date().getFullYear();
     <nav class="footer-col" aria-label={s.footerUi.nav}>
       <h3>{s.footerUi.nav}</h3>
       <ul>
-        {s.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {s.nav.map((item) => <li><a href={`${base}${item.href}`}>{item.label}</a></li>)}
         <li><a href={blogHref}>{s.blog.nav}</a></li>
       </ul>
     </nav>
