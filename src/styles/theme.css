@@ -37,29 +37,6 @@
   src: url('/fonts/brygada-1918-latin-600-normal.woff2') format('woff2');
 }
 
-/* Inter - texto, interfaz, botones y etiquetas */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-latin-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/inter-latin-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/inter-latin-600-normal.woff2') format('woff2');
-}
-
 /* Liberation Sans Regular - texto de cuerpo (solo 400, TTF self-hosted) */
 @font-face {
   font-family: 'Liberation Sans';
